@@ -1,0 +1,30 @@
+.logo {
+  height: 44px;
+  margin: 15px 20px;
+  background-color: gray;
+}
+
+.site-layout-sider {
+  z-index: 2;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  &:hover {
+    overflow: auto;
+  }
+}
+
+.site-layout-header {
+  background: #fff;
+  // box-shadow: 0 2px 8px #f0f0f0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.site-content {
+  background: #fff;
+  z-index: 0;
+}

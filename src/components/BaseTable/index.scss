@@ -1,0 +1,19 @@
+.requests-container {
+  display: flex;
+  .filter-container {
+    flex-grow: 1;
+  }
+  .submit-btn {
+    flex-basis: auto;
+  }
+}
+
+.table-container {
+  .table {
+    margin: 1.5rem 0;
+  }
+  .table-action {
+    display: flex;
+    justify-content: space-between;
+  }
+}

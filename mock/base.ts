@@ -1,0 +1,189 @@
+import qs from 'qs';
+import { Request, Response } from 'express-serve-static-core';
+import Mock, { Random } from 'mockjs';
+import {
+  weekDaysPure,
+  punishmentsPure,
+  ticketStatus,
+  roles,
+  isps,
+  dormBlocks,
+} from '../src/common';
+import update from 'immutability-helper';
+
+const maxDataCount = 56;
+
+export default (dataIndex: string, data: object, msg?: string) => {
+  return (req: Request, res: Response) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    if (req.query.page) {
+      const { page, count, order }: apiInterface.Page = req.query;
+      res.json(
+        Mock.mock({
+          code: 200,
+          msg,
+          data: {
+            [page * count > maxDataCount
+              ? `content|${maxDataCount - (page - 1) * count}`
+              : `content|${count}`]: data,
+            currentPage: parseInt(page),
+            pageSize: parseInt(count),
+            totalPages:
+              maxDataCount % count === 0
+                ? Math.floor(maxDataCount / count)
+                : Math.floor(maxDataCount / count) + 1,
+            hasPrevious: page > 1,
+            hasNext: page * count < maxDataCount,
+            totalRecords: maxDataCount,
+          },
+        }),
+      );
+    } else {
+      res.json(
+        Mock.mock({
+          code: 200,
+          msg,
+          [dataIndex]: data,
+        }),
+      );
+    }
+  };
+};
+
+export const getRandomDateTime: Function = () =>
+  Mock.Random.datetime('yyyy-MM-dd HH:mm:ss');
+
+export const getCUDTime: Function = (): apiInterface.CUDTime => ({
+  createTime: getRandomDateTime(),
+  updateTime: getRandomDateTime(),
+  deleteTime: getRandomDateTime(),
+});
+
+export const ticketFaultType: apiInterface.TicketFaultType[] = [
+  {
+    id: 1,
+    content: Random.ctitle(),
+    order: 1,
+    visible: true,
+    createTime: getRandomDateTime(),
+    updateTime: getRandomDateTime(),
+    deleteTime: getRandomDateTime(),
+  },
+  {
+    id: 2,
+    content: Random.ctitle(),
+    order: 2,
+    visible: false,
+    createTime: getRandomDateTime(),
+    updateTime: getRandomDateTime(),
+    deleteTime: getRandomDateTime(),
+  },
+  {
+    id: 3,
+    content: Random.ctitle(),
+    order: 3,
+    visible: true,
+    createTime: getRandomDateTime(),
+    updateTime: getRandomDateTime(),
+    deleteTime: getRandomDateTime(),
+  },
+  {
+    id: 4,
+    content: Random.ctitle(),
+    order: 4,
+    visible: true,
+    createTime: getRandomDateTime(),
+    updateTime: getRandomDateTime(),
+    deleteTime: getRandomDateTime(),
+  },
+];
+
+export const semester = {
+  'id|+1': 1,
+  name: '@ctitle',
+  startDate: getRandomDateTime(),
+  endDate: getRandomDateTime(),
+  collectingTimetable: '@boolean',
+  ...getCUDTime(),
+};
+
+export const arrangementWithoutUser = {
+  'id|+1': 1,
+  'userId|+1': 1,
+  'semesterId|+1': 1,
+  semester: semester,
+  weekday: Random.integer(0, 6),
+  'area|1': dormBlocks,
+  ...getCUDTime(),
+};
+
+export const member = {
+  'userId|+1': 1,
+  workId: '@string("number", 4)',
+  'role|1': roles,
+  health: '@integer(10, 100)',
+  punishment: Random.integer(1, 3),
+  'workArrangement|1-2': [arrangementWithoutUser],
+  ...getCUDTime(),
+};
+
+export const user = {
+  'id|+1': 1,
+  name: Random.cname(),
+  studentId: Number.parseInt(Random.string('number', 13)),
+  'isp|1': isps,
+  networkAccount: Random.email(),
+  'dormBlock|1': dormBlocks,
+  dormRoom: Number.parseInt(Random.string('number', 3)),
+  member: member,
+  telephone: /[1][3,4,5,7,8,9][0-9]{9}/,
+  ...getCUDTime(),
+};
+
+export const operateLog = {
+  'id|+1': 1,
+  'ticketId|+1': 1,
+  'operatorId|+1': 1,
+  operator: user,
+  'status|1': ticketStatus,
+  comment: '@cparagraph(0, 30)',
+  ...getCUDTime(),
+};
+
+export const faultTypeList = {
+  'id|+1': 1,
+  content: '@ctitle',
+  order: '@integer(1, 100)',
+  visible: true,
+  ...getCUDTime(),
+};
+
+export const ticket = {
+  'id|+1': 1,
+  'userId|+1': 1,
+  user: user,
+  'status|1': ticketStatus,
+  'faultType|1': ticketFaultType,
+  'faultTypeId|+1': 1,
+  comment: '@cparagraph(0, 30)',
+  'lastOperateLogId|+1': 1,
+  lastOperateLog: operateLog,
+  ...getCUDTime(),
+};
+
+export const arrangement = update(arrangementWithoutUser, {
+  user: {
+    $set: user,
+  },
+});
+
+export const ticketLog = {
+  'id|+1': 1,
+  'ticketId|+1': 1,
+  ticket: ticket,
+  'operatorId|+1': 1,
+  operator: user,
+  'status|1': ticketStatus,
+  comment: '@cparagraph(0, 30)',
+  ...getCUDTime(),
+};
