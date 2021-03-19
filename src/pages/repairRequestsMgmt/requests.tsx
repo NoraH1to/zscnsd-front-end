@@ -39,7 +39,11 @@ import CustomTable, { getRouteCell } from '@/components/CustomTable';
 import componentData from 'typings';
 import { useHistory } from '@umijs/runtime';
 import { userSearch } from '@/api/user';
-import { UploadOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  UploadOutlined,
+} from '@ant-design/icons';
 
 const filters: componentData.PropData[] = [
   {
@@ -141,7 +145,7 @@ const EditPropData: componentData.PropData[] = [
     rules: [{ required: true }],
   },
   {
-    key: 'faultType',
+    key: 'faultTypeId',
     type: TableFilterType.select,
     name: '报修故障类型',
     selectData: ticketFaultMenu,
@@ -202,21 +206,6 @@ const requests: FC = () => {
     ticketAdd,
     addPropData,
     '新增报修',
-    () => apiHooks.setLoading(true),
-  );
-
-  // 修改接口 hooks
-  const apiEditHooks = useDialogForm<apiInterface.TicketEditData>(
-    ticketEdit,
-    EditPropData,
-    '修改报修',
-    () => apiHooks.setLoading(true),
-  );
-
-  // 删除接口 hooks
-  const apiDeleteHooks = useApi<apiInterface.TicketDeleteData>(
-    ticketDelete,
-    undefined,
     () => apiHooks.setLoading(true),
   );
 
@@ -295,7 +284,39 @@ const requests: FC = () => {
     },
   ];
 
-  const otherActions: componentData.CustomTableOtherAction[] = [
+  const actions: componentData.CustomTableAction[] = [
+    {
+      key: 'edit',
+      text: '编辑',
+      icon: <EditOutlined />,
+      hooks: {
+        api: ticketEdit,
+        propData: EditPropData,
+        title: '编辑报修',
+        onSubmit: () => apiHooks.setLoading(true),
+      },
+      apiParamKeys: (record) => ({
+        id: record.id,
+        userId: record.userId,
+        status: record.status.id,
+        faultTypeId: record.faultType.id,
+        comment: record.comment,
+      }),
+      type: 'dialog',
+    },
+    {
+      key: 'delete',
+      text: '删除',
+      icon: <DeleteOutlined />,
+      hooks: useApi(ticketDelete, undefined, () => apiHooks.setLoading(true)),
+      apiParamKeys: (record) => ({
+        id: [record.id],
+      }),
+      type: 'api',
+      btnProps: {
+        danger: true,
+      },
+    },
     {
       key: 'operate',
       text: '处理',
@@ -312,15 +333,6 @@ const requests: FC = () => {
       }),
       type: 'dialog',
     },
-    // {
-    //   key: 'test',
-    //   text: '测试',
-    //   hooks: useApi(ticketDelete, undefined, () => apiHooks.setLoading(true)),
-    //   apiParamKeys: (record) => ({
-    //     id: [record.id],
-    //   }),
-    //   type: 'api',
-    // },
   ];
 
   const expandable: TableProps<apiInterface.Ticket>['expandable'] = {
@@ -404,22 +416,8 @@ const requests: FC = () => {
       colums={colums}
       apiHooks={apiHooks}
       apiAddHooks={apiAddHooks}
-      apiDeleteHooks={apiDeleteHooks}
-      apiEditHooks={apiEditHooks}
       apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
-      editData={(record: apiInterface.Ticket): apiInterface.TicketEditData => ({
-        id: record.id,
-        userId: record.userId,
-        status: record.status.id,
-        faultTypeId: record.faultTypeId,
-        comment: record.comment,
-      })}
-      deleteData={(
-        record: apiInterface.Ticket,
-      ): apiInterface.TicketDeleteData => ({
-        id: [record.id],
-      })}
-      otherActions={otherActions}
+      actions={actions}
       expandable={expandable}
       onRow={onRow}
       sortList={ticketSortableList}

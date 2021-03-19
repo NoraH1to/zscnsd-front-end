@@ -15,6 +15,7 @@ import {
   useMuitActionDialog,
 } from '@/hooks/index';
 import { TableColumnProps, TableProps } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import apiInterface from 'api';
 import { find } from 'ramda';
 import CustomTable from '@/components/CustomTable';
@@ -227,21 +228,6 @@ const members: FC = () => {
     () => apiHooks.setLoading(true),
   );
 
-  // 修改接口 hooks
-  const apiEditHooks = useDialogForm<apiInterface.MemberEditData>(
-    memberEdit,
-    EditPropData,
-    '修改成员信息',
-    () => apiHooks.setLoading(true),
-  );
-
-  // 删除接口 hooks
-  const apiDeleteHooks = useApi<apiInterface.MemberDeleteData>(
-    memberDelete,
-    undefined,
-    () => apiHooks.setLoading(true),
-  );
-
   const muitActions: componentData.MuitActionProp[] = [
     {
       key: 'delete',
@@ -261,18 +247,18 @@ const members: FC = () => {
     apiHooks.setLoading(true),
   );
 
-  return (
-    <CustomTable
-      formData={formData}
-      setFormData={setFormData}
-      filters={filters}
-      colums={colums}
-      apiHooks={apiHooks}
-      apiAddHooks={apiAddHooks}
-      apiDeleteHooks={apiDeleteHooks}
-      apiEditHooks={apiEditHooks}
-      apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
-      editData={(record: apiInterface.Member): apiInterface.MemberEditData => ({
+  const actions: componentData.CustomTableAction[] = [
+    {
+      key: 'edit',
+      text: '编辑',
+      icon: <EditOutlined />,
+      hooks: {
+        api: memberEdit,
+        propData: EditPropData,
+        title: '编辑成员信息',
+        onSubmit: () => apiHooks.setLoading(true),
+      },
+      apiParamKeys: (record) => ({
         id: record.id,
         networkAccount: record.networkAccount,
         dormBlock: record.dormBlock.id,
@@ -281,12 +267,34 @@ const members: FC = () => {
         workId: record.member.workId,
         role: record.member.role.id,
         password: '',
-      })}
-      deleteData={(
-        record: apiInterface.Member,
-      ): apiInterface.MemberDeleteData => ({
+      }),
+      type: 'dialog',
+    },
+    {
+      key: 'delete',
+      text: '删除',
+      icon: <DeleteOutlined />,
+      hooks: useApi(memberDelete, undefined, () => apiHooks.setLoading(true)),
+      apiParamKeys: (record) => ({
         id: [record.id],
-      })}
+      }),
+      type: 'api',
+      btnProps: {
+        danger: true,
+      },
+    },
+  ];
+
+  return (
+    <CustomTable
+      formData={formData}
+      setFormData={setFormData}
+      filters={filters}
+      colums={colums}
+      apiHooks={apiHooks}
+      apiAddHooks={apiAddHooks}
+      apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
+      actions={actions}
       onRow={onRow}
       sortList={memberSortableList}
     />

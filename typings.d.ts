@@ -1,8 +1,8 @@
 import { TableFilterType } from '@/common';
-import { FormInstance } from 'antd';
+import { ButtonProps, FormInstance } from 'antd';
 import { AxiosResponse } from 'axios';
 import { Rule } from 'rc-field-form/lib/interface';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 declare module '*.css';
 declare module '*.less';
@@ -19,9 +19,11 @@ export = componentData;
 export as namespace componentData;
 
 declare namespace componentData {
-  interface CustomTableOtherAction {
+  interface CustomTableAction {
     key: string;
     text: string;
+    icon?: ReactElement;
+    btnProps?: ButtonProps;
     hooks: componentData.DialogFormHooks | any;
     apiParamKeys: (record: any) => any;
     type: 'dialog' | 'api';

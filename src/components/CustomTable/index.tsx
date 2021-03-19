@@ -14,8 +14,6 @@ import {
   Space,
 } from 'antd';
 import {
-  DeleteOutlined,
-  EditOutlined,
   DownOutlined,
   SortAscendingOutlined,
   SortDescendingOutlined,
@@ -31,13 +29,9 @@ interface Props<T extends object> {
   setFormData: any;
   filters: componentData.PropData[];
   colums: TableProps<T>['columns'];
-  otherActions?: componentData.CustomTableOtherAction[];
+  actions?: componentData.CustomTableAction[];
   apiHooks: any;
   apiAddHooks?: componentData.DialogFormHooks;
-  apiEditHooks?: componentData.DialogFormHooks;
-  editData?: any;
-  apiDeleteHooks?: any;
-  deleteData?: any;
   apiMuiltActionDialogHooks?: componentData.MuitActionDialogHooks;
   expandable?: TableProps<T>['expandable'];
   onRow?: TableProps<T>['onRow'];
@@ -132,14 +126,10 @@ const CustomTable = <T extends object>(props: Props<T>) => {
     setFormData,
     filters,
     colums,
-    otherActions,
+    actions,
     apiHooks,
     apiAddHooks,
-    apiDeleteHooks,
-    apiEditHooks,
-    editData,
     apiMuiltActionDialogHooks,
-    deleteData: oDeleteData,
     expandable,
     onRow,
     sortList,
@@ -166,6 +156,11 @@ const CustomTable = <T extends object>(props: Props<T>) => {
     [index: string]: any;
   } = apiHooks;
 
+  // 数据变化要进行的一些操作
+  useEffect(() => {
+    setSelectedList([]);
+  }, [data]);
+
   // 排序 hooks
   const { SortSelect } = useTableSort(sortList, (data) => {
     data.sort && (formData.sort = data.sort);
@@ -185,30 +180,6 @@ const CustomTable = <T extends object>(props: Props<T>) => {
     DialogForm: AddDialogForm,
   } = apiAddHooks || {};
 
-  const {
-    visible: editVisible,
-    setVisible: setEditVisible,
-    DialogForm: EditDialogForm,
-    setForm: setEditForm,
-  } = apiEditHooks || {};
-
-  const {
-    loading: deleteLoading,
-    setLoading: setDeleteLoading,
-    setParams: setDeleteParams,
-    data: deleteData,
-    errorData: deleteErrorData,
-  } = apiDeleteHooks
-    ? apiDeleteHooks
-    : {
-        // 空值
-        loading: null,
-        setLoading: null,
-        setParams: null,
-        data: null,
-        errorData: null,
-      };
-
   // 搜索表单 hooks
   const { form, validatedContainer, validateFields } = useCustomForm(
     filters,
@@ -226,9 +197,8 @@ const CustomTable = <T extends object>(props: Props<T>) => {
     [index: string]: componentData.DialogFormHooks;
   }>({});
 
-  useEffect(() => {}, []);
-  otherActions &&
-    otherActions.forEach((item) => {
+  actions &&
+    actions.forEach((item) => {
       if (item.type == 'dialog') {
         otherHooks[item.key] = useDialogForm(
           item.hooks.api,
@@ -239,87 +209,80 @@ const CustomTable = <T extends object>(props: Props<T>) => {
       }
     });
 
-  const otherCol: TableProps<T>['columns'] =
-    otherActions || apiDeleteHooks || apiEditHooks
-      ? [
-          {
-            title: '操作',
-            width: 80,
-            fixed: 'right',
-            render: (value, record, index) => {
-              const editBtn = apiEditHooks ? (
-                <Tooltip title="修改">
-                  <Button
-                    icon={<EditOutlined />}
-                    type="text"
-                    shape="circle"
-                    onClick={() => {
-                      setEditForm && setEditForm(editData(record));
-                      setEditVisible && setEditVisible(true);
-                    }}
-                  />
-                </Tooltip>
-              ) : null;
-              const deleteBtn = deleteData ? (
-                <Tooltip title="删除">
-                  <Button
-                    danger
-                    icon={<DeleteOutlined />}
-                    type="text"
-                    shape="circle"
-                    onClick={() => {
-                      setDeleteParams && setDeleteParams(oDeleteData(record));
-                      setDeleteLoading && setDeleteLoading(true);
-                    }}
-                  />
-                </Tooltip>
-              ) : null;
-              return (
-                <>
-                  {editBtn}
-                  {deleteBtn}
-                  {otherActions ? (
-                    <Dropdown
-                      overlay={
-                        <Menu>
-                          {otherActions?.map((item) => {
-                            return (
-                              <Menu.Item
-                                key={item.text}
-                                onClick={() => {
-                                  let param: any = {};
-                                  if (item.type == 'dialog') {
-                                    param = item.apiParamKeys(record);
-                                    otherHooks[item.key].setForm(param);
-                                    otherHooks[item.key].setVisible(true);
-                                  } else {
-                                    item.hooks.setParams(
-                                      item.apiParamKeys(record),
-                                    );
-                                    item.hooks.setLoading(true);
-                                  }
-                                }}
-                              >
-                                {item.text}
-                              </Menu.Item>
-                            );
-                          })}
-                        </Menu>
-                      }
-                    >
-                      <Button
-                        icon={<DownOutlined />}
-                        type="text"
-                        shape="circle"
-                      ></Button>
-                    </Dropdown>
-                  ) : null}
-                </>
-              );
-            },
+  const otherCol: TableProps<T>['columns'] = actions
+    ? [
+        {
+          title: '操作',
+          width: 80,
+          fixed: 'right',
+          render: (value, record, index) => {
+            const outMenu = actions.slice(0, 2);
+            const inMenu = actions.slice(2);
+            return (
+              <>
+                {outMenu.map((item) => (
+                  <Tooltip title={item.text} key={`${item.key}-${index}`}>
+                    <Button
+                      icon={item.icon}
+                      type="text"
+                      shape={item.icon ? 'circle' : undefined}
+                      onClick={() => {
+                        let param: any = {};
+                        if (item.type == 'dialog') {
+                          param = item.apiParamKeys(record);
+                          otherHooks[item.key].setForm(param);
+                          otherHooks[item.key].setVisible(true);
+                        } else {
+                          item.hooks.setParams(item.apiParamKeys(record));
+                          item.hooks.setLoading(true);
+                        }
+                      }}
+                      {...item.btnProps}
+                    />
+                  </Tooltip>
+                ))}
+                {inMenu?.length > 0 ? (
+                  <Dropdown
+                    overlay={
+                      <Menu>
+                        {inMenu?.map((item) => {
+                          return (
+                            <Menu.Item
+                              key={`${item.key}-${index}`}
+                              onClick={() => {
+                                let param: any = {};
+                                if (item.type == 'dialog') {
+                                  param = item.apiParamKeys(record);
+                                  otherHooks[item.key].setForm(param);
+                                  otherHooks[item.key].setVisible(true);
+                                } else {
+                                  item.hooks.setParams(
+                                    item.apiParamKeys(record),
+                                  );
+                                  item.hooks.setLoading(true);
+                                }
+                              }}
+                            >
+                              {item.text}
+                            </Menu.Item>
+                          );
+                        })}
+                      </Menu>
+                    }
+                  >
+                    <Button
+                      icon={<DownOutlined />}
+                      type="text"
+                      shape="circle"
+                    ></Button>
+                  </Dropdown>
+                ) : null}
+              </>
+            );
           },
-        ]
-      : [];
+        },
+      ]
+    : [];
   return (
     <>
       <BaseTable
@@ -380,7 +343,7 @@ const CustomTable = <T extends object>(props: Props<T>) => {
             loading={loading}
             dataSource={data.data?.content}
             columns={(colums || []).concat(otherCol)}
-            rowSelection={apiDeleteHooks ? rowSelection : undefined}
+            rowSelection={apiMuiltActionDialogHooks ? rowSelection : undefined}
             rowKey={'id'}
             sticky
             pagination={{
@@ -405,7 +368,6 @@ const CustomTable = <T extends object>(props: Props<T>) => {
         }
       />
       {AddDialogForm}
-      {EditDialogForm}
       {Object.keys(otherHooks).map((item) => otherHooks[item].DialogForm)}
       {apiMuiltActionDialogHooks?.MuitActionDialog}
     </>

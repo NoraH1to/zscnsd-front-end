@@ -1,52 +1,17 @@
 import { FC, useState } from 'react';
-import {
-  dormBlocks,
-  punishments,
-  roles,
-  TableFilterType,
-  ticketDeleted,
-  memberSortableList,
-  ticketStatus,
-  weekDays,
-  isps,
-} from '@/common';
+import { dormBlocks, TableFilterType, isps } from '@/common';
 import {
   useApi,
   useDialogForm,
   useInit,
   useMuitActionDialog,
 } from '@/hooks/index';
-import {
-  ticketAdd,
-  ticketDelete,
-  ticketEdit,
-  ticketFaultMenu,
-  ticketList,
-  ticketOperate,
-} from '@/api/ticket';
-import {
-  Tooltip,
-  TableColumnProps,
-  Badge,
-  TableProps,
-  Row,
-  Col,
-  Card,
-  Space,
-  Typography,
-} from 'antd';
+import { TableColumnProps, TableProps } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import apiInterface from 'api';
-import { find } from 'ramda';
 import CustomTable from '@/components/CustomTable';
 import componentData from 'typings';
-import { memberAdd, memberDelete, memberEdit, memberList } from '@/api/member';
-import {
-  userAddAdmin,
-  userDelete,
-  userEditAdmin,
-  userList,
-  userSearch,
-} from '@/api/user';
+import { userAddAdmin, userDelete, userEditAdmin, userList } from '@/api/user';
 
 const filters: componentData.PropData[] = [
   {
@@ -259,21 +224,6 @@ const users: FC = () => {
     () => apiHooks.setLoading(true),
   );
 
-  // 修改接口 hooks
-  const apiEditHooks = useDialogForm<apiInterface.UserEditAdminData>(
-    userEditAdmin,
-    EditPropData,
-    '修改用户信息',
-    () => apiHooks.setLoading(true),
-  );
-
-  // 删除接口 hooks
-  const apiDeleteHooks = useApi<apiInterface.UserDeleteData>(
-    userDelete,
-    undefined,
-    () => apiHooks.setLoading(true),
-  );
-
   const muitActions: componentData.MuitActionProp[] = [
     {
       key: 'delete',
@@ -287,20 +237,18 @@ const users: FC = () => {
     apiHooks.setLoading(true),
   );
 
-  return (
-    <CustomTable
-      formData={formData}
-      setFormData={setFormData}
-      filters={filters}
-      colums={colums}
-      apiHooks={apiHooks}
-      apiAddHooks={apiAddHooks}
-      apiDeleteHooks={apiDeleteHooks}
-      apiEditHooks={apiEditHooks}
-      apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
-      editData={(
-        record: apiInterface.User,
-      ): apiInterface.UserEditAdminData => ({
+  const actions: componentData.CustomTableAction[] = [
+    {
+      key: 'edit',
+      text: '编辑',
+      icon: <EditOutlined />,
+      hooks: {
+        api: userEditAdmin,
+        propData: EditPropData,
+        title: '编辑用户信息',
+        onSubmit: () => apiHooks.setLoading(true),
+      },
+      apiParamKeys: (record) => ({
         id: record.id,
         name: record.name,
         studentId: record.studentId,
@@ -309,10 +257,49 @@ const users: FC = () => {
         dormBlock: record.dormBlock.id,
         dormRoom: record.dormRoom,
         telephone: record.telephone,
-      })}
-      deleteData={(record: apiInterface.User): apiInterface.UserDeleteData => ({
+      }),
+      type: 'dialog',
+    },
+    {
+      key: 'delete',
+      text: '删除',
+      icon: <DeleteOutlined />,
+      hooks: useApi(userDelete, undefined, () => apiHooks.setLoading(true)),
+      apiParamKeys: (record) => ({
         id: [record.id],
-      })}
+      }),
+      type: 'api',
+      btnProps: {
+        danger: true,
+      },
+    },
+  ];
+
+  return (
+    <CustomTable
+      formData={formData}
+      setFormData={setFormData}
+      filters={filters}
+      colums={colums}
+      apiHooks={apiHooks}
+      apiAddHooks={apiAddHooks}
+      apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
+      actions={actions}
+      // editData={(
+      //   record: apiInterface.User,
+      // ): apiInterface.UserEditAdminData => ({
+      //   id: record.id,
+      //   name: record.name,
+      //   studentId: record.studentId,
+      //   isp: record.isp.id,
+      //   networkAccount: record.networkAccount,
+      //   dormBlock: record.dormBlock.id,
+      //   dormRoom: record.dormRoom,
+      //   telephone: record.telephone,
+      // })}
+      // deleteData={(record: apiInterface.User): apiInterface.UserDeleteData => ({
+      //   id: [record.id],
+      // })}
       onRow={onRow}
       // sortList={memberSortableList}
     />
