@@ -235,12 +235,6 @@ const members: FC = () => {
       propData: [],
       api: memberDelete,
     },
-    // {
-    //   key: 'test',
-    //   value: '测试',
-    //   propData: [{ name: '测试', key: 'test', type: TableFilterType.str }],
-    //   api: ticketDelete,
-    // },
   ];
 
   const apiMuiltActionDialogHooks = useMuitActionDialog(muitActions, () =>

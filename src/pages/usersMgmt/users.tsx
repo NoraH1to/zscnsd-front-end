@@ -285,23 +285,7 @@ const users: FC = () => {
       apiAddHooks={apiAddHooks}
       apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
       actions={actions}
-      // editData={(
-      //   record: apiInterface.User,
-      // ): apiInterface.UserEditAdminData => ({
-      //   id: record.id,
-      //   name: record.name,
-      //   studentId: record.studentId,
-      //   isp: record.isp.id,
-      //   networkAccount: record.networkAccount,
-      //   dormBlock: record.dormBlock.id,
-      //   dormRoom: record.dormRoom,
-      //   telephone: record.telephone,
-      // })}
-      // deleteData={(record: apiInterface.User): apiInterface.UserDeleteData => ({
-      //   id: [record.id],
-      // })}
       onRow={onRow}
-      // sortList={memberSortableList}
     />
   );
 };
