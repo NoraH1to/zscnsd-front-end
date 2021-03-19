@@ -136,8 +136,8 @@ const ErrorProp: FC = () => {
 const validateMessages: FormProps['validateMessages'] = {
   required: '必须输入 ${label}',
   number: {
-    range: '${label} 必须在 ${min} 和 ${max} 之间',
-    min: '${label} 必须大于 ${min}',
+    range: '${label} 必须在 ${min} 和 ${max}（不包含） 之间',
+    min: '${label} 必须大于等于 ${min}',
   },
 };
 
