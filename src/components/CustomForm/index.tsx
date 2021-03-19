@@ -1,12 +1,11 @@
 import { TableFilterType } from '@/common';
 import { useApi, useInit } from '@/hooks';
-import { Form, Input, Select, DatePicker, Modal, FormProps } from 'antd';
+import { Form, Input, Select, DatePicker, Modal, FormProps, InputNumber } from 'antd';
 import { forEachObjIndexed, type } from 'ramda';
 import update from 'immutability-helper';
 import './index.scss';
 import { FC, useEffect, useState } from 'react';
 import componentData from 'typings';
-import { FormInstance, FormLayout } from 'antd/lib/form/Form';
 
 const _Input: FC<{ item: componentData.PropData }> = (props) => {
   const { item } = props;
@@ -21,7 +20,7 @@ const _InputNumber: FC<{ item: componentData.PropData }> = (props) => {
   const { item } = props;
   return (
     <BaseFormItem item={item}>
-      <Input type="number"></Input>
+      <InputNumber></InputNumber>
     </BaseFormItem>
   );
 };
@@ -134,10 +133,11 @@ const ErrorProp: FC = () => {
   return <div>错误的过滤器类型</div>;
 };
 
-const validateMessages = {
+const validateMessages: FormProps['validateMessages'] = {
   required: '必须输入 ${label}',
   number: {
     range: '${label} 必须在 ${min} 和 ${max} 之间',
+    min: '${label} 必须大于 ${min}',
   },
 };
 
