@@ -7,5 +7,6 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
+  sass: {},
   fastRefresh: {},
 });
