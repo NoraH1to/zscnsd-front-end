@@ -4,17 +4,6 @@ import { AxiosResponse } from 'axios';
 import { Rule } from 'rc-field-form/lib/interface';
 import React, { ReactElement } from 'react';
 
-declare module '*.css';
-declare module '*.less';
-declare module '*.png';
-declare module '*.svg' {
-  export function ReactComponent(
-    props: React.SVGProps<SVGSVGElement>,
-  ): React.ReactElement;
-  const url: string;
-  export default url;
-}
-
 export = componentData;
 export as namespace componentData;
 

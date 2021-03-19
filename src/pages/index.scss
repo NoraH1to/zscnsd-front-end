@@ -28,3 +28,9 @@
   background: #fff;
   z-index: 0;
 }
+
+.expand {
+  .ant-card {
+    height: 100%;
+  }
+}

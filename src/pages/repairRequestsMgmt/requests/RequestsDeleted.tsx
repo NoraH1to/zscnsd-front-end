@@ -1,5 +1,4 @@
 import { FC, useState } from 'react';
-import './requests.scss';
 import {
   dormBlocks,
   TableFilterType,
@@ -20,6 +19,7 @@ import {
   ticketFaultMenu,
   ticketList,
   ticketOperate,
+  ticketRestore,
 } from '@/api/ticket';
 import {
   Tooltip,
@@ -42,7 +42,7 @@ import { userSearch } from '@/api/user';
 import {
   DeleteOutlined,
   EditOutlined,
-  UploadOutlined,
+  RollbackOutlined,
 } from '@ant-design/icons';
 
 const filters: componentData.PropData[] = [
@@ -89,96 +89,9 @@ const filters: componentData.PropData[] = [
     type: TableFilterType.select,
     name: '删除',
     selectData: ticketDeleted,
-    default: 'false',
-    rules: [{ required: true }],
-  },
-];
-
-const addPropData: componentData.PropData[] = [
-  {
-    key: 'userId',
-    type: TableFilterType.str,
-    name: '报修人用户ID',
-    rules: [{ required: true }],
-  },
-  {
-    key: 'status',
-    type: TableFilterType.select,
-    name: '报修状态',
-    selectData: ticketStatus,
-    rules: [{ required: true }],
-  },
-  {
-    key: 'faultType',
-    type: TableFilterType.select,
-    name: '报修故障类型',
-    selectData: ticketFaultMenu,
-    rules: [{ required: true }],
-  },
-  {
-    key: 'comment',
-    type: TableFilterType.str,
-    name: '备注',
-    rules: [{ required: true }],
-  },
-];
-
-const EditPropData: componentData.PropData[] = [
-  {
-    key: 'id',
-    type: TableFilterType.number,
-    name: '报修ID',
+    default: 'true',
     rules: [{ required: true }],
     hidden: true,
-  },
-  {
-    key: 'userId',
-    type: TableFilterType.str,
-    name: '报修人用户ID',
-    rules: [{ required: true }],
-  },
-  {
-    key: 'status',
-    type: TableFilterType.select,
-    name: '报修状态',
-    selectData: ticketStatus,
-    rules: [{ required: true }],
-  },
-  {
-    key: 'faultTypeId',
-    type: TableFilterType.select,
-    name: '报修故障类型',
-    selectData: ticketFaultMenu,
-    rules: [{ required: true }],
-  },
-  {
-    key: 'comment',
-    type: TableFilterType.str,
-    name: '备注',
-    rules: [{ required: true }],
-  },
-];
-
-const OperatePropData: componentData.PropData[] = [
-  {
-    key: 'id',
-    type: TableFilterType.number,
-    name: '报修ID',
-    rules: [{ required: true }],
-    hidden: true,
-  },
-  {
-    key: 'status',
-    type: TableFilterType.select,
-    name: '报修状态',
-    selectData: ticketStatus,
-    rules: [{ required: true }],
-  },
-  {
-    key: 'comment',
-    type: TableFilterType.str,
-    name: '备注',
-    rules: [{ required: true }],
   },
 ];
 
@@ -190,31 +103,23 @@ const onRow: TableProps<apiInterface.Ticket>['onRow'] = (record) => {
   };
 };
 
-const requests: FC = () => {
+const requestsDeleted: FC = () => {
   // 表单数据
   const [formData, setFormData] = useState<apiInterface.TicketListQuery>({
     page: 1,
     count: 10,
-    deleted: false,
+    deleted: true,
   });
 
   // api hooks
   const apiHooks = useInit<apiInterface.TicketListQuery>(ticketList, formData);
 
-  // 添加接口 hooks
-  const apiAddHooks = useDialogForm<apiInterface.TicketAddData>(
-    ticketAdd,
-    addPropData,
-    '新增报修',
-    () => apiHooks.setLoading(true),
-  );
-
   const muitActions: componentData.MuitActionProp[] = [
     {
-      key: 'delete',
-      value: '删除',
+      key: 'restore',
+      value: '恢复',
       propData: [],
-      api: ticketDelete,
+      api: ticketRestore,
     },
     // {
     //   key: 'test',
@@ -278,60 +183,27 @@ const requests: FC = () => {
       width: 100,
     },
     {
-      title: '最后处理时间',
-      dataIndex: ['lastOperateLog', 'updateTime'],
+      title: '删除时间',
+      dataIndex: 'deleteTime',
       width: 100,
     },
   ];
 
   const actions: componentData.CustomTableAction[] = [
     {
-      key: 'edit',
-      text: '编辑',
-      icon: <EditOutlined />,
-      hooks: {
-        api: ticketEdit,
-        propData: EditPropData,
-        title: '编辑报修',
-        onSubmit: () => apiHooks.setLoading(true),
-      },
-      apiParamKeys: (record) => ({
-        id: record.id,
-        userId: record.userId,
-        status: record.status.id,
-        faultTypeId: record.faultType.id,
-        comment: record.comment,
-      }),
-      type: 'dialog',
-    },
-    {
-      key: 'delete',
-      text: '删除',
-      icon: <DeleteOutlined />,
-      hooks: useApi(ticketDelete, undefined, () => apiHooks.setLoading(true)),
+      key: 'restore',
+      text: '恢复',
+      icon: <RollbackOutlined />,
+      hooks: useApi(ticketRestore, undefined, () => apiHooks.setLoading(true)),
       apiParamKeys: (record) => ({
         id: [record.id],
       }),
       type: 'api',
       btnProps: {
-        danger: true,
+        style: {
+          color: '#FF9900',
+        },
       },
-    },
-    {
-      key: 'operate',
-      text: '处理',
-      hooks: {
-        api: ticketOperate,
-        propData: OperatePropData,
-        title: '处理报修',
-        onSubmit: () => apiHooks.setLoading(true),
-      },
-      apiParamKeys: (record) => ({
-        id: record.id,
-        status: record.status.id,
-        comment: record.comment,
-      }),
-      type: 'dialog',
     },
   ];
 
@@ -394,13 +266,6 @@ const requests: FC = () => {
     expandedRowClassName: () => 'expand',
   };
 
-  // TODO: 批量添加报修
-  const BatchAddBtn = (
-    <Button onClick={() => {}} type="dashed" icon={<UploadOutlined />}>
-      批量添加
-    </Button>
-  );
-
   // TODO: 导出excel
   const ExportBtn = (
     <Button onClick={() => {}} type="dashed">
@@ -415,15 +280,14 @@ const requests: FC = () => {
       filters={filters}
       colums={colums}
       apiHooks={apiHooks}
-      apiAddHooks={apiAddHooks}
       apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
       actions={actions}
       expandable={expandable}
       onRow={onRow}
       sortList={ticketSortableList}
-      extraComponent={{ Left: BatchAddBtn, Right: ExportBtn }}
+      extraComponent={{ Right: ExportBtn }}
     />
   );
 };
 
-export default requests;
+export default requestsDeleted;
