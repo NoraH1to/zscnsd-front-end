@@ -1,6 +1,14 @@
 import { TableFilterType } from '@/common';
 import { useApi, useInit } from '@/hooks';
-import { Form, Input, Select, DatePicker, Modal, FormProps, InputNumber } from 'antd';
+import {
+  Form,
+  Input,
+  Select,
+  DatePicker,
+  Modal,
+  FormProps,
+  InputNumber,
+} from 'antd';
 import { forEachObjIndexed, type } from 'ramda';
 import update from 'immutability-helper';
 import './index.scss';
@@ -146,6 +154,9 @@ export const useCustomForm = (
   onChange: componentData.OnFormChange,
   formProps?: FormProps,
 ): componentData.CustomFormHooks => {
+  const [timerContainer, setTimerContainer] = useState<any>({
+    timer: undefined,
+  });
   const [form] = Form.useForm();
   const [validatedContainer, setValidated] = useState({ validated: false });
   const [defaultFormData, setDefaultFormData] = useState<any>({});
@@ -178,6 +189,40 @@ export const useCustomForm = (
       validatedContainer.validated = false;
     }
   };
+  const onValuesChange: FormProps['onValuesChange'] = (
+    changeValues,
+    allValues,
+  ) => {
+    if (timerContainer.timer) {
+      clearTimeout(timerContainer.timer);
+      timerContainer.timer = null;
+    }
+    function doit() {
+      forEachObjIndexed((value: any, key: any, obj: any) => {
+        if (
+          type(value) === 'Array' &&
+          value.length === 2 &&
+          value[0]._isAMomentObject
+        ) {
+          propData.forEach((item) => {
+            if (item.key === key && item.timeRange) {
+              changeValues = update(changeValues, {
+                $unset: [key],
+                [item.timeRange.rangeStartProp]: {
+                  $set: value[0].format('YYYY-MM-DD'),
+                },
+                [item.timeRange.rangeEndProp]: {
+                  $set: value[1].format('YYYY-MM-DD'),
+                },
+              });
+            }
+          });
+        }
+      }, changeValues);
+      onChange(changeValues);
+    }
+    timerContainer.timer = setTimeout(doit, 100);
+  };
   const _form =
     _propData.length > 0 ? (
       <Form
@@ -187,30 +232,7 @@ export const useCustomForm = (
         className="filter-form"
         labelAlign="right"
         layout={'inline'}
-        onValuesChange={async (changeValues, allValues) => {
-          forEachObjIndexed((value: any, key: any, obj: any) => {
-            if (
-              type(value) === 'Array' &&
-              value.length === 2 &&
-              value[0]._isAMomentObject
-            ) {
-              propData.forEach((item) => {
-                if (item.key === key && item.timeRange) {
-                  changeValues = update(changeValues, {
-                    $unset: [key],
-                    [item.timeRange.rangeStartProp]: {
-                      $set: value[0].format('YYYY-MM-DD'),
-                    },
-                    [item.timeRange.rangeEndProp]: {
-                      $set: value[1].format('YYYY-MM-DD'),
-                    },
-                  });
-                }
-              });
-            }
-          }, changeValues);
-          onChange(changeValues);
-        }}
+        onValuesChange={onValuesChange}
         {...formProps}
       >
         {result}
