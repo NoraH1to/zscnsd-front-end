@@ -29,6 +29,12 @@ export const ticketDelete = (data?: apiInterface.TicketDeleteData) => {
   });
 };
 
+export const ticketRestore = (data?: apiInterface.TicketRestoreData) => {
+  return POST('/api/ticket/restore', {
+    data,
+  });
+};
+
 export const ticketOperate = (data?: apiInterface.TicketOperateData) => {
   return POST('/api/ticket/operate', {
     data,

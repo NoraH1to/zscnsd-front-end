@@ -8,4 +8,5 @@ export default {
   'POST /api/ticket/update': base('data', ticket),
   'POST /api/ticket/operate': base('data', ticket),
   'GET /api/ticket/log-list': base('data|1-10', [ticketLog]),
+  'POST /api/ticket/restore': base('data', {}),
 };
