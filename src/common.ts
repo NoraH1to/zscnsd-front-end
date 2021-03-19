@@ -40,6 +40,13 @@ export const ticketSortableList: apiInterface.Enum[] = [
 export const ticketLogSortableList: apiInterface.Enum[] = [
   {
     id: 'createTime',
+    string: '上报时间',
+  },
+];
+
+export const reportSwitchFaultSortableList: apiInterface.Enum[] = [
+  {
+    id: 'createTime',
     string: '处理时间',
   },
 ];

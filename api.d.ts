@@ -113,6 +113,16 @@ declare namespace apiInterface {
     lastOperateLogId: TicketLog['id'];
     lastOperateLog: TicketLog;
   }
+  // 交换机故障上报
+  interface ReportSwitchFault extends CUDTime {
+    id: number;
+    userId: Member['id'];
+    user: Member;
+    dormBlock: DormBlock;
+    dormFloor: number;
+    switchSerialNumber: string;
+    index: number;
+  }
   // 时间范围
   interface TimeRange {
     start?: string;
@@ -139,6 +149,29 @@ declare namespace apiInterface {
   }
   // 分页请求体
   interface RequestPageQuery extends Page, RequestQuery {}
+  // 查询交换机故障上报参数
+  interface ReportSwitchFaultListQuery extends RequestPageQuery, TimeRange {
+    userId?: User['id'];
+  }
+  // 增加交换机故障上报请求体
+  interface ReportSwitchFaultAddData extends RequestData {
+    dormBlock: ReportSwitchFault['dormBlock']['id'];
+    dormFloor: ReportSwitchFault['dormFloor'];
+    switchSerialNumber: ReportSwitchFault['switchSerialNumber'];
+    index: ReportSwitchFault['index'];
+  }
+  // 修改交换机故障上报请求体
+  interface ReportSwitchFaultEditData extends RequestData {
+    id: ReportSwitchFault['id'];
+    dormBlock: ReportSwitchFault['dormBlock']['id'];
+    dormFloor: ReportSwitchFault['dormFloor'];
+    switchSerialNumber: ReportSwitchFault['switchSerialNumber'];
+    index: ReportSwitchFault['index'];
+  }
+  // 删除交换机故障上报请求体
+  interface ReportSwitchFaultDeleteData extends RequestData {
+    id: ReportSwitchFault['id'][];
+  }
   // 查询用户参数
   interface UserListQuery extends RequestPageQuery {
     name?: User['name'];
@@ -234,6 +267,10 @@ declare namespace apiInterface {
   }
   // 删除报修请求体
   interface TicketDeleteData extends RequestData {
+    id: Ticket['id'][];
+  }
+  // 恢复报修请求体
+  interface TicketRestoreData extends RequestData {
     id: Ticket['id'][];
   }
   // 修改报修请求体

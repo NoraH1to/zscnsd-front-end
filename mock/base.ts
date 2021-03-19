@@ -187,3 +187,14 @@ export const ticketLog = {
   comment: '@cparagraph(0, 30)',
   ...getCUDTime(),
 };
+
+export const reportSwitchFault = {
+  'id|+1': 1,
+  'userId|+1': 1,
+  user,
+  'dormBlock|1': dormBlocks,
+  dormFloor: '@integer(1, 8)',
+  switchSerialNumber: '@string(10, 12)',
+  index: '@integer(1, 11)',
+  ...getCUDTime(),
+};

@@ -90,6 +90,70 @@ const desktopRoute: routeInterface.route[] = [
         ],
       },
       {
+        path: '/d/report',
+        extraOpt: {
+          default: '/d/report/switch-fault-report-list',
+          key: '/d/report',
+          name: '上报管理',
+          menu: true,
+          sub: true,
+        },
+        routes: [
+          {
+            path: '/d/report/',
+            extraOpt: {
+              default: '/d/report/switch-fault-report-list',
+              key: '/d/report/',
+              hidden: true,
+            },
+          },
+          {
+            path: '/d/report/switch-fault-report-list',
+            component: '@/pages/reportsMgmt/switchFault',
+            extraOpt: {
+              key: '/d/report/switch-fault-report-list',
+              name: '交换机故障上报',
+              namePath: '上报管理/交换机故障上报',
+              menu: true,
+              parentMenu: '/d/report',
+            },
+          },
+          {
+            path: '/d/report/wall-line',
+            component: '@/pages/reportsMgmt/wallLine',
+            extraOpt: {
+              key: '/d/report/wall-line',
+              name: '主线上报',
+              namePath: '上报管理/主线上报',
+              menu: true,
+              parentMenu: '/d/report',
+            },
+          },
+          {
+            path: '/d/report/china-mobile-nodata',
+            component: '@/pages/reportsMgmt/chinaMobileNoData',
+            extraOpt: {
+              key: '/d/report/china-mobile-nodata',
+              name: '移动无数据上报',
+              namePath: '上报管理/移动无数据上报',
+              menu: true,
+              parentMenu: '/d/report',
+            },
+          },
+          {
+            path: '/d/report/china-mobile-occupied-onu',
+            component: '@/pages/reportsMgmt/chinaMobileOccupiedOnu',
+            extraOpt: {
+              key: '/d/report/china-mobile-occupied-onu',
+              name: '移动ONU被占上报',
+              namePath: '上报管理/移动ONU被占上报',
+              menu: true,
+              parentMenu: '/d/report',
+            },
+          },
+        ],
+      },
+      {
         path: '/d/users-mgmt',
         extraOpt: {
           default: '/d/users-mgmt/users',
@@ -280,6 +344,8 @@ const mobileRoute: routeInterface.mRoute[] = [
   },
 ];
 
-export default <(routeInterface.mRoute | routeInterface.route)[]>desktopRoute.concat(mobileRoute);
+export default <(routeInterface.mRoute | routeInterface.route)[]>(
+  desktopRoute.concat(mobileRoute)
+);
 
 export { desktopRoute, mobileRoute };
