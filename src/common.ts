@@ -44,6 +44,27 @@ export const ticketLogSortableList: apiInterface.Enum[] = [
   },
 ];
 
+export const reportChinaMobileOccupiedOnuSortableList: apiInterface.Enum[] = [
+  {
+    id: 'createTime',
+    string: '处理时间',
+  },
+];
+
+export const reportChinaMobileNoDataSortableList: apiInterface.Enum[] = [
+  {
+    id: 'createTime',
+    string: '处理时间',
+  },
+];
+
+export const reportWallLineSortableList: apiInterface.Enum[] = [
+  {
+    id: 'createTime',
+    string: '处理时间',
+  },
+];
+
 export const reportSwitchFaultSortableList: apiInterface.Enum[] = [
   {
     id: 'createTime',

@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import {
   dormBlocks,
-  reportSwitchFaultSortableList,
+  reportWallLineSortableList,
   TableFilterType,
 } from '@/common';
 import {
@@ -253,7 +253,7 @@ const switchFault: FC = () => {
       apiAddHooks={apiAddHooks}
       apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
       actions={actions}
-      sortList={reportSwitchFaultSortableList}
+      sortList={reportWallLineSortableList}
       extraComponent={{ Right: ExportBtn }}
     />
   );

@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { reportSwitchFaultSortableList, TableFilterType } from '@/common';
+import { reportChinaMobileNoDataSortableList, TableFilterType } from '@/common';
 import {
   useApi,
   useDialogForm,
@@ -231,7 +231,7 @@ const switchFault: FC = () => {
       apiAddHooks={apiAddHooks}
       apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
       actions={actions}
-      sortList={reportSwitchFaultSortableList}
+      sortList={reportChinaMobileNoDataSortableList}
       extraComponent={{ Right: ExportBtn }}
     />
   );
