@@ -147,6 +147,9 @@ const validateMessages: FormProps['validateMessages'] = {
     range: '${label} 必须在 ${min} 和 ${max}（不包含） 之间',
     min: '${label} 必须大于等于 ${min}',
   },
+  types: {
+    number: '${label} 输入不合法',
+  },
 };
 
 export const useCustomForm = (
