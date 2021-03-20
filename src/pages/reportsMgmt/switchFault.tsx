@@ -35,7 +35,7 @@ const filters: componentData.PropData[] = [
   {
     key: 'userId',
     type: TableFilterType.selectSearch,
-    name: '报修用户',
+    name: '上报用户',
     selectData: userSearch,
     holder: '姓名/学号/工号',
     searchOption: {
@@ -46,7 +46,7 @@ const filters: componentData.PropData[] = [
   {
     key: 'submitTimeRange',
     type: TableFilterType.timeRange,
-    name: '报修时间范围',
+    name: '上报时间范围',
     timeRange: {
       rangeStartProp: 'start',
       rangeEndProp: 'end',
