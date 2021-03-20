@@ -98,6 +98,7 @@ declare namespace apiInterface {
   interface User extends UserBase {
     member?: MemberInfo;
   }
+  // 成员信息
   interface Member extends UserBase {
     member: MemberInfo;
   }
@@ -113,6 +114,35 @@ declare namespace apiInterface {
     lastOperateLogId: TicketLog['id'];
     lastOperateLog: TicketLog;
   }
+  // 移动ONU被占上报
+  interface ReportChinaMobileOccupiedOnu extends CUDTime {
+    id: number;
+    userId: Member['id'];
+    user: Member;
+    oldSwitchSerialNumber: string;
+    oldOnuData: string;
+    newSwitchSerialNumber: string;
+    newOnuData: string;
+  }
+  // 移动无数据上报
+  interface ReportChinaMobileNoData extends CUDTime {
+    id: number;
+    userId: Member['id'];
+    user: Member;
+    networkAccount: Member['networkAccount'];
+    switchSerialNumber: string;
+    onuData: string;
+  }
+  // 主线上报
+  interface ReportWallLine extends CUDTime {
+    id: number;
+    userId: Member['id'];
+    user: Member;
+    dormBlock: DormBlock;
+    dormRoom: number;
+    name: Member['name'];
+    telephone: Member['telephone'];
+  }
   // 交换机故障上报
   interface ReportSwitchFault extends CUDTime {
     id: number;
@@ -123,6 +153,25 @@ declare namespace apiInterface {
     switchSerialNumber: string;
     index: number;
   }
+  // 值班学期
+  interface WorkSemester extends CUDTime {
+    id: number;
+    name: string;
+    startDate: string;
+    endDate: string;
+    collectingTimetable: boolean;
+  }
+  // 排班
+  interface WorkArrangement extends CUDTime {
+    id: number;
+    userId: User['id'];
+    user: null | User;
+    semesterId: WorkSemester['id'];
+    semester: WorkSemester;
+    weekday: number;
+    area: DormBlock;
+  }
+
   // 时间范围
   interface TimeRange {
     start?: string;
@@ -149,9 +198,84 @@ declare namespace apiInterface {
   }
   // 分页请求体
   interface RequestPageQuery extends Page, RequestQuery {}
+
+  // 查询移动ONU被占上报参数
+  interface ReportChinaMobileOccupiedOnuListQuery
+    extends RequestPageQuery,
+      TimeRange {
+    userId?: Member['id'];
+  }
+  // 增加移动ONU被占上报请求体
+  interface ReportChinaMobileOccupiedOnuAddData extends RequestData {
+    oldSwitchSerialNumber: ReportChinaMobileOccupiedOnu['oldSwitchSerialNumber'];
+    oldOnuData: ReportChinaMobileOccupiedOnu['oldOnuData'];
+    newSwitchSerialNumber: ReportChinaMobileOccupiedOnu['newSwitchSerialNumber'];
+    newOnuData: ReportChinaMobileOccupiedOnu['newOnuData'];
+  }
+  // 修改移动ONU被占上报请求体
+  interface ReportChinaMobileOccupiedOnuEditData extends RequestData {
+    id: ReportChinaMobileOccupiedOnu['id'];
+    oldSwitchSerialNumber: ReportChinaMobileOccupiedOnu['oldSwitchSerialNumber'];
+    oldOnuData: ReportChinaMobileOccupiedOnu['oldOnuData'];
+    newSwitchSerialNumber: ReportChinaMobileOccupiedOnu['newSwitchSerialNumber'];
+    newOnuData: ReportChinaMobileOccupiedOnu['newOnuData'];
+  }
+  // 删除移动ONU被占上报请求体
+  interface ReportChinaMobileOccupiedOnuDeleteData extends RequestData {
+    id: ReportChinaMobileOccupiedOnu['id'][];
+  }
+
+  // 查询移动无数据上报参数
+  interface ReportChinaMobileNoDataListQuery
+    extends RequestPageQuery,
+      TimeRange {
+    userId?: Member['id'];
+  }
+  // 增加移动无数据上报请求体
+  interface ReportChinaMobileNoDataAddData extends RequestData {
+    networkAccount: ReportChinaMobileNoData['networkAccount'];
+    switchSerialNumber: ReportChinaMobileNoData['switchSerialNumber'];
+    onuData: ReportChinaMobileNoData['onuData'];
+  }
+  // 修改移动无数据上报请求体
+  interface ReportChinaMobileNoDataEditData extends RequestData {
+    id: ReportChinaMobileNoData['id'];
+    networkAccount: ReportChinaMobileNoData['networkAccount'];
+    switchSerialNumber: ReportChinaMobileNoData['switchSerialNumber'];
+    onuData: ReportChinaMobileNoData['onuData'];
+  }
+  // 删除移动无数据上报请求体
+  interface ReportChinaMobileNoDataDeleteData extends RequestData {
+    id: ReportChinaMobileNoData['id'][];
+  }
+
+  // 查询主线上报参数
+  interface ReportWallLineListQuery extends RequestPageQuery, TimeRange {
+    userId?: Member['id'];
+  }
+  // 增加主线上报请求体
+  interface ReportWallLineAddData extends RequestData {
+    dormBlock: ReportWallLine['dormBlock']['id'];
+    dormRoom: ReportWallLine['dormRoom'];
+    name: ReportWallLine['name'];
+    index: ReportWallLine['telephone'];
+  }
+  // 修改主线上报请求体
+  interface ReportWallLineEditData extends RequestData {
+    id: ReportWallLine['id'];
+    dormBlock: ReportWallLine['dormBlock']['id'];
+    dormRoom: ReportWallLine['dormRoom'];
+    name: ReportWallLine['name'];
+    telephone: ReportWallLine['telephone'];
+  }
+  // 删除主线上报请求体
+  interface ReportWallLineDeleteData extends RequestData {
+    id: ReportWallLine['id'][];
+  }
+
   // 查询交换机故障上报参数
   interface ReportSwitchFaultListQuery extends RequestPageQuery, TimeRange {
-    userId?: User['id'];
+    userId?: Member['id'];
   }
   // 增加交换机故障上报请求体
   interface ReportSwitchFaultAddData extends RequestData {
@@ -172,6 +296,7 @@ declare namespace apiInterface {
   interface ReportSwitchFaultDeleteData extends RequestData {
     id: ReportSwitchFault['id'][];
   }
+
   // 查询用户参数
   interface UserListQuery extends RequestPageQuery {
     name?: User['name'];
@@ -210,6 +335,7 @@ declare namespace apiInterface {
   interface UserSearch extends RequestQuery {
     search: string | number;
   }
+
   // 查询组织成员参数
   interface MemberListQuery extends RequestPageQuery {
     userId?: MemberInfo['userId'];
@@ -240,6 +366,7 @@ declare namespace apiInterface {
     role: MemberInfo['role']['id'];
     password: string;
   }
+
   // 查询报修处理记录参数
   interface TicketLogListQuery extends RequestPageQuery, TimeRange {
     ticketId?: Ticket['id'];
@@ -250,6 +377,7 @@ declare namespace apiInterface {
     operatorId?: User['id'];
     deleted?: boolean;
   }
+
   // 查询报修参数
   interface TicketListQuery extends RequestPageQuery, TimeRange {
     userId?: Ticket['userId'];
@@ -286,23 +414,5 @@ declare namespace apiInterface {
     id: Ticket['id'];
     status: TicketStatus['id'];
     comment: Ticket['comment'];
-  }
-  // 值班学期
-  interface WorkSemester extends CUDTime {
-    id: number;
-    name: string;
-    startDate: string;
-    endDate: string;
-    collectingTimetable: boolean;
-  }
-  // 排班
-  interface WorkArrangement extends CUDTime {
-    id: number;
-    userId: User['id'];
-    user: null | User;
-    semesterId: WorkSemester['id'];
-    semester: WorkSemester;
-    weekday: number;
-    area: DormBlock;
   }
 }

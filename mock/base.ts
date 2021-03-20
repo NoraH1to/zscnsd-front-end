@@ -198,3 +198,35 @@ export const reportSwitchFault = {
   index: '@integer(1, 11)',
   ...getCUDTime(),
 };
+
+export const reportWallLine = {
+  'id|+1': 1,
+  'userId|+1': 1,
+  user,
+  'dormBlock|1': dormBlocks,
+  dormRoom: Number.parseInt(Random.string('number', 3)),
+  name: Random.cname(),
+  telephone: /[1][3,4,5,7,8,9][0-9]{9}/,
+  ...getCUDTime(),
+};
+
+export const reportChinaMobileNoData = {
+  'id|+1': 1,
+  'userId|+1': 1,
+  user,
+  networkAccount: Random.email(),
+  switchSerialNumber: '@string(10, 12)',
+  onuData: '@string(15, 20)',
+  ...getCUDTime(),
+};
+
+export const reportChinaMobileOccupiedOnu = {
+  'id|+1': 1,
+  'userId|+1': 1,
+  user,
+  oldSwitchSerialNumber: '@string(10, 12)',
+  oldOnuData: '@string(15, 20)',
+  newSwitchSerialNumber: '@string(10, 12)',
+  newOnuData: '@string(15, 20)',
+  ...getCUDTime(),
+}
