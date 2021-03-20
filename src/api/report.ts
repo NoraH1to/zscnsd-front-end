@@ -25,7 +25,9 @@ export const reportSwitchFaultEdit = (
   });
 };
 
-export const reportSwitchFaultDelete = (data?: apiInterface.TicketDeleteData) => {
+export const reportSwitchFaultDelete = (
+  data?: apiInterface.ReportSwitchFaultDeleteData,
+) => {
   return POST('/api/switch-fault-report/delete', {
     data,
   });
