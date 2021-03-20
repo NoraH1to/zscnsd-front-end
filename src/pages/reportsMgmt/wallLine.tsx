@@ -1,10 +1,8 @@
 import { FC, useState } from 'react';
 import {
   dormBlocks,
+  reportSwitchFaultSortableList,
   TableFilterType,
-  ticketDeleted,
-  ticketSortableList,
-  ticketStatus,
 } from '@/common';
 import {
   useApi,
@@ -12,44 +10,25 @@ import {
   useInit,
   useMuitActionDialog,
 } from '@/hooks/index';
-import {
-  ticketAdd,
-  ticketDelete,
-  ticketEdit,
-  ticketFaultMenu,
-  ticketList,
-  ticketOperate,
-  ticketRestore,
-} from '@/api/ticket';
-import {
-  Tooltip,
-  TableColumnProps,
-  Badge,
-  TableProps,
-  Row,
-  Col,
-  Card,
-  Space,
-  Typography,
-  Button,
-} from 'antd';
+import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
-import { find, propEq } from 'ramda';
 import CustomTable, { getRouteCell } from '@/components/CustomTable';
 import componentData from 'typings';
 import { useHistory } from '@umijs/runtime';
 import { userSearch } from '@/api/user';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import {
-  DeleteOutlined,
-  EditOutlined,
-  RollbackOutlined,
-} from '@ant-design/icons';
+  reportWallLineAdd,
+  reportWallLineDelete,
+  reportWallLineEdit,
+  reportWallLineList,
+} from '@/api/report';
 
 const filters: componentData.PropData[] = [
   {
     key: 'userId',
     type: TableFilterType.selectSearch,
-    name: '报修用户',
+    name: '上报用户',
     selectData: userSearch,
     holder: '姓名/学号/工号',
     searchOption: {
@@ -58,213 +37,204 @@ const filters: componentData.PropData[] = [
     },
   },
   {
-    key: 'status',
+    key: 'submitTimeRange',
+    type: TableFilterType.timeRange,
+    name: '上报时间范围',
+    timeRange: {
+      rangeStartProp: 'start',
+      rangeEndProp: 'end',
+    },
+  },
+];
+
+const addPropData: componentData.PropData[] = [
+  {
+    key: 'dormBlock',
     type: TableFilterType.select,
-    name: '报修状态',
-    selectData: ticketStatus,
+    name: '宿舍楼',
+    selectData: dormBlocks,
+    rules: [{ required: true }],
   },
   {
-    key: 'faultType',
-    type: TableFilterType.select,
-    name: '报修故障类型',
-    selectData: ticketFaultMenu,
+    key: 'dormRoom',
+    type: TableFilterType.number,
+    name: '宿舍房间号',
+    rules: [{ required: true }, { min: 1, type: 'number' }],
+  },
+  {
+    key: 'name',
+    type: TableFilterType.str,
+    name: '姓名',
+    rules: [{ required: true }],
+  },
+  {
+    key: 'telephone',
+    type: TableFilterType.str,
+    name: '手机号',
+    rules: [{ required: true }],
+  },
+];
+
+const EditPropData: componentData.PropData[] = [
+  {
+    key: 'id',
+    type: TableFilterType.number,
+    name: '上报ID',
+    rules: [{ required: true }],
+    hidden: true,
   },
   {
     key: 'dormBlock',
     type: TableFilterType.select,
     name: '宿舍楼',
     selectData: dormBlocks,
-  },
-  {
-    key: 'submitTimeRange',
-    type: TableFilterType.timeRange,
-    name: '报修时间范围',
-    timeRange: {
-      rangeStartProp: 'start',
-      rangeEndProp: 'end',
-    },
-  },
-  {
-    key: 'deleted',
-    type: TableFilterType.select,
-    name: '删除',
-    selectData: ticketDeleted,
-    default: 'true',
     rules: [{ required: true }],
-    hidden: true,
+  },
+  {
+    key: 'dormRoom',
+    type: TableFilterType.number,
+    name: '宿舍房间号',
+    rules: [{ required: true }, { min: 1, type: 'number' }],
+  },
+  {
+    key: 'name',
+    type: TableFilterType.str,
+    name: '姓名',
+    rules: [{ required: true }],
+  },
+  {
+    key: 'telephone',
+    type: TableFilterType.str,
+    name: '手机号',
+    rules: [{ required: true }],
   },
 ];
 
-const onRow: TableProps<apiInterface.Ticket>['onRow'] = (record) => {
-  return {
-    onClick: (event) => {
-      // TODO: 点击行路由跳转
-    }, // 点击行
-  };
-};
-
-const wallLine: FC = () => {
+const switchFault: FC = () => {
   // 表单数据
-  const [formData, setFormData] = useState<apiInterface.TicketListQuery>({
+  const [
+    formData,
+    setFormData,
+  ] = useState<apiInterface.ReportWallLineListQuery>({
     page: 1,
     count: 10,
-    deleted: true,
   });
 
   // api hooks
-  const apiHooks = useInit<apiInterface.TicketListQuery>(ticketList, formData);
+  const apiHooks = useInit<apiInterface.ReportWallLineListQuery>(
+    reportWallLineList,
+    formData,
+  );
+
+  // 添加接口 hooks
+  const apiAddHooks = useDialogForm<apiInterface.ReportWallLineAddData>(
+    reportWallLineAdd,
+    addPropData,
+    '新增主线上报',
+    () => apiHooks.setLoading(true),
+  );
 
   const muitActions: componentData.MuitActionProp[] = [
     {
-      key: 'restore',
-      value: '恢复',
+      key: 'delete',
+      value: '删除',
       propData: [],
-      api: ticketRestore,
+      api: reportWallLineDelete,
     },
-    // {
-    //   key: 'test',
-    //   value: '测试',
-    //   propData: [{ name: '测试', key: 'test', type: TableFilterType.str }],
-    //   api: ticketDelete,
-    // },
   ];
 
   const apiMuiltActionDialogHooks = useMuitActionDialog(muitActions, () =>
     apiHooks.setLoading(true),
   );
 
-  const colums: TableColumnProps<apiInterface.Ticket>[] = [
+  const colums: TableColumnProps<apiInterface.ReportWallLine>[] = [
     {
-      title: '报修ID',
+      title: 'ID',
       dataIndex: 'id',
       width: 70,
       fixed: 'left',
     },
     {
-      title: '宿舍楼',
-      dataIndex: ['user', 'dormBlock', 'string'],
-      width: 80,
-    },
-    {
-      title: '报修状态',
-      render: (value, record, index) => {
-        const status =
-          find<apiInterface.TicketStatus>(propEq('id', record.status.id))(
-            ticketStatus,
-          )?.status || 'default';
-        const text = record.status.string;
-        return <Badge status={status} text={text} />;
-      },
-      width: 80,
-    },
-    {
-      title: '报修错误类型',
-      dataIndex: ['faultType', 'content'],
-      width: 80,
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (value) => (
-        <Tooltip placement="topLeft" title={value}>
-          {value}
-        </Tooltip>
-      ),
-    },
-    {
-      title: '最后处理人姓名-工号',
-      render: getRouteCell<apiInterface.Ticket>(
+      title: '上报人姓名-工号',
+      render: getRouteCell<apiInterface.ReportWallLine>(
         (record) =>
-          `${record.lastOperateLog.operator.name}-${
-            record.lastOperateLog.operator.member?.workId || '已退出'
-          }`,
+          `${record.user.name}-${record.user.member.workId || '已退出'}`,
         (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
         useHistory(),
       ),
       width: 100,
     },
     {
-      title: '删除时间',
-      dataIndex: 'deleteTime',
+      title: '宿舍楼栋',
+      dataIndex: ['dormBlock', 'string'],
+      width: 80,
+    },
+    {
+      title: '宿舍房间号',
+      dataIndex: 'dormRoom',
+      width: 80,
+    },
+    {
+      title: '用户姓名',
+      dataIndex: 'name',
+      width: 100,
+    },
+    {
+      title: '用户手机号',
+      dataIndex: 'telephone',
+      width: 100,
+    },
+    {
+      title: '上报时间',
+      dataIndex: 'createTime',
       width: 100,
     },
   ];
 
+  const onRow: TableProps<apiInterface.ReportWallLine>['onRow'] = (record) => {
+    return {
+      onClick: (event) => {
+        // TODO: 点击行路由跳转
+      }, // 点击行
+    };
+  };
+
   const actions: componentData.CustomTableAction[] = [
     {
-      key: 'restore',
-      text: '恢复',
-      icon: <RollbackOutlined />,
-      hooks: useApi(ticketRestore, undefined, () => apiHooks.setLoading(true)),
-      apiParamKeys: (record) => ({
+      key: 'edit',
+      text: '编辑',
+      icon: <EditOutlined />,
+      hooks: {
+        api: reportWallLineEdit,
+        propData: EditPropData,
+        title: '编辑主线上报',
+        onSubmit: () => apiHooks.setLoading(true),
+      },
+      apiParamKeys: (record: apiInterface.ReportWallLine) => ({
+        id: record.id,
+        dormBlock: record.dormBlock.id,
+        dormRoom: record.dormRoom,
+        name: record.name,
+        telephone: record.telephone,
+      }),
+      type: 'dialog',
+    },
+    {
+      key: 'delete',
+      text: '删除',
+      icon: <DeleteOutlined />,
+      hooks: useApi(reportWallLineDelete, undefined, () =>
+        apiHooks.setLoading(true),
+      ),
+      apiParamKeys: (record: apiInterface.ReportWallLine) => ({
         id: [record.id],
       }),
       type: 'api',
       btnProps: {
-        style: {
-          color: '#FF9900',
-        },
+        danger: true,
       },
     },
   ];
-
-  const expandable: TableProps<apiInterface.Ticket>['expandable'] = {
-    expandedRowRender: (record) => (
-      <>
-        <Row gutter={16} style={{ alignItems: 'stretch' }}>
-          <Col span={8}>
-            <Card title="报修用户信息">
-              <Space direction="vertical">
-                <Typography.Text>{`姓名：${record.user.name}`}</Typography.Text>
-                <Typography.Text>
-                  {'宿舍楼 - 房间号：'}
-                  <Typography.Text strong>
-                    {`${record.user.dormBlock.string} - ${record.user.dormRoom}`}
-                  </Typography.Text>
-                </Typography.Text>
-                <Typography.Text>
-                  {'运营商：'}
-                  <Typography.Text strong>
-                    {record.user.isp.string}
-                  </Typography.Text>
-                </Typography.Text>
-                <Typography.Text
-                  copyable={{ text: record.user.networkAccount }}
-                >
-                  {`宽带账号：${record.user.networkAccount}`}
-                </Typography.Text>
-                <Typography.Text copyable={{ text: record.user.telephone }}>
-                  {`手机号：${record.user.telephone}`}
-                </Typography.Text>
-              </Space>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card title="报修备注">
-              <Typography.Paragraph
-                ellipsis={{ rows: 5, expandable: true, symbol: 'more' }}
-              >
-                {record.comment}
-              </Typography.Paragraph>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card title="杂项">
-              <Space direction="vertical">
-                <Typography.Text>
-                  {`创建时间：${record.createTime}`}
-                </Typography.Text>
-                <Typography.Text>
-                  {`更新时间：${record.updateTime}`}
-                </Typography.Text>
-              </Space>
-            </Card>
-          </Col>
-        </Row>
-      </>
-    ),
-    rowExpandable: (record) => true,
-    expandedRowClassName: () => 'expand',
-  };
 
   // TODO: 导出excel
   const ExportBtn = (
@@ -280,14 +250,13 @@ const wallLine: FC = () => {
       filters={filters}
       colums={colums}
       apiHooks={apiHooks}
+      apiAddHooks={apiAddHooks}
       apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
       actions={actions}
-      expandable={expandable}
-      onRow={onRow}
-      sortList={ticketSortableList}
+      sortList={reportSwitchFaultSortableList}
       extraComponent={{ Right: ExportBtn }}
     />
   );
 };
 
-export default wallLine;
+export default switchFault;

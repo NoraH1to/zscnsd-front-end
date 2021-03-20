@@ -1,55 +1,30 @@
 import { FC, useState } from 'react';
-import {
-  dormBlocks,
-  TableFilterType,
-  ticketDeleted,
-  ticketSortableList,
-  ticketStatus,
-} from '@/common';
+import { reportSwitchFaultSortableList, TableFilterType } from '@/common';
 import {
   useApi,
   useDialogForm,
   useInit,
   useMuitActionDialog,
 } from '@/hooks/index';
-import {
-  ticketAdd,
-  ticketDelete,
-  ticketEdit,
-  ticketFaultMenu,
-  ticketList,
-  ticketOperate,
-  ticketRestore,
-} from '@/api/ticket';
-import {
-  Tooltip,
-  TableColumnProps,
-  Badge,
-  TableProps,
-  Row,
-  Col,
-  Card,
-  Space,
-  Typography,
-  Button,
-} from 'antd';
+import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
-import { find, propEq } from 'ramda';
 import CustomTable, { getRouteCell } from '@/components/CustomTable';
 import componentData from 'typings';
 import { useHistory } from '@umijs/runtime';
 import { userSearch } from '@/api/user';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import {
-  DeleteOutlined,
-  EditOutlined,
-  RollbackOutlined,
-} from '@ant-design/icons';
+  reportChinaMobileOccupiedOnuAdd,
+  reportChinaMobileOccupiedOnuDelete,
+  reportChinaMobileOccupiedOnuEdit,
+  reportChinaMobileOccupiedOnuList,
+} from '@/api/report';
 
 const filters: componentData.PropData[] = [
   {
     key: 'userId',
     type: TableFilterType.selectSearch,
-    name: '报修用户',
+    name: '上报用户',
     selectData: userSearch,
     holder: '姓名/学号/工号',
     searchOption: {
@@ -58,213 +33,204 @@ const filters: componentData.PropData[] = [
     },
   },
   {
-    key: 'status',
-    type: TableFilterType.select,
-    name: '报修状态',
-    selectData: ticketStatus,
-  },
-  {
-    key: 'faultType',
-    type: TableFilterType.select,
-    name: '报修故障类型',
-    selectData: ticketFaultMenu,
-  },
-  {
-    key: 'dormBlock',
-    type: TableFilterType.select,
-    name: '宿舍楼',
-    selectData: dormBlocks,
-  },
-  {
     key: 'submitTimeRange',
     type: TableFilterType.timeRange,
-    name: '报修时间范围',
+    name: '上报时间范围',
     timeRange: {
       rangeStartProp: 'start',
       rangeEndProp: 'end',
     },
   },
+];
+
+const addPropData: componentData.PropData[] = [
   {
-    key: 'deleted',
-    type: TableFilterType.select,
-    name: '删除',
-    selectData: ticketDeleted,
-    default: 'true',
+    key: 'oldSwitchSerialNumber',
+    type: TableFilterType.str,
+    name: '原交换机SN码',
     rules: [{ required: true }],
-    hidden: true,
+  },
+  {
+    key: 'oldOnuData',
+    type: TableFilterType.str,
+    name: '原ONU数据',
+    rules: [{ required: true }],
+  },
+  {
+    key: 'newSwitchSerialNumber',
+    type: TableFilterType.str,
+    name: '现交换机SN码',
+    rules: [{ required: true }],
+  },
+  {
+    key: 'newOnuData',
+    type: TableFilterType.str,
+    name: '现ONU数据',
+    rules: [{ required: true }],
   },
 ];
 
-const onRow: TableProps<apiInterface.Ticket>['onRow'] = (record) => {
-  return {
-    onClick: (event) => {
-      // TODO: 点击行路由跳转
-    }, // 点击行
-  };
-};
+const EditPropData: componentData.PropData[] = [
+  {
+    key: 'id',
+    type: TableFilterType.number,
+    name: '上报ID',
+    rules: [{ required: true }],
+    hidden: true,
+  },
+  {
+    key: 'oldSwitchSerialNumber',
+    type: TableFilterType.str,
+    name: '原交换机SN码',
+    rules: [{ required: true }],
+  },
+  {
+    key: 'oldOnuData',
+    type: TableFilterType.str,
+    name: '原ONU数据',
+    rules: [{ required: true }],
+  },
+  {
+    key: 'newSwitchSerialNumber',
+    type: TableFilterType.str,
+    name: '现交换机SN码',
+    rules: [{ required: true }],
+  },
+  {
+    key: 'newOnuData',
+    type: TableFilterType.str,
+    name: '现ONU数据',
+    rules: [{ required: true }],
+  },
+];
 
-const chinaMobileOccupiedOnu: FC = () => {
+const switchFault: FC = () => {
   // 表单数据
-  const [formData, setFormData] = useState<apiInterface.TicketListQuery>({
+  const [
+    formData,
+    setFormData,
+  ] = useState<apiInterface.ReportChinaMobileOccupiedOnuListQuery>({
     page: 1,
     count: 10,
-    deleted: true,
   });
 
   // api hooks
-  const apiHooks = useInit<apiInterface.TicketListQuery>(ticketList, formData);
+  const apiHooks = useInit<apiInterface.ReportChinaMobileOccupiedOnuListQuery>(
+    reportChinaMobileOccupiedOnuList,
+    formData,
+  );
+
+  // 添加接口 hooks
+  const apiAddHooks = useDialogForm<apiInterface.ReportChinaMobileOccupiedOnuAddData>(
+    reportChinaMobileOccupiedOnuAdd,
+    addPropData,
+    '新增移动ONU被占上报',
+    () => apiHooks.setLoading(true),
+  );
 
   const muitActions: componentData.MuitActionProp[] = [
     {
-      key: 'restore',
-      value: '恢复',
+      key: 'delete',
+      value: '删除',
       propData: [],
-      api: ticketRestore,
+      api: reportChinaMobileOccupiedOnuDelete,
     },
-    // {
-    //   key: 'test',
-    //   value: '测试',
-    //   propData: [{ name: '测试', key: 'test', type: TableFilterType.str }],
-    //   api: ticketDelete,
-    // },
   ];
 
   const apiMuiltActionDialogHooks = useMuitActionDialog(muitActions, () =>
     apiHooks.setLoading(true),
   );
 
-  const colums: TableColumnProps<apiInterface.Ticket>[] = [
+  const colums: TableColumnProps<apiInterface.ReportChinaMobileOccupiedOnu>[] = [
     {
-      title: '报修ID',
+      title: 'ID',
       dataIndex: 'id',
       width: 70,
       fixed: 'left',
     },
     {
-      title: '宿舍楼',
-      dataIndex: ['user', 'dormBlock', 'string'],
-      width: 80,
-    },
-    {
-      title: '报修状态',
-      render: (value, record, index) => {
-        const status =
-          find<apiInterface.TicketStatus>(propEq('id', record.status.id))(
-            ticketStatus,
-          )?.status || 'default';
-        const text = record.status.string;
-        return <Badge status={status} text={text} />;
-      },
-      width: 80,
-    },
-    {
-      title: '报修错误类型',
-      dataIndex: ['faultType', 'content'],
-      width: 80,
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (value) => (
-        <Tooltip placement="topLeft" title={value}>
-          {value}
-        </Tooltip>
-      ),
-    },
-    {
-      title: '最后处理人姓名-工号',
-      render: getRouteCell<apiInterface.Ticket>(
+      title: '上报人姓名-工号',
+      render: getRouteCell<apiInterface.ReportChinaMobileOccupiedOnu>(
         (record) =>
-          `${record.lastOperateLog.operator.name}-${
-            record.lastOperateLog.operator.member?.workId || '已退出'
-          }`,
+          `${record.user.name}-${record.user.member.workId || '已退出'}`,
         (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
         useHistory(),
       ),
       width: 100,
     },
     {
-      title: '删除时间',
-      dataIndex: 'deleteTime',
+      title: '原交换机SN码',
+      dataIndex: 'oldSwitchSerialNumber',
+      width: 100,
+    },
+    {
+      title: '原ONU数据',
+      dataIndex: 'oldOnuData',
+      width: 100,
+    },
+    {
+      title: '现交换机SN码',
+      dataIndex: 'newSwitchSerialNumber',
+      width: 100,
+    },
+    {
+      title: '现ONU数据',
+      dataIndex: 'newOnuData',
+      width: 100,
+    },
+    {
+      title: '上报时间',
+      dataIndex: 'createTime',
       width: 100,
     },
   ];
 
+  const onRow: TableProps<apiInterface.ReportChinaMobileOccupiedOnu>['onRow'] = (
+    record,
+  ) => {
+    return {
+      onClick: (event) => {
+        // TODO: 点击行路由跳转
+      }, // 点击行
+    };
+  };
+
   const actions: componentData.CustomTableAction[] = [
     {
-      key: 'restore',
-      text: '恢复',
-      icon: <RollbackOutlined />,
-      hooks: useApi(ticketRestore, undefined, () => apiHooks.setLoading(true)),
-      apiParamKeys: (record) => ({
+      key: 'edit',
+      text: '编辑',
+      icon: <EditOutlined />,
+      hooks: {
+        api: reportChinaMobileOccupiedOnuEdit,
+        propData: EditPropData,
+        title: '编辑移动ONU被占上报',
+        onSubmit: () => apiHooks.setLoading(true),
+      },
+      apiParamKeys: (record: apiInterface.ReportChinaMobileOccupiedOnu) => ({
+        id: record.id,
+        oldSwitchSerialNumber: record.oldSwitchSerialNumber,
+        oldOnuData: record.oldOnuData,
+        newSwitchSerialNumber: record.newSwitchSerialNumber,
+        newOnuData: record.newOnuData,
+      }),
+      type: 'dialog',
+    },
+    {
+      key: 'delete',
+      text: '删除',
+      icon: <DeleteOutlined />,
+      hooks: useApi(reportChinaMobileOccupiedOnuDelete, undefined, () =>
+        apiHooks.setLoading(true),
+      ),
+      apiParamKeys: (record: apiInterface.ReportChinaMobileOccupiedOnu) => ({
         id: [record.id],
       }),
       type: 'api',
       btnProps: {
-        style: {
-          color: '#FF9900',
-        },
+        danger: true,
       },
     },
   ];
-
-  const expandable: TableProps<apiInterface.Ticket>['expandable'] = {
-    expandedRowRender: (record) => (
-      <>
-        <Row gutter={16} style={{ alignItems: 'stretch' }}>
-          <Col span={8}>
-            <Card title="报修用户信息">
-              <Space direction="vertical">
-                <Typography.Text>{`姓名：${record.user.name}`}</Typography.Text>
-                <Typography.Text>
-                  {'宿舍楼 - 房间号：'}
-                  <Typography.Text strong>
-                    {`${record.user.dormBlock.string} - ${record.user.dormRoom}`}
-                  </Typography.Text>
-                </Typography.Text>
-                <Typography.Text>
-                  {'运营商：'}
-                  <Typography.Text strong>
-                    {record.user.isp.string}
-                  </Typography.Text>
-                </Typography.Text>
-                <Typography.Text
-                  copyable={{ text: record.user.networkAccount }}
-                >
-                  {`宽带账号：${record.user.networkAccount}`}
-                </Typography.Text>
-                <Typography.Text copyable={{ text: record.user.telephone }}>
-                  {`手机号：${record.user.telephone}`}
-                </Typography.Text>
-              </Space>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card title="报修备注">
-              <Typography.Paragraph
-                ellipsis={{ rows: 5, expandable: true, symbol: 'more' }}
-              >
-                {record.comment}
-              </Typography.Paragraph>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card title="杂项">
-              <Space direction="vertical">
-                <Typography.Text>
-                  {`创建时间：${record.createTime}`}
-                </Typography.Text>
-                <Typography.Text>
-                  {`更新时间：${record.updateTime}`}
-                </Typography.Text>
-              </Space>
-            </Card>
-          </Col>
-        </Row>
-      </>
-    ),
-    rowExpandable: (record) => true,
-    expandedRowClassName: () => 'expand',
-  };
 
   // TODO: 导出excel
   const ExportBtn = (
@@ -280,14 +246,13 @@ const chinaMobileOccupiedOnu: FC = () => {
       filters={filters}
       colums={colums}
       apiHooks={apiHooks}
+      apiAddHooks={apiAddHooks}
       apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
       actions={actions}
-      expandable={expandable}
-      onRow={onRow}
-      sortList={ticketSortableList}
+      sortList={reportSwitchFaultSortableList}
       extraComponent={{ Right: ExportBtn }}
     />
   );
 };
 
-export default chinaMobileOccupiedOnu;
+export default switchFault;
