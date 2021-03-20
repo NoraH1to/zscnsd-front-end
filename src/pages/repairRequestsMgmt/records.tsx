@@ -24,6 +24,7 @@ import { find, propEq } from 'ramda';
 import CustomTable, { getRouteCell } from '@/components/CustomTable';
 import componentData from 'typings';
 import { useHistory } from 'umi';
+import { userSearch } from '@/api/user';
 
 const filters: componentData.PropData[] = [
   {
@@ -33,8 +34,14 @@ const filters: componentData.PropData[] = [
   },
   {
     key: 'userId',
-    type: TableFilterType.number,
-    name: '报修用户ID',
+    type: TableFilterType.selectSearch,
+    name: '报修用户',
+    selectData: userSearch,
+    holder: '姓名/学号/工号',
+    searchOption: {
+      keyProp: 'id',
+      labelProp: 'name',
+    },
   },
   {
     key: 'status',
