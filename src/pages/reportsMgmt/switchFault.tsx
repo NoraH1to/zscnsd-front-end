@@ -10,20 +10,13 @@ import {
   useInit,
   useMuitActionDialog,
 } from '@/hooks/index';
-import {
-  TableColumnProps,
-  TableProps,
-  Button,
-} from 'antd';
+import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
 import CustomTable, { getRouteCell } from '@/components/CustomTable';
 import componentData from 'typings';
 import { useHistory } from '@umijs/runtime';
 import { userSearch } from '@/api/user';
-import {
-  DeleteOutlined,
-  EditOutlined,
-} from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import {
   reportSwitchFaultAdd,
   reportSwitchFaultDelete,
@@ -198,7 +191,9 @@ const switchFault: FC = () => {
     },
   ];
 
-  const onRow: TableProps<apiInterface.Ticket>['onRow'] = (record) => {
+  const onRow: TableProps<apiInterface.ReportSwitchFault>['onRow'] = (
+    record,
+  ) => {
     return {
       onClick: (event) => {
         // TODO: 点击行路由跳转
