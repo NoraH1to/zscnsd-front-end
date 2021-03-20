@@ -214,7 +214,7 @@ const switchFault: FC = () => {
       hooks: {
         api: reportSwitchFaultEdit,
         propData: EditPropData,
-        title: '编辑报修',
+        title: '编辑交换机故障上报',
         onSubmit: () => apiHooks.setLoading(true),
       },
       apiParamKeys: (record: apiInterface.ReportSwitchFault) => ({
