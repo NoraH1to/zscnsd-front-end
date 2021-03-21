@@ -102,6 +102,26 @@ declare namespace apiInterface {
   interface Member extends UserBase {
     member: MemberInfo;
   }
+  // 成员惩罚
+  interface MemberPunishment extends CUDTime {
+    id: number;
+    userId: Member['id'];
+    user: Member;
+    value: number;
+    reason: string;
+    operatorId: Member['id'];
+    operator: Member;
+  }
+  // 成员血条
+  interface MemberHealth extends CUDTime {
+    id: number;
+    userId: Member['id'];
+    user: Member;
+    value: number;
+    reason: string;
+    operatorId: Member['id'];
+    operator: Member;
+  }
   // 报修工单
   interface Ticket extends CUDTime {
     id: number;
@@ -199,6 +219,52 @@ declare namespace apiInterface {
   // 分页请求体
   interface RequestPageQuery extends Page, RequestQuery {}
 
+  // 查询成员惩罚记录参数
+  interface MemberPunishmentListQuery extends RequestPageQuery, TimeRange {
+    userId?: MemberPunishment['userId'];
+    reason?: MemberPunishment['reason'];
+    operatorId?: MemberPunishment['operatorId'];
+  }
+  // 增加成员惩罚记录请求体
+  interface MemberPunishmentAddData extends RequestData {
+    userId: MemberPunishment['userId'];
+    value: MemberPunishment['value'];
+    reason: MemberPunishment['reason'];
+  }
+  // 修改成员惩罚记录请求体
+  interface MemberPunishmentEditData extends RequestData {
+    id: MemberPunishment['id'];
+    userId: MemberPunishment['userId'];
+    value: MemberPunishment['value'];
+    reason: MemberPunishment['reason'];
+  }
+  // 删除成员惩罚记录请求体
+  interface MemberPunishmentDeleteData extends RequestData {
+    id: MemberPunishment['id'][];
+  }
+  // 查询成员血条记录参数
+  interface MemberHealthListQuery extends RequestPageQuery, TimeRange {
+    userId?: MemberHealth['userId'];
+    reason?: MemberHealth['reason'];
+    operatorId?: MemberHealth['operatorId'];
+  }
+  // 增加成员血条记录请求体
+  interface MemberHealthAddData extends RequestData {
+    userId: MemberHealth['userId'];
+    value: MemberHealth['value'];
+    reason: MemberHealth['reason'];
+  }
+  // 修改成员血条记录请求体
+  interface MemberHealthEditData extends RequestData {
+    id: MemberHealth['id'];
+    userId: MemberHealth['userId'];
+    value: MemberHealth['value'];
+    reason: MemberHealth['reason'];
+  }
+  // 删除成员血条记录请求体
+  interface MemberHealthDeleteData extends RequestData {
+    id: MemberHealth['id'][];
+  }
   // 查询移动ONU被占上报参数
   interface ReportChinaMobileOccupiedOnuListQuery
     extends RequestPageQuery,

@@ -72,6 +72,20 @@ export const reportSwitchFaultSortableList: apiInterface.Enum[] = [
   },
 ];
 
+export const memberHealthSortableList: apiInterface.Enum[] = [
+  {
+    id: 'createTime',
+    string: '时间',
+  },
+];
+
+export const memberPunishmentSortableList: apiInterface.Enum[] = [
+  {
+    id: 'createTime',
+    string: '时间',
+  },
+];
+
 export const memberSortableList: apiInterface.Enum[] = [
   {
     id: 'health',

@@ -229,4 +229,26 @@ export const reportChinaMobileOccupiedOnu = {
   newSwitchSerialNumber: '@string(10, 12)',
   newOnuData: '@string(15, 20)',
   ...getCUDTime(),
-}
+};
+
+export const memberHealth = {
+  'id|+1': 1,
+  'userId|+1': 1,
+  user: user,
+  value: '@integer(-10, 15)',
+  reason: Random.ctitle(),
+  'operatorId|+1': 1,
+  operator: user,
+  ...getCUDTime(),
+};
+
+export const memberPunishment = {
+  'id|+1': 1,
+  'userId|+1': 1,
+  user: user,
+  value: '@integer(1, 3)',
+  reason: Random.ctitle(),
+  'operatorId|+1': 1,
+  operator: user,
+  ...getCUDTime(),
+};
