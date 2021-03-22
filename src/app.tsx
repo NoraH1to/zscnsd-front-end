@@ -1,10 +1,12 @@
 import { History, Location, history } from 'umi';
-import routes, { route } from '@/../config/routes';
-import { map, prop, propEq, find } from 'ramda';
+import routes from '@/../config/routes';
+import { map, prop, find } from 'ramda';
 
 // 有默认子由路的路由
-const getRoutesHasDefault = (routes: route[]): route[] => {
-  let result: route[] = [];
+const getRoutesHasDefault = (
+  routes: (routeInterface.route | routeInterface.mRoute)[],
+): (routeInterface.route | routeInterface.mRoute)[] => {
+  let result: (routeInterface.route | routeInterface.mRoute)[] = [];
   routes.forEach((route) => {
     if (route.extraOpt?.default) {
       result.push(route);
@@ -25,11 +27,13 @@ export function onRouteChange({
   action,
 }: {
   location: Location;
-  routes: route[];
+  routes: (routeInterface.route | routeInterface.mRoute)[];
   action: History['action'];
 }) {
   // 如果当前为需要跳转至默认子路由的路由,则跳转
-  const targetPath = find(propEq('path', location.pathname), routesHasDefault)
-    ?.extraOpt?.default;
+  const targetPath = find(
+    (item) => item.path == location.pathname,
+    routesHasDefault,
+  )?.extraOpt?.default;
   if (targetPath) history.push(targetPath);
 }
