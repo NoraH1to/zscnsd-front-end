@@ -1,4 +1,4 @@
-import { useCustomForm } from '@/components/CustomForm';
+import { useCustomForm } from '@/hooks';
 import { Modal } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import update from 'immutability-helper';
