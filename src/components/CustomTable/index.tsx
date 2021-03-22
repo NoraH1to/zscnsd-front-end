@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from 'react';
-import { useCustomForm } from '@/components/CustomForm';
+import { useCustomForm } from '@/hooks';
 import update from 'immutability-helper';
 import {
   Button,

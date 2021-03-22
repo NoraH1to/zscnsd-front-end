@@ -1,4 +1,4 @@
-import { useCustomForm } from '@/components/CustomForm';
+import { useCustomForm } from '@/hooks';
 import { Divider, message, Select } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import { find, map } from 'ramda';

@@ -13,9 +13,9 @@ import {
   ticketFaultMenu,
   ticketList,
 } from '@/api/ticket';
-import { useCustomForm } from '@/components/CustomForm';
+import { useCustomForm } from '@/hooks/useCustomForm';
 import update from 'immutability-helper';
-import { Button, Tooltip, Table, TableColumnProps, Badge, Space } from 'antd';
+import { Button, Tooltip, Table, TableColumnProps, Badge } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import BaseTable from '@/components/BaseTable';
 import apiInterface from 'api';
@@ -228,7 +228,7 @@ const requests: FC = () => {
     visible: editVisible,
     setVisible: setEditVisible,
     DialogForm: EditDialogForm,
-    setdefaultForm: setEditDefaultForm,
+    setForm: setEditForm,
   } = useDialogForm<apiInterface.TicketEditData>(
     ticketEdit,
     EditPropData,
@@ -271,7 +271,7 @@ const requests: FC = () => {
               type="text"
               shape="circle"
               onClick={() => {
-                setEditDefaultForm<apiInterface.TicketEditData>({
+                setEditForm<apiInterface.TicketEditData>({
                   id: record.id,
                   userId: record.userId,
                   status: record.status.id,

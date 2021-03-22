@@ -1,14 +1,6 @@
 import { TableFilterType } from '@/common';
 import { useApi, useInit } from '@/hooks';
-import {
-  Form,
-  Input,
-  Select,
-  DatePicker,
-  Modal,
-  FormProps,
-  InputNumber,
-} from 'antd';
+import { Form, Input, Select, DatePicker, FormProps, InputNumber } from 'antd';
 import { forEachObjIndexed, type } from 'ramda';
 import update from 'immutability-helper';
 import './index.scss';
@@ -152,7 +144,7 @@ const validateMessages: FormProps['validateMessages'] = {
   },
 };
 
-export const useCustomForm = (
+const useCustomForm = (
   propData: componentData.PropData[],
   onChange: componentData.OnFormChange,
   formProps?: FormProps,
@@ -250,20 +242,4 @@ export const useCustomForm = (
   };
 };
 
-export const CustomFormDialog = ({
-  title,
-  visible,
-  onOk,
-  onCancel,
-  ...CustomFormDataProps
-}: componentData.CustomFormDialogProp) => {
-  const { form } = useCustomForm(
-    CustomFormDataProps.propData,
-    CustomFormDataProps.onChange,
-  );
-  return (
-    <Modal title={title} visible={visible} onOk={onOk} onCancel={onCancel}>
-      {form}
-    </Modal>
-  );
-};
+export default useCustomForm;
