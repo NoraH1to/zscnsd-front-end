@@ -135,6 +135,7 @@ const CustomTable = <T extends object>(props: Props<T>) => {
     sortList,
     extraComponent,
   } = props;
+
   // 被选中的行
   const [selectedList, setSelectedList] = useState<any>([]);
   const rowSelection = {
@@ -186,6 +187,7 @@ const CustomTable = <T extends object>(props: Props<T>) => {
     (newformData) => setFormData(update(formData, { $merge: newformData })),
   );
 
+  // 表格上方表单提交
   const onSubmit = async () => {
     await validateFields();
     if (!validatedContainer.validated) return;
@@ -193,14 +195,16 @@ const CustomTable = <T extends object>(props: Props<T>) => {
     setLoading(true);
   };
 
-  const [otherHooks, setOtherHooks] = useState<{
+  // actions 中使用到 dialogHooks 的
+  const [otherDialogHooks, setOtherDialogHooks] = useState<{
     [index: string]: componentData.DialogFormHooks;
   }>({});
 
+  // 外部传入的 actions (表格操作列)
   actions &&
     actions.forEach((item) => {
       if (item.type == 'dialog') {
-        otherHooks[item.key] = useDialogForm(
+        otherDialogHooks[item.key] = useDialogForm(
           item.hooks.api,
           item.hooks.propData,
           item.hooks.title,
@@ -209,6 +213,7 @@ const CustomTable = <T extends object>(props: Props<T>) => {
       }
     });
 
+  // 根据 actions 生成列的操作按钮，第三个开始放入菜单中
   const otherCol: TableProps<T>['columns'] = actions
     ? [
         {
@@ -230,8 +235,8 @@ const CustomTable = <T extends object>(props: Props<T>) => {
                         let param: any = {};
                         if (item.type == 'dialog') {
                           param = item.apiParamKeys(record);
-                          otherHooks[item.key].setForm(param);
-                          otherHooks[item.key].setVisible(true);
+                          otherDialogHooks[item.key].setForm(param);
+                          otherDialogHooks[item.key].setVisible(true);
                         } else {
                           item.hooks.setParams(item.apiParamKeys(record));
                           item.hooks.setLoading(true);
@@ -253,8 +258,8 @@ const CustomTable = <T extends object>(props: Props<T>) => {
                                 let param: any = {};
                                 if (item.type == 'dialog') {
                                   param = item.apiParamKeys(record);
-                                  otherHooks[item.key].setForm(param);
-                                  otherHooks[item.key].setVisible(true);
+                                  otherDialogHooks[item.key].setForm(param);
+                                  otherDialogHooks[item.key].setVisible(true);
                                 } else {
                                   item.hooks.setParams(
                                     item.apiParamKeys(record),
@@ -283,6 +288,7 @@ const CustomTable = <T extends object>(props: Props<T>) => {
         },
       ]
     : [];
+
   return (
     <>
       <BaseTable
@@ -368,7 +374,9 @@ const CustomTable = <T extends object>(props: Props<T>) => {
         }
       />
       {AddDialogForm}
-      {Object.keys(otherHooks).map((item) => otherHooks[item].DialogForm)}
+      {Object.keys(otherDialogHooks).map(
+        (item) => otherDialogHooks[item].DialogForm,
+      )}
       {apiMuiltActionDialogHooks?.MuitActionDialog}
     </>
   );
