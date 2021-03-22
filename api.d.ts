@@ -65,13 +65,23 @@ declare namespace apiInterface {
     order: number;
     visible: boolean;
   }
-  // 报修工单操作日志
+  // 报修操作日志
   interface TicketLog extends CUDTime {
     id: number;
     ticket: Ticket;
     ticketId: Ticket['id'];
-    operatorId: User['id'];
-    operator: User;
+    operatorId: Member['id'];
+    operator: Member;
+    status: TicketStatus;
+    comment: string; // 处理备注
+  }
+  // 工单操作日志
+  interface IspTicketLog extends CUDTime {
+    id: number;
+    ispTicket: IspTicket;
+    ispTicketId: Ticket['id'];
+    operatorId: Member['id'];
+    operator: Member;
     status: TicketStatus;
     comment: string; // 处理备注
   }
@@ -122,7 +132,7 @@ declare namespace apiInterface {
     operatorId: Member['id'];
     operator: Member;
   }
-  // 报修工单
+  // 报修
   interface Ticket extends CUDTime {
     id: number;
     userId: User['id'];
@@ -133,6 +143,18 @@ declare namespace apiInterface {
     comment: string; // 备注
     lastOperateLogId: TicketLog['id'];
     lastOperateLog: TicketLog;
+  }
+  // 工单
+  interface IspTicket extends CUDTime {
+    id: number;
+    status: TicketStatus;
+    name: User['name'];
+    telephone: User['telephone'];
+    dormBlock: User['dormBlock'];
+    dormRoom: User['dormRoom'];
+    comment: string; // 备注
+    lastOperateLogId: IspTicketLog['id'];
+    lastOperateLog: IspTicketLog;
   }
   // 移动ONU被占上报
   interface ReportChinaMobileOccupiedOnu extends CUDTime {
@@ -433,6 +455,55 @@ declare namespace apiInterface {
     password: string;
   }
 
+  // 查询工单参数
+  interface IspTicketListQuery extends RequestPageQuery, TimeRange {
+    status?: TicketStatus['id'];
+    name?: IspTicket['name'];
+    dromBlock?: DormBlock['id'];
+    deleted?: boolean;
+  }
+  // 增加工单请求体
+  interface IspTicketAddData extends RequestData {
+    status: TicketStatus['id'];
+    name: IspTicket['name'];
+    telephone: IspTicket['telephone'];
+    dormBlock: IspTicket['dormBlock']['id'];
+    dormRoom: IspTicket['dormRoom'];
+    comment: string;
+  }
+  // 删除工单请求体
+  interface IspTicketDeleteData extends RequestData {
+    id: IspTicket['id'][];
+  }
+  // 恢复工单请求体
+  interface IspTicketRestoreData extends RequestData {
+    id: IspTicket['id'][];
+  }
+  // 修改工单请求体
+  interface IspTicketEditData extends RequestData {
+    id: IspTicket['id'];
+    status: TicketStatus['id'];
+    name: IspTicket['name'];
+    telephone: IspTicket['telephone'];
+    dormBlock: IspTicket['dormBlock']['id'];
+    dormRoom: IspTicket['dormRoom'];
+    comment: string;
+  }
+  // 处理工单请求体
+  interface IspTicketOperateData extends RequestData {
+    id: IspTicket['id'];
+    status: TicketStatus['id'];
+    comment: IspTicket['comment'];
+  }
+
+  // 查询工单处理记录参数
+  interface IspTicketLogListQuery extends RequestPageQuery, TimeRange {
+    ticketId?: IspTicket['id'];
+    status?: IspTicket['status']['id'];
+    operatorId?: Member['id'];
+    deleted?: boolean;
+  }
+
   // 查询报修处理记录参数
   interface TicketLogListQuery extends RequestPageQuery, TimeRange {
     ticketId?: Ticket['id'];
@@ -440,7 +511,7 @@ declare namespace apiInterface {
     status?: Ticket['status']['id'];
     faultType?: Ticket['faultType']['id'];
     dormBlock?: User['dormBlock']['id'];
-    operatorId?: User['id'];
+    operatorId?: Member['id'];
     deleted?: boolean;
   }
 

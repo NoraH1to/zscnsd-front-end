@@ -140,7 +140,7 @@ export const user = {
   ...getCUDTime(),
 };
 
-export const operateLog = {
+export const ticketOperateLogWithoutTicket = {
   'id|+1': 1,
   'ticketId|+1': 1,
   'operatorId|+1': 1,
@@ -167,7 +167,18 @@ export const ticket = {
   'faultTypeId|+1': 1,
   comment: '@cparagraph(0, 30)',
   'lastOperateLogId|+1': 1,
-  lastOperateLog: operateLog,
+  lastOperateLog: ticketOperateLogWithoutTicket,
+  ...getCUDTime(),
+};
+
+export const ticketOperateLog = {
+  'id|+1': 1,
+  'ticketId|+1': 1,
+  ticket,
+  'operatorId|+1': 1,
+  operator: user,
+  'status|1': ticketStatus,
+  comment: '@cparagraph(0, 30)',
   ...getCUDTime(),
 };
 
@@ -176,17 +187,6 @@ export const arrangement = update(arrangementWithoutUser, {
     $set: user,
   },
 });
-
-export const ticketLog = {
-  'id|+1': 1,
-  'ticketId|+1': 1,
-  ticket: ticket,
-  'operatorId|+1': 1,
-  operator: user,
-  'status|1': ticketStatus,
-  comment: '@cparagraph(0, 30)',
-  ...getCUDTime(),
-};
 
 export const reportSwitchFault = {
   'id|+1': 1,
@@ -250,5 +250,41 @@ export const memberPunishment = {
   reason: Random.ctitle(),
   'operatorId|+1': 1,
   operator: user,
+  ...getCUDTime(),
+};
+
+export const ispTicketOperateLogWithoutIspTicket = {
+  // TODO ispTicketOperateLog Mock
+  'id|+1': 1,
+  'ispTicketId|+1': 1,
+  'operatorId|+1': 1,
+  operator: user,
+  'status|1': ticketStatus,
+  comment: '@cparagraph(0, 30)',
+  ...getCUDTime(),
+};
+
+export const ispTicket = {
+  'id|+1': 1,
+  'status|1': ticketStatus,
+  name: Random.cname(),
+  telephone: /[1][3,4,5,7,8,9][0-9]{9}/,
+  'dormBlock|1': dormBlocks,
+  dormRoom: Number.parseInt(Random.string('number', 3)),
+  comment: '@cparagraph(0, 30)',
+  'lastOperateLogId|+1': 1,
+  lastOperateLog: ispTicketOperateLogWithoutIspTicket,
+  ...getCUDTime(),
+};
+
+export const ispTicketOperateLog = {
+  // TODO ispTicketOperateLog Mock
+  'id|+1': 1,
+  'ispTicketId|+1': 1,
+  ispTicket,
+  'operatorId|+1': 1,
+  operator: user,
+  'status|1': ticketStatus,
+  comment: '@cparagraph(0, 30)',
   ...getCUDTime(),
 };

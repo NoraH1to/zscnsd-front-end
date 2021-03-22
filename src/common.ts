@@ -37,7 +37,25 @@ export const ticketSortableList: apiInterface.Enum[] = [
   },
 ];
 
+export const ispTicketSortableList: apiInterface.Enum[] = [
+  {
+    id: 'createTime',
+    string: '报修时间',
+  },
+  {
+    id: 'lastOperateTime',
+    string: '最后处理时间',
+  },
+];
+
 export const ticketLogSortableList: apiInterface.Enum[] = [
+  {
+    id: 'createTime',
+    string: '上报时间',
+  },
+];
+
+export const ispTicketLogSortableList: apiInterface.Enum[] = [
   {
     id: 'createTime',
     string: '上报时间',

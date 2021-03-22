@@ -90,6 +90,58 @@ const desktopRoute: routeInterface.route[] = [
         ],
       },
       {
+        path: '/d/isp-tickets-mgmt',
+        extraOpt: {
+          default: '/d/isp-tickets-mgmt/tickets',
+          key: '/d/isp-tickets-mgmt',
+          name: '工单管理',
+          sub: true,
+          menu: true,
+        },
+        routes: [
+          {
+            path: '/d/isp-tickets-mgmt/',
+            extraOpt: {
+              default: '/d/isp-tickets-mgmt/tickets',
+              key: '/d/isp-tickets-mgmt',
+              hidden: true,
+            },
+          },
+          {
+            path: '/d/isp-tickets-mgmt/tickets',
+            component: '@/pages/ispTicketsMgmt/ispTickets',
+            extraOpt: {
+              key: '/d/isp-tickets-mgmt/tickets',
+              name: '所有工单',
+              namePath: '工单管理/所有工单',
+              menu: true,
+              parentMenu: '/d/isp-tickets-mgmt',
+            },
+          },
+          {
+            path: '/d/isp-tickets-mgmt/records',
+            component: '@/pages/ispTicketsMgmt/records',
+            extraOpt: {
+              key: '/d/isp-tickets-mgmt/records',
+              name: '工单处理记录',
+              namePath: '工单管理/工单处理记录',
+              menu: true,
+              parentMenu: '/d/isp-tickets-mgmt',
+            },
+          },
+          {
+            path: '/d/isp-tickets-mgmt/detail',
+            component: '@/pages/ispTicketsMgmt/detail',
+            extraOpt: {
+              hidden: true,
+              key: '/d/isp-tickets-mgmt/detail',
+              name: '工单详情',
+              namePath: '工单管理/工单详情',
+            },
+          },
+        ],
+      },
+      {
         path: '/d/report',
         extraOpt: {
           default: '/d/report/switch-fault-report-list',
