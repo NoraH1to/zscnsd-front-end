@@ -111,6 +111,14 @@ const expandable: TableProps<apiInterface.TicketLog>['expandable'] = {
                   {record.ticket.user.isp.string}
                 </Typography.Text>
               </Typography.Text>
+              <Typography.Text
+                  copyable={{ text: record.ticket.user.networkAccount }}
+                >
+                  {`宽带账号：${record.ticket.user.networkAccount}`}
+                </Typography.Text>
+                <Typography.Text copyable={{ text: record.ticket.user.telephone }}>
+                  {`手机号：${record.ticket.user.telephone}`}
+                </Typography.Text>
             </Space>
           </Card>
         </Col>
