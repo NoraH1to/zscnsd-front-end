@@ -8,17 +8,12 @@ import {
 } from '@/common';
 import {
   useApi,
-  useDialogForm,
   useInit,
   useMuitActionDialog,
 } from '@/hooks/index';
 import {
-  ticketAdd,
-  ticketDelete,
-  ticketEdit,
   ticketFaultMenu,
   ticketList,
-  ticketOperate,
   ticketRestore,
 } from '@/api/ticket';
 import {
@@ -40,8 +35,6 @@ import componentData from 'typings';
 import { useHistory } from '@umijs/runtime';
 import { userSearch } from '@/api/user';
 import {
-  DeleteOutlined,
-  EditOutlined,
   RollbackOutlined,
 } from '@ant-design/icons';
 

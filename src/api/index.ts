@@ -1,5 +1,5 @@
 import apiInterface from 'api';
-import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios';
+import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
 
 axios.defaults.timeout = 5000; // 响应时间
 axios.defaults.headers['Content-Type'] = 'application/json'; // 配置请求头
