@@ -13,7 +13,7 @@ import {
   ticketFaultMenu,
   ticketList,
 } from '@/api/ticket';
-import { useCustomForm } from '@/hooks/useCustomForm';
+import { useCustomForm } from '@/hooks';
 import update from 'immutability-helper';
 import { Button, Tooltip, Table, TableColumnProps, Badge } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
