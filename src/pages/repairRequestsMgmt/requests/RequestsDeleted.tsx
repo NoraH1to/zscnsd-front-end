@@ -128,7 +128,7 @@ const requestsDeleted: FC = () => {
 
   const colums: TableColumnProps<apiInterface.Ticket>[] = [
     {
-      title: '报修ID',
+      title: 'ID',
       dataIndex: 'id',
       width: 70,
       fixed: 'left',
