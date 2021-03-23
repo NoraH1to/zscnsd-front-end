@@ -52,21 +52,28 @@ interface Sorter {
 export const setDefaultDataInFilters = (
   filters: componentData.PropData[],
   defaultFormData: any,
-) =>
-  filters.map((item) => {
-    // 事件范围需要特殊处理成 moment 数组
-    if (item.type == TableFilterType.timeRange) {
-      return update(item, {
-        default: {
-          $set: [moment(defaultFormData.start), moment(defaultFormData.end)],
-        },
-      });
-    } else {
-      return defaultFormData?.[item.key]
-        ? update(item, { default: { $set: defaultFormData?.[item.key] } })
-        : item;
-    }
-  });
+) => {
+  if (defaultFormData)
+    return filters.map((item) => {
+      // 事件范围需要特殊处理成 moment 数组
+      if (
+        item.type == TableFilterType.timeRange &&
+        defaultFormData.start &&
+        defaultFormData.end
+      ) {
+        return update(item, {
+          default: {
+            $set: [moment(defaultFormData.start), moment(defaultFormData.end)],
+          },
+        });
+      } else {
+        return defaultFormData?.[item.key]
+          ? update(item, { default: { $set: defaultFormData?.[item.key] } })
+          : item;
+      }
+    });
+  return filters;
+};
 
 export const useTableSort = (
   sortList?: apiInterface.Enum[],
