@@ -24,6 +24,8 @@ import componentData from 'typings';
 import { useDialogForm } from '@/hooks';
 import { History } from '@umijs/runtime';
 import { history } from 'umi';
+import { TableFilterType } from '@/common';
+import moment from 'moment';
 
 interface Props<T extends object> {
   formData: any;
@@ -46,6 +48,25 @@ interface Props<T extends object> {
 interface Sorter {
   SortSelect: JSX.Element | null;
 }
+
+export const setDefaultDataInFilters = (
+  filters: componentData.PropData[],
+  defaultFormData: any,
+) =>
+  filters.map((item) => {
+    // 事件范围需要特殊处理成 moment 数组
+    if (item.type == TableFilterType.timeRange) {
+      return update(item, {
+        default: {
+          $set: [moment(defaultFormData.start), moment(defaultFormData.end)],
+        },
+      });
+    } else {
+      return defaultFormData?.[item.key]
+        ? update(item, { default: { $set: defaultFormData?.[item.key] } })
+        : item;
+    }
+  });
 
 export const useTableSort = (
   sortList?: apiInterface.Enum[],
@@ -187,9 +208,13 @@ const CustomTable = <T extends object>(props: Props<T>) => {
   } = apiAddHooks || {};
 
   // 搜索表单 hooks
-  const { form, validatedContainer, validateFields } = useCustomForm(
-    filters,
-    (newformData) => setFormData(update(formData, { $merge: newformData })),
+  const {
+    form,
+    validatedContainer,
+    validateFields,
+    formRef,
+  } = useCustomForm(filters, (newformData) =>
+    setFormData(update(formData, { $merge: newformData })),
   );
 
   // 表格上方表单提交

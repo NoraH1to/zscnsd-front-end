@@ -34,9 +34,13 @@ import {
 } from 'antd';
 import apiInterface from 'api';
 import { find, propEq } from 'ramda';
-import CustomTable, { getRouteCell } from '@/components/CustomTable';
+import CustomTable, {
+  getRouteCell,
+  setDefaultDataInFilters,
+} from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
+import update from 'immutability-helper';
 import {
   DeleteOutlined,
   EditOutlined,
@@ -245,9 +249,12 @@ const onRow: TableProps<apiInterface.Ticket>['onRow'] = (record) => {
 };
 
 // TODO: 能接受初始参数
-const requestsUndeleted: FC = () => {
+const requestsUndeleted: FC<{
+  defaultFormData?: any;
+}> = ({ defaultFormData }) => {
   // 表单数据
   const [formData, setFormData] = useState<apiInterface.TicketListQuery>({
+    ...defaultFormData,
     page: 1,
     count: 10,
     deleted: false,
@@ -405,7 +412,7 @@ const requestsUndeleted: FC = () => {
     <CustomTable
       formData={formData}
       setFormData={setFormData}
-      filters={filters}
+      filters={setDefaultDataInFilters(filters, defaultFormData)}
       colums={colums}
       apiHooks={apiHooks}
       apiAddHooks={apiAddHooks}

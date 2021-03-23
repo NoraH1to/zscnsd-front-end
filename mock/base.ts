@@ -8,6 +8,7 @@ import {
   roles,
   isps,
   dormBlocks,
+  areas,
 } from '../src/common';
 import update from 'immutability-helper';
 
@@ -286,5 +287,15 @@ export const ispTicketOperateLog = {
   operator: user,
   'status|1': ticketStatus,
   comment: '@cparagraph(0, 30)',
+  ...getCUDTime(),
+};
+
+export const attendance = {
+  'id|+1': 1,
+  'userId|+1': 1,
+  user,
+  signInTime: Random.datetime(),
+  signOutTime: Random.datetime(),
+  'area|1': areas,
   ...getCUDTime(),
 };

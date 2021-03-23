@@ -6,7 +6,7 @@ import {
   ticketStatus,
   ticketLogSortableList,
 } from '@/common';
-import { useInit } from '@/hooks/index';
+import { useInit, useRealLocation } from '@/hooks/index';
 import { ticketFaultMenu, ticketLogList } from '@/api/ticket';
 import {
   Tooltip,
@@ -21,7 +21,10 @@ import {
 } from 'antd';
 import apiInterface from 'api';
 import { find, propEq } from 'ramda';
-import CustomTable, { getRouteCell } from '@/components/CustomTable';
+import CustomTable, {
+  getRouteCell,
+  setDefaultDataInFilters,
+} from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
 
@@ -208,9 +211,10 @@ const expandable: TableProps<apiInterface.TicketLog>['expandable'] = {
   expandedRowClassName: () => 'expand',
 };
 
-const records: FC = () => {
+const Records: FC<{ defaultFormData?: any }> = ({ defaultFormData }) => {
   // 表单数据
   const [formData, setFormData] = useState<apiInterface.TicketLogListQuery>({
+    ...defaultFormData,
     page: 1,
     count: 10,
   });
@@ -225,7 +229,7 @@ const records: FC = () => {
     <CustomTable
       formData={formData}
       setFormData={setFormData}
-      filters={filters}
+      filters={setDefaultDataInFilters(filters, defaultFormData)}
       colums={colums}
       apiHooks={apiHooks}
       onRow={onRow}
@@ -235,4 +239,10 @@ const records: FC = () => {
   );
 };
 
-export default records;
+const _records: FC = () => {
+  const localtion = useRealLocation();
+  const defaultProps = localtion.query;
+  return <Records defaultFormData={defaultProps} />;
+};
+
+export default _records;

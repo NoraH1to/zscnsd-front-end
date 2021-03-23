@@ -141,9 +141,12 @@ const onRow: TableProps<apiInterface.Ticket>['onRow'] = (record) => {
 };
 
 // TODO: 能接受初始参数
-const requestsDeleted: FC = () => {
+const requestsDeleted: FC<{ defaultFormData?: any }> = ({
+  defaultFormData,
+}) => {
   // 表单数据
   const [formData, setFormData] = useState<apiInterface.TicketListQuery>({
+    ...defaultFormData,
     page: 1,
     count: 10,
     deleted: true,

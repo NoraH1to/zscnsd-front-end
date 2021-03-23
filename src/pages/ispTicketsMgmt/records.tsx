@@ -22,6 +22,7 @@ import apiInterface from 'api';
 import { find, propEq } from 'ramda';
 import CustomTable, { getRouteCell } from '@/components/CustomTable';
 import componentData from 'typings';
+import { userSearch } from '@/api/user';
 
 const filters: componentData.PropData[] = [
   {

@@ -213,6 +213,15 @@ declare namespace apiInterface {
     weekday: number;
     area: DormBlock;
   }
+  // 考勤记录
+  interface Attendance extends CUDTime {
+    id: number;
+    userId: Member['id'];
+    user: Member;
+    signInTime: string;
+    signOutTime: string;
+    area: Area;
+  }
 
   // 时间范围
   interface TimeRange {
@@ -241,6 +250,12 @@ declare namespace apiInterface {
   // 分页请求体
   interface RequestPageQuery extends Page, RequestQuery {}
 
+  //查询考勤记录参数
+  interface AttendanceListQuery extends RequestPageQuery, TimeRange {
+    userId?: Attendance['userId'];
+    area?: Attendance['area']['id'];
+  }
+
   // 查询成员惩罚记录参数
   interface MemberPunishmentListQuery extends RequestPageQuery, TimeRange {
     userId?: MemberPunishment['userId'];
@@ -264,6 +279,7 @@ declare namespace apiInterface {
   interface MemberPunishmentDeleteData extends RequestData {
     id: MemberPunishment['id'][];
   }
+
   // 查询成员血条记录参数
   interface MemberHealthListQuery extends RequestPageQuery, TimeRange {
     userId?: MemberHealth['userId'];
@@ -287,6 +303,7 @@ declare namespace apiInterface {
   interface MemberHealthDeleteData extends RequestData {
     id: MemberHealth['id'][];
   }
+
   // 查询移动ONU被占上报参数
   interface ReportChinaMobileOccupiedOnuListQuery
     extends RequestPageQuery,

@@ -115,6 +115,17 @@ export const memberSortableList: apiInterface.Enum[] = [
   },
 ];
 
+export const attendanceSortableList: apiInterface.Enum[] = [
+  {
+    id: 'signInTime',
+    string: '签到时间',
+  },
+  {
+    id: 'signOutTime',
+    string: '签退时间',
+  },
+];
+
 export const roles: apiInterface.Role[] = [
   { id: 0, string: '组织成员' },
   { id: 2, string: '值班组长' },
