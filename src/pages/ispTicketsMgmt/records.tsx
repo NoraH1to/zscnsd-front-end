@@ -145,6 +145,21 @@ const expandable: TableProps<apiInterface.IspTicketLog>['expandable'] = {
             </Typography.Paragraph>
           </Card>
         </Col>
+        <Col span={8}>
+          <Card title="杂项">
+            <Space direction="vertical">
+              <Typography.Text>
+                {`创建时间：${record.createTime}`}
+              </Typography.Text>
+              <Typography.Text>
+                {`更新时间：${record.updateTime}`}
+              </Typography.Text>
+              <Typography.Text>
+                {`删除时间：${record.deleteTime}`}
+              </Typography.Text>
+            </Space>
+          </Card>
+        </Col>
       </Row>
     </>
   ),
