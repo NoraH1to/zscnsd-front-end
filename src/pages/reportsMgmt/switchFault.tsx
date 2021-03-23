@@ -110,6 +110,49 @@ const EditPropData: componentData.PropData[] = [
   },
 ];
 
+const colums: TableColumnProps<apiInterface.ReportSwitchFault>[] = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    width: 70,
+    fixed: 'left',
+  },
+  {
+    title: '上报人姓名-工号',
+    render: getRouteCell<apiInterface.ReportSwitchFault>(
+      (record) =>
+        `${record.user.name}-${record.user.member.workId || '已退出'}`,
+      (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
+    ),
+    width: 100,
+  },
+  {
+    title: '宿舍楼栋',
+    dataIndex: ['dormBlock', 'string'],
+    width: 80,
+  },
+  {
+    title: '宿舍楼层',
+    render: (value, record, index) => `${record.dormFloor} 楼`,
+    width: 80,
+  },
+  {
+    title: '交换机SN码',
+    dataIndex: 'switchSerialNumber',
+    width: 100,
+  },
+  {
+    title: '交换机位置（从上往下）',
+    render: (value, record, index) => `第 ${record.index} 台`,
+    width: 100,
+  },
+  {
+    title: '上报时间',
+    dataIndex: 'createTime',
+    width: 100,
+  },
+];
+
 const switchFault: FC = () => {
   // 表单数据
   const [
@@ -146,50 +189,6 @@ const switchFault: FC = () => {
   const apiMuiltActionDialogHooks = useMuitActionDialog(muitActions, () =>
     apiHooks.setLoading(true),
   );
-
-  const colums: TableColumnProps<apiInterface.ReportSwitchFault>[] = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      width: 70,
-      fixed: 'left',
-    },
-    {
-      title: '上报人姓名-工号',
-      render: getRouteCell<apiInterface.ReportSwitchFault>(
-        (record) =>
-          `${record.user.name}-${record.user.member.workId || '已退出'}`,
-        (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
-        useHistory(),
-      ),
-      width: 100,
-    },
-    {
-      title: '宿舍楼栋',
-      dataIndex: ['dormBlock', 'string'],
-      width: 80,
-    },
-    {
-      title: '宿舍楼层',
-      render: (value, record, index) => `${record.dormFloor} 楼`,
-      width: 80,
-    },
-    {
-      title: '交换机SN码',
-      dataIndex: 'switchSerialNumber',
-      width: 100,
-    },
-    {
-      title: '交换机位置（从上往下）',
-      render: (value, record, index) => `第 ${record.index} 台`,
-      width: 100,
-    },
-    {
-      title: '上报时间',
-      dataIndex: 'createTime',
-      width: 100,
-    },
-  ];
 
   const onRow: TableProps<apiInterface.ReportSwitchFault>['onRow'] = (
     record,

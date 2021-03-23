@@ -22,7 +22,6 @@ import apiInterface from 'api';
 import { find, propEq } from 'ramda';
 import CustomTable, { getRouteCell } from '@/components/CustomTable';
 import componentData from 'typings';
-import { useHistory } from 'umi';
 
 const filters: componentData.PropData[] = [
   {
@@ -55,6 +54,51 @@ const filters: componentData.PropData[] = [
     type: TableFilterType.select,
     name: '工单已删除',
     selectData: ticketDeleted,
+  },
+];
+
+const colums: TableColumnProps<apiInterface.IspTicketLog>[] = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    width: 30,
+    fixed: 'left',
+  },
+  {
+    title: '上报人姓名',
+    dataIndex: ['ispTicket', 'name'],
+    width: 70,
+  },
+  {
+    title: '宿舍楼',
+    dataIndex: ['ispTicket', 'dormBlock', 'string'],
+    width: 80,
+  },
+  {
+    title: '工单状态',
+    render: (value, record, index) => {
+      const status =
+        find<apiInterface.TicketStatus>(propEq('id', record.status.id))(
+          ticketStatus,
+        )?.status || 'default';
+      const text = record.status.string;
+      return <Badge status={status} text={text} />;
+    },
+    width: 50,
+  },
+  {
+    title: '处理人姓名-工号',
+    render: getRouteCell<apiInterface.IspTicketLog>(
+      (record) =>
+        `${record.operator.name}-${record.operator.member?.workId || '已退出'}`,
+      (record) => '/d/repair-requests-mgmt/records', // TODO 路由跳转
+    ),
+    width: 60,
+  },
+  {
+    title: '处理时间',
+    dataIndex: ['createTime'],
+    width: 60,
   },
 ];
 
@@ -114,54 +158,6 @@ const records: FC = () => {
     ispTicketLogList,
     formData,
   );
-
-  const colums: TableColumnProps<apiInterface.IspTicketLog>[] = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      width: 30,
-      fixed: 'left',
-    },
-    {
-      title: '上报人姓名',
-      dataIndex: ['ispTicket', 'name'],
-      width: 70,
-    },
-    {
-      title: '宿舍楼',
-      dataIndex: ['ispTicket', 'dormBlock', 'string'],
-      width: 80,
-    },
-    {
-      title: '工单状态',
-      render: (value, record, index) => {
-        const status =
-          find<apiInterface.TicketStatus>(propEq('id', record.status.id))(
-            ticketStatus,
-          )?.status || 'default';
-        const text = record.status.string;
-        return <Badge status={status} text={text} />;
-      },
-      width: 50,
-    },
-    {
-      title: '处理人姓名-工号',
-      render: getRouteCell<apiInterface.IspTicketLog>(
-        (record) =>
-          `${record.operator.name}-${
-            record.operator.member?.workId || '已退出'
-          }`,
-        (record) => '/d/repair-requests-mgmt/records', // TODO 路由跳转
-        useHistory(),
-      ),
-      width: 60,
-    },
-    {
-      title: '处理时间',
-      dataIndex: ['createTime'],
-      width: 60,
-    },
-  ];
 
   return (
     <CustomTable

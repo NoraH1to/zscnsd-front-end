@@ -107,7 +107,50 @@ const EditPropData: componentData.PropData[] = [
   },
 ];
 
-const switchFault: FC = () => {
+const colums: TableColumnProps<apiInterface.ReportChinaMobileOccupiedOnu>[] = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    width: 70,
+    fixed: 'left',
+  },
+  {
+    title: '上报人姓名-工号',
+    render: getRouteCell<apiInterface.ReportChinaMobileOccupiedOnu>(
+      (record) =>
+        `${record.user.name}-${record.user.member.workId || '已退出'}`,
+      (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
+    ),
+    width: 100,
+  },
+  {
+    title: '原交换机SN码',
+    dataIndex: 'oldSwitchSerialNumber',
+    width: 100,
+  },
+  {
+    title: '原ONU数据',
+    dataIndex: 'oldOnuData',
+    width: 100,
+  },
+  {
+    title: '现交换机SN码',
+    dataIndex: 'newSwitchSerialNumber',
+    width: 100,
+  },
+  {
+    title: '现ONU数据',
+    dataIndex: 'newOnuData',
+    width: 100,
+  },
+  {
+    title: '上报时间',
+    dataIndex: 'createTime',
+    width: 100,
+  },
+];
+
+const chinaMobileOccupiedOnu: FC = () => {
   // 表单数据
   const [
     formData,
@@ -143,50 +186,6 @@ const switchFault: FC = () => {
   const apiMuiltActionDialogHooks = useMuitActionDialog(muitActions, () =>
     apiHooks.setLoading(true),
   );
-
-  const colums: TableColumnProps<apiInterface.ReportChinaMobileOccupiedOnu>[] = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      width: 70,
-      fixed: 'left',
-    },
-    {
-      title: '上报人姓名-工号',
-      render: getRouteCell<apiInterface.ReportChinaMobileOccupiedOnu>(
-        (record) =>
-          `${record.user.name}-${record.user.member.workId || '已退出'}`,
-        (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
-        useHistory(),
-      ),
-      width: 100,
-    },
-    {
-      title: '原交换机SN码',
-      dataIndex: 'oldSwitchSerialNumber',
-      width: 100,
-    },
-    {
-      title: '原ONU数据',
-      dataIndex: 'oldOnuData',
-      width: 100,
-    },
-    {
-      title: '现交换机SN码',
-      dataIndex: 'newSwitchSerialNumber',
-      width: 100,
-    },
-    {
-      title: '现ONU数据',
-      dataIndex: 'newOnuData',
-      width: 100,
-    },
-    {
-      title: '上报时间',
-      dataIndex: 'createTime',
-      width: 100,
-    },
-  ];
 
   const onRow: TableProps<apiInterface.ReportChinaMobileOccupiedOnu>['onRow'] = (
     record,
@@ -258,4 +257,4 @@ const switchFault: FC = () => {
   );
 };
 
-export default switchFault;
+export default chinaMobileOccupiedOnu;

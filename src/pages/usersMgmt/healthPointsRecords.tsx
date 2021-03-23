@@ -1,8 +1,5 @@
 import { FC, useState } from 'react';
-import {
-  memberHealthSortableList,
-  TableFilterType,
-} from '@/common';
+import { memberHealthSortableList, TableFilterType } from '@/common';
 import {
   useApi,
   useDialogForm,
@@ -13,7 +10,6 @@ import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
 import CustomTable, { getRouteCell } from '@/components/CustomTable';
 import componentData from 'typings';
-import { useHistory } from '@umijs/runtime';
 import { userSearch } from '@/api/user';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import {
@@ -121,12 +117,57 @@ const EditPropData: componentData.PropData[] = [
   },
 ];
 
+const colums: TableColumnProps<apiInterface.MemberHealth>[] = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    width: 70,
+    fixed: 'left',
+  },
+  {
+    title: '成员姓名-工号',
+    render: getRouteCell<apiInterface.MemberHealth>(
+      (record) =>
+        `${record.user.name}-${record.user.member.workId || '已退出'}`,
+      (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
+    ),
+    width: 100,
+  },
+  {
+    title: '加血/扣血量',
+    dataIndex: 'value',
+    render: (value, record, index) =>
+      value >= 0 ? (
+        <span style={{ color: '#00ce00' }}>{`+${value}`}</span>
+      ) : (
+        <span style={{ color: '#ff0000' }}>{value}</span>
+      ),
+    width: 80,
+  },
+  {
+    title: '原因',
+    dataIndex: 'reason',
+    width: 80,
+  },
+  {
+    title: '操作人姓名-工号',
+    render: getRouteCell<apiInterface.MemberHealth>(
+      (record) =>
+        `${record.operator.name}-${record.operator.member.workId || '已退出'}`,
+      (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
+    ),
+    width: 100,
+  },
+  {
+    title: '时间',
+    dataIndex: 'createTime',
+    width: 100,
+  },
+];
+
 const healthPointsRecords: FC = () => {
   // 表单数据
-  const [
-    formData,
-    setFormData,
-  ] = useState<apiInterface.MemberHealthListQuery>({
+  const [formData, setFormData] = useState<apiInterface.MemberHealthListQuery>({
     page: 1,
     count: 10,
   });
@@ -157,58 +198,6 @@ const healthPointsRecords: FC = () => {
   const apiMuiltActionDialogHooks = useMuitActionDialog(muitActions, () =>
     apiHooks.setLoading(true),
   );
-
-  const colums: TableColumnProps<apiInterface.MemberHealth>[] = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      width: 70,
-      fixed: 'left',
-    },
-    {
-      title: '成员姓名-工号',
-      render: getRouteCell<apiInterface.MemberHealth>(
-        (record) =>
-          `${record.user.name}-${record.user.member.workId || '已退出'}`,
-        (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
-        useHistory(),
-      ),
-      width: 100,
-    },
-    {
-      title: '加血/扣血量',
-      dataIndex: 'value',
-      render: (value, record, index) =>
-        value >= 0 ? (
-          <span style={{ color: '#00ce00' }}>{`+${value}`}</span>
-        ) : (
-          <span style={{ color: '#ff0000' }}>{value}</span>
-        ),
-      width: 80,
-    },
-    {
-      title: '原因',
-      dataIndex: 'reason',
-      width: 80,
-    },
-    {
-      title: '操作人姓名-工号',
-      render: getRouteCell<apiInterface.MemberHealth>(
-        (record) =>
-          `${record.operator.name}-${
-            record.operator.member.workId || '已退出'
-          }`,
-        (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
-        useHistory(),
-      ),
-      width: 100,
-    },
-    {
-      title: '时间',
-      dataIndex: 'createTime',
-      width: 100,
-    },
-  ];
 
   const onRow: TableProps<apiInterface.MemberHealth>['onRow'] = (record) => {
     return {

@@ -23,6 +23,7 @@ import apiInterface from 'api';
 import componentData from 'typings';
 import { useDialogForm } from '@/hooks';
 import { History } from '@umijs/runtime';
+import { history } from 'umi';
 
 interface Props<T extends object> {
   formData: any;
@@ -109,11 +110,10 @@ export const useTableSort = (
 export const getRouteCell = <T,>(
   text: (record: T) => string,
   target: (record: T) => string,
-  histroy: History,
 ): TableColumnProps<T>['render'] => {
   return (value, record, index) => {
     return (
-      <Typography.Link onClick={() => histroy.push(target(record))}>
+      <Typography.Link onClick={() => history.push(target(record))}>
         {text(record)}
       </Typography.Link>
     );

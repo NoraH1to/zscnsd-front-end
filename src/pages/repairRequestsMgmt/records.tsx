@@ -23,7 +23,6 @@ import apiInterface from 'api';
 import { find, propEq } from 'ramda';
 import CustomTable, { getRouteCell } from '@/components/CustomTable';
 import componentData from 'typings';
-import { useHistory } from 'umi';
 import { userSearch } from '@/api/user';
 
 const filters: componentData.PropData[] = [
@@ -83,6 +82,54 @@ const filters: componentData.PropData[] = [
   },
 ];
 
+const colums: TableColumnProps<apiInterface.TicketLog>[] = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    width: 30,
+    fixed: 'left',
+  },
+  {
+    title: '报修错误类型',
+    dataIndex: ['ticket', 'faultType', 'content'],
+    width: 50,
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (value) => (
+      <Tooltip placement="topLeft" title={value}>
+        {value}
+      </Tooltip>
+    ),
+  },
+  {
+    title: '报修状态',
+    render: (value, record, index) => {
+      const status =
+        find<apiInterface.TicketStatus>(propEq('id', record.status.id))(
+          ticketStatus,
+        )?.status || 'default';
+      const text = record.status.string;
+      return <Badge status={status} text={text} />;
+    },
+    width: 50,
+  },
+  {
+    title: '处理人姓名-工号',
+    render: getRouteCell<apiInterface.TicketLog>(
+      (record) =>
+        `${record.operator.name}-${record.operator.member?.workId || '已退出'}`,
+      (record) => '/d/repair-requests-mgmt/records', // TODO 路由跳转
+    ),
+    width: 60,
+  },
+  {
+    title: '处理时间',
+    dataIndex: ['createTime'],
+    width: 60,
+  },
+];
+
 const onRow: TableProps<apiInterface.TicketLog>['onRow'] = (record) => {
   return {
     onClick: (event) => {
@@ -112,13 +159,15 @@ const expandable: TableProps<apiInterface.TicketLog>['expandable'] = {
                 </Typography.Text>
               </Typography.Text>
               <Typography.Text
-                  copyable={{ text: record.ticket.user.networkAccount }}
-                >
-                  {`宽带账号：${record.ticket.user.networkAccount}`}
-                </Typography.Text>
-                <Typography.Text copyable={{ text: record.ticket.user.telephone }}>
-                  {`手机号：${record.ticket.user.telephone}`}
-                </Typography.Text>
+                copyable={{ text: record.ticket.user.networkAccount }}
+              >
+                {`宽带账号：${record.ticket.user.networkAccount}`}
+              </Typography.Text>
+              <Typography.Text
+                copyable={{ text: record.ticket.user.telephone }}
+              >
+                {`手机号：${record.ticket.user.telephone}`}
+              </Typography.Text>
             </Space>
           </Card>
         </Col>
@@ -150,57 +199,6 @@ const records: FC = () => {
     ticketLogList,
     formData,
   );
-
-  const colums: TableColumnProps<apiInterface.TicketLog>[] = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      width: 30,
-      fixed: 'left',
-    },
-    {
-      title: '报修错误类型',
-      dataIndex: ['ticket', 'faultType', 'content'],
-      width: 50,
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (value) => (
-        <Tooltip placement="topLeft" title={value}>
-          {value}
-        </Tooltip>
-      ),
-    },
-    {
-      title: '报修状态',
-      render: (value, record, index) => {
-        const status =
-          find<apiInterface.TicketStatus>(propEq('id', record.status.id))(
-            ticketStatus,
-          )?.status || 'default';
-        const text = record.status.string;
-        return <Badge status={status} text={text} />;
-      },
-      width: 50,
-    },
-    {
-      title: '处理人姓名-工号',
-      render: getRouteCell<apiInterface.TicketLog>(
-        (record) =>
-          `${record.operator.name}-${
-            record.operator.member?.workId || '已退出'
-          }`,
-        (record) => '/d/repair-requests-mgmt/records', // TODO 路由跳转
-        useHistory(),
-      ),
-      width: 60,
-    },
-    {
-      title: '处理时间',
-      dataIndex: ['createTime'],
-      width: 60,
-    },
-  ];
 
   return (
     <CustomTable

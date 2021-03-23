@@ -125,6 +125,51 @@ const EditPropData: componentData.PropData[] = [
   },
 ];
 
+const colums: TableColumnProps<apiInterface.MemberPunishment>[] = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    width: 70,
+    fixed: 'left',
+  },
+  {
+    title: '成员姓名-工号',
+    render: getRouteCell<apiInterface.MemberPunishment>(
+      (record) =>
+        `${record.user.name}-${record.user.member.workId || '已退出'}`,
+      (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
+    ),
+    width: 100,
+  },
+  {
+    title: '处罚星级',
+    dataIndex: 'value',
+    render: (value, record, index) => (
+      <span>{find((item) => value == item.id, punishments)?.string}</span>
+    ),
+    width: 80,
+  },
+  {
+    title: '原因',
+    dataIndex: 'reason',
+    width: 80,
+  },
+  {
+    title: '操作人姓名-工号',
+    render: getRouteCell<apiInterface.MemberPunishment>(
+      (record) =>
+        `${record.operator.name}-${record.operator.member.workId || '已退出'}`,
+      (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
+    ),
+    width: 100,
+  },
+  {
+    title: '时间',
+    dataIndex: 'createTime',
+    width: 100,
+  },
+];
+
 const punishRecords: FC = () => {
   // 表单数据
   const [
@@ -161,55 +206,6 @@ const punishRecords: FC = () => {
   const apiMuiltActionDialogHooks = useMuitActionDialog(muitActions, () =>
     apiHooks.setLoading(true),
   );
-
-  const colums: TableColumnProps<apiInterface.MemberPunishment>[] = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      width: 70,
-      fixed: 'left',
-    },
-    {
-      title: '成员姓名-工号',
-      render: getRouteCell<apiInterface.MemberPunishment>(
-        (record) =>
-          `${record.user.name}-${record.user.member.workId || '已退出'}`,
-        (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
-        useHistory(),
-      ),
-      width: 100,
-    },
-    {
-      title: '处罚星级',
-      dataIndex: 'value',
-      render: (value, record, index) => (
-        <span>{find((item) => value == item.id, punishments)?.string}</span>
-      ),
-      width: 80,
-    },
-    {
-      title: '原因',
-      dataIndex: 'reason',
-      width: 80,
-    },
-    {
-      title: '操作人姓名-工号',
-      render: getRouteCell<apiInterface.MemberPunishment>(
-        (record) =>
-          `${record.operator.name}-${
-            record.operator.member.workId || '已退出'
-          }`,
-        (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
-        useHistory(),
-      ),
-      width: 100,
-    },
-    {
-      title: '时间',
-      dataIndex: 'createTime',
-      width: 100,
-    },
-  ];
 
   const onRow: TableProps<apiInterface.MemberPunishment>['onRow'] = (
     record,

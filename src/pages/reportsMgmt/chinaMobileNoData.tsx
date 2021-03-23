@@ -92,7 +92,45 @@ const EditPropData: componentData.PropData[] = [
   },
 ];
 
-const switchFault: FC = () => {
+const colums: TableColumnProps<apiInterface.ReportChinaMobileNoData>[] = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    width: 70,
+    fixed: 'left',
+  },
+  {
+    title: '上报人姓名-工号',
+    render: getRouteCell<apiInterface.ReportChinaMobileNoData>(
+      (record) =>
+        `${record.user.name}-${record.user.member.workId || '已退出'}`,
+      (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
+    ),
+    width: 100,
+  },
+  {
+    title: '用户宽带账号',
+    dataIndex: 'networkAccount',
+    width: 80,
+  },
+  {
+    title: '交换机SN码',
+    dataIndex: 'switchSerialNumber',
+    width: 100,
+  },
+  {
+    title: 'ONU数据',
+    dataIndex: 'onuData',
+    width: 100,
+  },
+  {
+    title: '上报时间',
+    dataIndex: 'createTime',
+    width: 100,
+  },
+];
+
+const chinaMobileNoData: FC = () => {
   // 表单数据
   const [
     formData,
@@ -128,45 +166,6 @@ const switchFault: FC = () => {
   const apiMuiltActionDialogHooks = useMuitActionDialog(muitActions, () =>
     apiHooks.setLoading(true),
   );
-
-  const colums: TableColumnProps<apiInterface.ReportChinaMobileNoData>[] = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      width: 70,
-      fixed: 'left',
-    },
-    {
-      title: '上报人姓名-工号',
-      render: getRouteCell<apiInterface.ReportChinaMobileNoData>(
-        (record) =>
-          `${record.user.name}-${record.user.member.workId || '已退出'}`,
-        (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
-        useHistory(),
-      ),
-      width: 100,
-    },
-    {
-      title: '用户宽带账号',
-      dataIndex: 'networkAccount',
-      width: 80,
-    },
-    {
-      title: '交换机SN码',
-      dataIndex: 'switchSerialNumber',
-      width: 100,
-    },
-    {
-      title: 'ONU数据',
-      dataIndex: 'onuData',
-      width: 100,
-    },
-    {
-      title: '上报时间',
-      dataIndex: 'createTime',
-      width: 100,
-    },
-  ];
 
   const onRow: TableProps<apiInterface.ReportChinaMobileNoData>['onRow'] = (
     record,
@@ -237,4 +236,4 @@ const switchFault: FC = () => {
   );
 };
 
-export default switchFault;
+export default chinaMobileNoData;

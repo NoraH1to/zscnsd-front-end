@@ -36,7 +36,6 @@ import apiInterface from 'api';
 import { find, propEq } from 'ramda';
 import CustomTable, { getRouteCell } from '@/components/CustomTable';
 import componentData from 'typings';
-import { useHistory } from '@umijs/runtime';
 import { userSearch } from '@/api/user';
 import {
   DeleteOutlined,
@@ -182,6 +181,61 @@ const OperatePropData: componentData.PropData[] = [
   },
 ];
 
+const colums: TableColumnProps<apiInterface.Ticket>[] = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    width: 70,
+    fixed: 'left',
+  },
+  {
+    title: '宿舍楼',
+    dataIndex: ['user', 'dormBlock', 'string'],
+    width: 80,
+  },
+  {
+    title: '报修状态',
+    render: (value, record, index) => {
+      const status =
+        find<apiInterface.TicketStatus>(propEq('id', record.status.id))(
+          ticketStatus,
+        )?.status || 'default';
+      const text = record.status.string;
+      return <Badge status={status} text={text} />;
+    },
+    width: 80,
+  },
+  {
+    title: '报修错误类型',
+    dataIndex: ['faultType', 'content'],
+    width: 80,
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (value) => (
+      <Tooltip placement="topLeft" title={value}>
+        {value}
+      </Tooltip>
+    ),
+  },
+  {
+    title: '最后处理人姓名-工号',
+    render: getRouteCell<apiInterface.Ticket>(
+      (record) =>
+        `${record.lastOperateLog.operator.name}-${
+          record.lastOperateLog.operator.member?.workId || '已退出'
+        }`,
+      (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
+    ),
+    width: 100,
+  },
+  {
+    title: '最后处理时间',
+    dataIndex: ['lastOperateLog', 'updateTime'],
+    width: 100,
+  },
+];
+
 const onRow: TableProps<apiInterface.Ticket>['onRow'] = (record) => {
   return {
     onClick: (event) => {
@@ -190,6 +244,7 @@ const onRow: TableProps<apiInterface.Ticket>['onRow'] = (record) => {
   };
 };
 
+// TODO: 能接受初始参数
 const requestsUndeleted: FC = () => {
   // 表单数据
   const [formData, setFormData] = useState<apiInterface.TicketListQuery>({
@@ -216,73 +271,11 @@ const requestsUndeleted: FC = () => {
       propData: [],
       api: ticketDelete,
     },
-    // {
-    //   key: 'test',
-    //   value: '测试',
-    //   propData: [{ name: '测试', key: 'test', type: TableFilterType.str }],
-    //   api: ticketDelete,
-    // },
   ];
 
   const apiMuiltActionDialogHooks = useMuitActionDialog(muitActions, () =>
     apiHooks.setLoading(true),
   );
-
-  const colums: TableColumnProps<apiInterface.Ticket>[] = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      width: 70,
-      fixed: 'left',
-    },
-    {
-      title: '宿舍楼',
-      dataIndex: ['user', 'dormBlock', 'string'],
-      width: 80,
-    },
-    {
-      title: '报修状态',
-      render: (value, record, index) => {
-        const status =
-          find<apiInterface.TicketStatus>(propEq('id', record.status.id))(
-            ticketStatus,
-          )?.status || 'default';
-        const text = record.status.string;
-        return <Badge status={status} text={text} />;
-      },
-      width: 80,
-    },
-    {
-      title: '报修错误类型',
-      dataIndex: ['faultType', 'content'],
-      width: 80,
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (value) => (
-        <Tooltip placement="topLeft" title={value}>
-          {value}
-        </Tooltip>
-      ),
-    },
-    {
-      title: '最后处理人姓名-工号',
-      render: getRouteCell<apiInterface.Ticket>(
-        (record) =>
-          `${record.lastOperateLog.operator.name}-${
-            record.lastOperateLog.operator.member?.workId || '已退出'
-          }`,
-        (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
-        useHistory(),
-      ),
-      width: 100,
-    },
-    {
-      title: '最后处理时间',
-      dataIndex: ['lastOperateLog', 'updateTime'],
-      width: 100,
-    },
-  ];
 
   const actions: componentData.CustomTableAction[] = [
     {

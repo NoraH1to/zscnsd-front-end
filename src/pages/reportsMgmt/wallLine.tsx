@@ -110,7 +110,50 @@ const EditPropData: componentData.PropData[] = [
   },
 ];
 
-const switchFault: FC = () => {
+const colums: TableColumnProps<apiInterface.ReportWallLine>[] = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    width: 70,
+    fixed: 'left',
+  },
+  {
+    title: '上报人姓名-工号',
+    render: getRouteCell<apiInterface.ReportWallLine>(
+      (record) =>
+        `${record.user.name}-${record.user.member.workId || '已退出'}`,
+      (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
+    ),
+    width: 100,
+  },
+  {
+    title: '宿舍楼栋',
+    dataIndex: ['dormBlock', 'string'],
+    width: 80,
+  },
+  {
+    title: '宿舍房间号',
+    dataIndex: 'dormRoom',
+    width: 80,
+  },
+  {
+    title: '用户姓名',
+    dataIndex: 'name',
+    width: 100,
+  },
+  {
+    title: '用户手机号',
+    dataIndex: 'telephone',
+    width: 100,
+  },
+  {
+    title: '上报时间',
+    dataIndex: 'createTime',
+    width: 100,
+  },
+];
+
+const wallLine: FC = () => {
   // 表单数据
   const [
     formData,
@@ -146,50 +189,6 @@ const switchFault: FC = () => {
   const apiMuiltActionDialogHooks = useMuitActionDialog(muitActions, () =>
     apiHooks.setLoading(true),
   );
-
-  const colums: TableColumnProps<apiInterface.ReportWallLine>[] = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      width: 70,
-      fixed: 'left',
-    },
-    {
-      title: '上报人姓名-工号',
-      render: getRouteCell<apiInterface.ReportWallLine>(
-        (record) =>
-          `${record.user.name}-${record.user.member.workId || '已退出'}`,
-        (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
-        useHistory(),
-      ),
-      width: 100,
-    },
-    {
-      title: '宿舍楼栋',
-      dataIndex: ['dormBlock', 'string'],
-      width: 80,
-    },
-    {
-      title: '宿舍房间号',
-      dataIndex: 'dormRoom',
-      width: 80,
-    },
-    {
-      title: '用户姓名',
-      dataIndex: 'name',
-      width: 100,
-    },
-    {
-      title: '用户手机号',
-      dataIndex: 'telephone',
-      width: 100,
-    },
-    {
-      title: '上报时间',
-      dataIndex: 'createTime',
-      width: 100,
-    },
-  ];
 
   const onRow: TableProps<apiInterface.ReportWallLine>['onRow'] = (record) => {
     return {
@@ -259,4 +258,4 @@ const switchFault: FC = () => {
   );
 };
 
-export default switchFault;
+export default wallLine;
