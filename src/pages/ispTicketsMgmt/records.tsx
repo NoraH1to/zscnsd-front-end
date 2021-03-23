@@ -9,7 +9,6 @@ import {
 import { useInit } from '@/hooks/index';
 import { ispTicketLogList } from '@/api/ispTicket';
 import {
-  Tooltip,
   TableColumnProps,
   Badge,
   TableProps,
@@ -24,7 +23,6 @@ import { find, propEq } from 'ramda';
 import CustomTable, { getRouteCell } from '@/components/CustomTable';
 import componentData from 'typings';
 import { useHistory } from 'umi';
-import { userSearch } from '@/api/user';
 
 const filters: componentData.PropData[] = [
   {
