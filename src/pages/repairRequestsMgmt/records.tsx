@@ -62,8 +62,14 @@ const filters: componentData.PropData[] = [
   },
   {
     key: 'operatorId',
-    type: TableFilterType.number,
-    name: '处理人用户ID',
+    type: TableFilterType.selectSearch,
+    name: '处理人',
+    selectData: userSearch,
+    holder: '姓名/学号/工号',
+    searchOption: {
+      keyProp: 'id',
+      labelProp: 'name',
+    },
   },
   {
     key: 'timeRange',
