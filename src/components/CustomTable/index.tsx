@@ -113,7 +113,12 @@ export const getRouteCell = <T,>(
 ): TableColumnProps<T>['render'] => {
   return (value, record, index) => {
     return (
-      <Typography.Link onClick={() => history.push(target(record))}>
+      <Typography.Link
+        onClick={(e) => {
+          history.push(target(record));
+          e.stopPropagation();
+        }}
+      >
         {text(record)}
       </Typography.Link>
     );
