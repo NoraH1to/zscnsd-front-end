@@ -9,6 +9,8 @@ import {
   isps,
   dormBlocks,
   areas,
+  attendanceChangeType,
+  attendanceChangeStatus,
 } from '../src/common';
 import update from 'immutability-helper';
 
@@ -297,5 +299,21 @@ export const attendance = {
   signInTime: Random.datetime(),
   signOutTime: Random.datetime(),
   'area|1': areas,
+  ...getCUDTime(),
+};
+
+export const attendanceChangeRequest = {
+  'id|+1': 1,
+  'userId|+1': 1,
+  user,
+  'type|1': attendanceChangeType,
+  date: Random.datetime(),
+  changeDate: Random.datetime(),
+  'status|1': attendanceChangeStatus,
+  reason: Random.ctitle(),
+  'area|1': areas,
+  'operatorId|+1': 1,
+  operateTime: Random.datetime(),
+  operator: user,
   ...getCUDTime(),
 };

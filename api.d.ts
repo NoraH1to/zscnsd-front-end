@@ -44,6 +44,9 @@ declare namespace apiInterface {
     id: number | string;
     string: string;
   }
+  interface BadgeStatus {
+    status: BadgeProps['status'];
+  }
   // 运营商枚举
   interface Isp extends Enum {}
   // 宿舍楼栋枚举
@@ -54,11 +57,15 @@ declare namespace apiInterface {
   interface Area extends Enum {}
   // 报修工单状态枚举
   interface TicketStatus extends Enum {}
-  interface TicketStatusExtra extends TicketStatus {
-    status: BadgeProps['status'];
-  }
+  interface TicketStatusExtra extends TicketStatus, BadgeStatus {}
   // 删除状态枚举
   interface TicketDeleted extends Enum {}
+  // 考勤变动申请类型枚举
+  interface AttendanceChangeType extends Enum {}
+  interface AttendanceChangeTypeExtra extends Enum, BadgeStatus {}
+  // 考勤变动申请状态枚举
+  interface AttendanceChangeStatus extends Enum {}
+  interface AttendanceChangeStatusExtra extends Enum, BadgeStatus {}
   // 报修工单故障错误类型
   interface TicketFaultType extends CUDTime {
     id: number;
@@ -223,6 +230,21 @@ declare namespace apiInterface {
     signOutTime: string;
     area: Area;
   }
+  // 考勤变动申请
+  interface AttendanceChange extends CUDTime {
+    id: number;
+    userId: Member['id'];
+    user: Member;
+    type: AttendanceChangeType;
+    date: string;
+    changeDate: string;
+    status: AttendanceChangeStatus;
+    reason: string;
+    area: Attendance['area'];
+    operatorId: Member['id'];
+    operateTime: string;
+    operator: Member;
+  }
 
   // 时间范围
   interface TimeRange {
@@ -250,6 +272,44 @@ declare namespace apiInterface {
   }
   // 分页请求体
   interface RequestPageQuery extends Page, RequestQuery {}
+
+  // 查询考勤变动申请参数
+  interface AttendanceChangeListQuery extends RequestPageQuery, TimeRange {
+    userId?: AttendanceChange['userId'];
+    type?: AttendanceChange['type']['id'];
+    status?: AttendanceChange['status']['id'];
+    operatorId?: AttendanceChange['operatorId'];
+  }
+  // 增加考勤变动申请请求体
+  interface AttendanceChangeAddAdminData extends RequestData {
+    userId: AttendanceChange['userId'];
+    type: AttendanceChange['type']['id'];
+    date: AttendanceChange['date'];
+    changeDate?: AttendanceChange['changeDate'];
+    status: AttendanceChange['status']['id'];
+    area?: AttendanceChange['area']['id'];
+    reason: AttendanceChange['reason'];
+  }
+  // 修改考勤变动申请请求体
+  interface AttendanceChangeEditAdminData extends RequestData {
+    id: AttendanceChange['id'];
+    userId: AttendanceChange['userId'];
+    type: AttendanceChange['type']['id'];
+    date: AttendanceChange['date'];
+    changeDate?: AttendanceChange['changeDate'];
+    status: AttendanceChange['status']['id'];
+    area?: AttendanceChange['area']['id'];
+    reason: AttendanceChange['reason'];
+  }
+  // 删除考勤变动申请请求体
+  interface AttendanceChangeDeleteData extends RequestData {
+    id: AttendanceChange['id'][];
+  }
+  // 处理考勤变动申请请求体
+  interface AttendanceChangeOperateData extends RequestData {
+    id: AttendanceChange['id'][];
+    status: AttendanceChange['status']['id'];
+  }
 
   //查询考勤记录参数
   interface AttendanceListQuery extends RequestPageQuery, TimeRange {

@@ -127,6 +127,17 @@ export const attendanceSortableList: apiInterface.Enum[] = [
   },
 ];
 
+export const attendanceChangeSortableList: apiInterface.Enum[] = [
+  {
+    id: 'createTime',
+    string: '申请时间',
+  },
+  {
+    id: 'operateTime',
+    string: '处理时间',
+  },
+];
+
 export const roles: apiInterface.Role[] = [
   { id: 0, string: '组织成员' },
   { id: 2, string: '值班组长' },
