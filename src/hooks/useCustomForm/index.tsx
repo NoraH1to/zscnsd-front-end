@@ -214,7 +214,7 @@ const useCustomForm = (
         if (value && value._isAMomentObject) {
           changeValues = update(changeValues, {
             [key]: {
-              $set: value.format('YYYY-MM-DD hh:mm:ss'),
+              $set: value.format('YYYY-MM-DD HH:mm:ss'),
             },
           });
         }
