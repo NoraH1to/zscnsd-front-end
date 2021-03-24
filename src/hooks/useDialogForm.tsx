@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 import update from 'immutability-helper';
 import useApi from './useApi';
 import componentData from 'typings';
+import { forEachObjIndexed } from 'ramda';
+import moment from 'moment';
 
 const useDialogForm = <P,>(
   api: apiInterface.Api<P>,
@@ -32,12 +34,7 @@ const useDialogForm = <P,>(
     Object.keys(errorData || {}).length == 0 && setVisible(false);
   }, [data, errorData]);
 
-  const {
-    form,
-    validatedContainer,
-    validateFields,
-    formRef,
-  } = useCustomForm(
+  const { form, validatedContainer, validateFields, formRef } = useCustomForm(
     propData,
     (newFormData) => {
       setFormData(update(formData, { $merge: newFormData }));
@@ -48,8 +45,15 @@ const useDialogForm = <P,>(
     },
   );
 
-  const setForm = <T,>(data: T) => {
+  const setForm = <T,>(data: T | any) => {
     setFormData(update(formData, { $merge: data }));
+    // 特殊处理日期字符串
+    forEachObjIndexed((value, key, obj) => {
+      const _date = moment(value, 'YYYY-MM-DD HH:mm:ss', true);
+      if (_date.isValid()) {
+        data[key] = _date;
+      }
+    }, data);
     formRef.setFieldsValue(data);
   };
 
