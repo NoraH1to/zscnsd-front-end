@@ -32,6 +32,8 @@ const useMuitActionDialog = (
 
   const {
     form,
+    validateFields,
+    validatedContainer,
     setPropData,
     formRef,
   } = useCustomForm(currentAction?.propData || [], (_formData) =>
@@ -43,7 +45,7 @@ const useMuitActionDialog = (
     formData,
     () => {
       setVisible(false);
-      onSubmit()
+      onSubmit();
     },
   );
 
@@ -59,8 +61,12 @@ const useMuitActionDialog = (
       okText="确定"
       cancelText="取消"
       onCancel={() => setVisible(false)}
-      onOk={() => {
+      onOk={async () => {
         if (!currentAction) return setErrMsg('必须选择类型');
+        if (currentAction.propData.length > 0) {
+          await validateFields();
+          if (!validatedContainer.validated) return;
+        }
         setParams(formData);
         setLoading(true);
       }}
