@@ -12,7 +12,7 @@ const TicketStatusComponent: FC<{
     | apiInterface.IspTicketLog;
 }> = ({ ticket }) => {
   const status =
-    find<apiInterface.TicketStatus>(propEq('id', ticket.status.id))(
+    find<apiInterface.TicketStatusExtra>(propEq('id', ticket.status.id))(
       ticketStatus,
     )?.status || 'default';
   const text = ticket.status.string;

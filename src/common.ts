@@ -8,7 +8,7 @@ export enum TableFilterType {
   selectSearch,
 }
 
-export const ticketStatus: apiInterface.TicketStatus[] = [
+export const ticketStatus: apiInterface.TicketStatusExtra[] = [
   { id: 0, string: '待处理', status: 'error' },
   { id: 1, string: '改日修', status: 'warning' },
   { id: 2, string: '已上报', status: 'processing' },

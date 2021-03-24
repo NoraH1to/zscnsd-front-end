@@ -53,7 +53,8 @@ declare namespace apiInterface {
   // 片区枚举
   interface Area extends Enum {}
   // 报修工单状态枚举
-  interface TicketStatus extends Enum {
+  interface TicketStatus extends Enum {}
+  interface TicketStatusExtra extends TicketStatus {
     status: BadgeProps['status'];
   }
   // 删除状态枚举
