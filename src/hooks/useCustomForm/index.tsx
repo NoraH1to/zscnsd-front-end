@@ -6,6 +6,7 @@ import update from 'immutability-helper';
 import './index.scss';
 import { FC, useEffect, useState } from 'react';
 import componentData from 'typings';
+import moment from 'moment';
 
 const _Input: FC<{ item: componentData.PropData }> = (props) => {
   const { item } = props;
@@ -30,6 +31,20 @@ const _DateRangePicker: FC<{ item: componentData.PropData }> = (props) => {
   return (
     <BaseFormItem item={item}>
       <DatePicker.RangePicker></DatePicker.RangePicker>
+    </BaseFormItem>
+  );
+};
+
+const _DatePicker: FC<{ item: componentData.PropData }> = (props) => {
+  const { item } = props;
+  return (
+    <BaseFormItem item={item}>
+      <DatePicker
+        showTime={{
+          format: 'HH:mm',
+          defaultValue: moment('00:00:00', 'HH:mm'),
+        }}
+      ></DatePicker>
     </BaseFormItem>
   );
 };
@@ -165,6 +180,8 @@ const useCustomForm = (
         return <_InputNumber key={item.key} item={item} />;
       case TableFilterType.timeRange:
         return <_DateRangePicker key={item.key} item={item} />;
+      case TableFilterType.time:
+        return <_DatePicker key={item.key} item={item} />;
       case TableFilterType.select:
         return <_Select key={item.key} item={item} />;
       case TableFilterType.selectSearch:
@@ -194,7 +211,15 @@ const useCustomForm = (
     }
     function doit() {
       forEachObjIndexed((value: any, key: any, obj: any) => {
+        if (value && value._isAMomentObject) {
+          changeValues = update(changeValues, {
+            [key]: {
+              $set: value.format('YYYY-MM-DD hh:mm:ss'),
+            },
+          });
+        }
         if (
+          value &&
           type(value) === 'Array' &&
           value.length === 2 &&
           value[0]._isAMomentObject
