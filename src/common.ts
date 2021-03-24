@@ -4,6 +4,7 @@ export enum TableFilterType {
   str,
   number,
   timeRange,
+  time,
   select,
   selectSearch,
 }
@@ -242,8 +243,15 @@ export const punishments: apiInterface.Enum[] = [
 export const punishmentsPure: number[] = [1, 2, 3];
 
 // 值班变动申请类型
-export const attendanceChangeRequestType = [
+export const attendanceChangeType: apiInterface.AttendanceChangeType[] = [
   { id: 0, string: '请假' },
   { id: 1, string: '蹭班' },
   { id: 2, string: '换班' },
+];
+
+// 值班变动申请状态
+export const attendanceChangeStatus: apiInterface.AttendanceChangeStatusExtra[] = [
+  { id: 0, string: '待处理', status: 'default' },
+  { id: 1, string: '已通过', status: 'success' },
+  { id: 2, string: '未通过', status: 'warning' },
 ];
