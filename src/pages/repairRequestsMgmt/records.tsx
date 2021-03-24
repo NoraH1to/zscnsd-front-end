@@ -11,7 +11,6 @@ import { ticketFaultMenu, ticketLogList } from '@/api/ticket';
 import {
   Tooltip,
   TableColumnProps,
-  Badge,
   TableProps,
   Row,
   Col,
@@ -20,13 +19,13 @@ import {
   Typography,
 } from 'antd';
 import apiInterface from 'api';
-import { find, propEq } from 'ramda';
 import CustomTable, {
   getRouteCell,
   setDefaultDataInFilters,
 } from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
+import TicketStatusComponent from '@/components/ticketStatus';
 
 const filters: componentData.PropData[] = [
   {
@@ -113,14 +112,7 @@ const colums: TableColumnProps<apiInterface.TicketLog>[] = [
   },
   {
     title: '报修状态',
-    render: (value, record, index) => {
-      const status =
-        find<apiInterface.TicketStatus>(propEq('id', record.status.id))(
-          ticketStatus,
-        )?.status || 'default';
-      const text = record.status.string;
-      return <Badge status={status} text={text} />;
-    },
+    render: (value, record, index) => <TicketStatusComponent ticket={record} />,
     width: 50,
   },
   {

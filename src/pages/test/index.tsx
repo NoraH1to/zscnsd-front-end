@@ -15,11 +15,11 @@ import {
 } from '@/api/ticket';
 import { useCustomForm } from '@/hooks';
 import update from 'immutability-helper';
-import { Button, Tooltip, Table, TableColumnProps, Badge } from 'antd';
+import { Button, Tooltip, Table, TableColumnProps } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import BaseTable from '@/components/BaseTable';
 import apiInterface from 'api';
-import { find, propEq } from 'ramda';
+import TicketStatusComponent from '@/components/ticketStatus';
 
 const filters: componentData.PropData[] = [
   {
@@ -143,14 +143,7 @@ const colums: TableColumnProps<apiInterface.Ticket>[] = [
   },
   {
     title: '报修状态',
-    render: (value, record, index) => {
-      const status =
-        find<apiInterface.TicketStatus>(propEq('id', record.status.id))(
-          ticketStatus,
-        )?.status || 'default';
-      const text = record.status.string;
-      return <Badge status={status} text={text} />;
-    },
+    render: (value, record, index) => <TicketStatusComponent ticket={record} />,
     width: 100,
   },
   {
