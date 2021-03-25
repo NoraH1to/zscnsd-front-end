@@ -19,7 +19,7 @@ import {
   Button,
 } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { getRouteCell } from '@/components/CustomTable';
+import CustomTable, { goMemberCenterCell } from '@/components/CustomTable';
 import componentData from 'typings';
 import { RollbackOutlined } from '@ant-design/icons';
 import TicketStatusComponent from '@/components/ticketStatus';
@@ -86,14 +86,9 @@ const colums: TableColumnProps<apiInterface.IspTicket>[] = [
   },
   {
     title: '最后处理人姓名-工号',
-    render: getRouteCell<apiInterface.IspTicket>(
-      (record) =>
-        `${record.lastOperateLog.operator.name}-${
-          record.lastOperateLog.operator.member?.workId || '已退出'
-        }`,
-      (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
-    ),
-    width: 100,
+    render: (value, record, index) =>
+      goMemberCenterCell(record.lastOperateLog.operator),
+    width: 170,
   },
   {
     title: '删除时间',

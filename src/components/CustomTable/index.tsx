@@ -22,7 +22,6 @@ import BaseTable from '@/components/BaseTable';
 import apiInterface from 'api';
 import componentData from 'typings';
 import { useDialogForm } from '@/hooks';
-import { History } from '@umijs/runtime';
 import { history } from 'umi';
 import { TableFilterType } from '@/common';
 import moment from 'moment';
@@ -135,23 +134,22 @@ export const useTableSort = (
   };
 };
 
-export const getRouteCell = <T,>(
-  text: (record: T) => string,
-  target: (record: T) => string,
-): TableColumnProps<T>['render'] => {
-  return (value, record, index) => {
-    return (
-      <Typography.Link
-        onClick={(e) => {
-          history.push(target(record));
-          e.stopPropagation();
-        }}
-      >
-        {text(record)}
-      </Typography.Link>
-    );
-  };
-};
+export const goUserCenterCell = (user: apiInterface.User) =>
+  getRouteCell(user.name, '/');
+
+export const goMemberCenterCell = (user: apiInterface.Member) =>
+  getRouteCell(`${user.name}-${user.member?.workId || '已退出'}`, '/');
+
+export const getRouteCell = (text: string, target: string): ReactElement => (
+  <Typography.Link
+    onClick={(e) => {
+      history.push(target);
+      e.stopPropagation();
+    }}
+  >
+    {text}
+  </Typography.Link>
+);
 
 const CustomTable = <T extends object>(props: Props<T>) => {
   const {
@@ -255,7 +253,7 @@ const CustomTable = <T extends object>(props: Props<T>) => {
     ? [
         {
           title: '操作',
-          width: 80,
+          width: 130,
           fixed: 'right',
           render: (value, record, index) => {
             const outMenu = actions.slice(0, 2);
@@ -381,7 +379,13 @@ const CustomTable = <T extends object>(props: Props<T>) => {
         }
         Table={
           <Table
-            scroll={{ x: 1350 }}
+            scroll={{
+              x: reduce(
+                (acc, value) => acc + parseInt(value.width?.toString() || '0'),
+                0,
+                (colums || []).concat(otherCol),
+              ),
+            }}
             loading={loading}
             dataSource={data.data?.content}
             columns={(colums || []).concat(otherCol)}

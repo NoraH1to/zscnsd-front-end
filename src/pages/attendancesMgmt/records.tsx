@@ -4,7 +4,9 @@ import { useInit } from '@/hooks/index';
 import { attendanceList } from '@/api/attendance';
 import { TableColumnProps, TableProps } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { getRouteCell } from '@/components/CustomTable';
+import CustomTable, {
+  goMemberCenterCell,
+} from '@/components/CustomTable';
 import componentData from 'typings';
 import { history } from 'umi';
 import { userSearch } from '@/api/user';
@@ -47,12 +49,8 @@ const colums: TableColumnProps<apiInterface.Attendance>[] = [
   },
   {
     title: '成员姓名-工号',
-    render: getRouteCell<apiInterface.Attendance>(
-      (record) =>
-        `${record.user.name}-${record.user.member?.workId || '已退出'}`,
-      (record) => '/d/repair-requests-mgmt/records', // TODO 路由跳转
-    ),
-    width: 60,
+    render: (value, record, index) => goMemberCenterCell(record.user),
+    width: 140,
   },
   {
     title: '签到时间',

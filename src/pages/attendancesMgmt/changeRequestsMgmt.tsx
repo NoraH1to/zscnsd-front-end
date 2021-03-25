@@ -14,7 +14,7 @@ import {
 } from '@/hooks/index';
 import { TableColumnProps, TableProps, Tooltip } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { getRouteCell } from '@/components/CustomTable';
+import CustomTable, { goMemberCenterCell } from '@/components/CustomTable';
 import componentData from 'typings';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import AttendanceChangeStatusComponent from '@/components/AttendanceChangeStatus';
@@ -212,12 +212,8 @@ const colums: TableColumnProps<apiInterface.AttendanceChange>[] = [
   },
   {
     title: '申请人姓名-工号',
-    render: getRouteCell<apiInterface.AttendanceChange>(
-      (record) =>
-        `${record.user.name}-${record.user.member?.workId || '已退出'}`,
-      (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
-    ),
-    width: 110,
+    render: (value, record, index) => goMemberCenterCell(record.user),
+    width: 140,
   },
   {
     title: '类型',

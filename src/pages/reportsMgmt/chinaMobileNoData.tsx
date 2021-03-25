@@ -8,9 +8,8 @@ import {
 } from '@/hooks/index';
 import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { getRouteCell } from '@/components/CustomTable';
+import CustomTable, { goMemberCenterCell } from '@/components/CustomTable';
 import componentData from 'typings';
-import { useHistory } from '@umijs/runtime';
 import { userSearch } from '@/api/user';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import {
@@ -101,12 +100,8 @@ const colums: TableColumnProps<apiInterface.ReportChinaMobileNoData>[] = [
   },
   {
     title: '上报人姓名-工号',
-    render: getRouteCell<apiInterface.ReportChinaMobileNoData>(
-      (record) =>
-        `${record.user.name}-${record.user.member.workId || '已退出'}`,
-      (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
-    ),
-    width: 100,
+    render: (value, record, index) => goMemberCenterCell(record.user),
+    width: 140,
   },
   {
     title: '用户宽带账号',

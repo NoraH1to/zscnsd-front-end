@@ -20,7 +20,7 @@ import {
 } from 'antd';
 import apiInterface from 'api';
 import CustomTable, {
-  getRouteCell,
+  goMemberCenterCell,
   setDefaultDataInFilters,
 } from '@/components/CustomTable';
 import componentData from 'typings';
@@ -117,12 +117,8 @@ const colums: TableColumnProps<apiInterface.TicketLog>[] = [
   },
   {
     title: '处理人姓名-工号',
-    render: getRouteCell<apiInterface.TicketLog>(
-      (record) =>
-        `${record.operator.name}-${record.operator.member?.workId || '已退出'}`,
-      (record) => '/d/repair-requests-mgmt/records', // TODO 路由跳转
-    ),
-    width: 60,
+    render: (value, record, index) => goMemberCenterCell(record.operator),
+    width: 140,
   },
   {
     title: '处理时间',

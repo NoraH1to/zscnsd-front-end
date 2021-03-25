@@ -8,7 +8,7 @@ import {
 } from '@/hooks/index';
 import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { getRouteCell } from '@/components/CustomTable';
+import CustomTable, { goMemberCenterCell } from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
@@ -126,12 +126,8 @@ const colums: TableColumnProps<apiInterface.MemberHealth>[] = [
   },
   {
     title: '成员姓名-工号',
-    render: getRouteCell<apiInterface.MemberHealth>(
-      (record) =>
-        `${record.user.name}-${record.user.member.workId || '已退出'}`,
-      (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
-    ),
-    width: 100,
+    render: (value, record, index) => goMemberCenterCell(record.user),
+    width: 140,
   },
   {
     title: '加血/扣血量',
@@ -151,12 +147,8 @@ const colums: TableColumnProps<apiInterface.MemberHealth>[] = [
   },
   {
     title: '操作人姓名-工号',
-    render: getRouteCell<apiInterface.MemberHealth>(
-      (record) =>
-        `${record.operator.name}-${record.operator.member.workId || '已退出'}`,
-      (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
-    ),
-    width: 100,
+    render: (value, record, index) => goMemberCenterCell(record.operator),
+    width: 140,
   },
   {
     title: '时间',

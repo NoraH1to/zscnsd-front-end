@@ -17,7 +17,9 @@ import {
   Typography,
 } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { getRouteCell } from '@/components/CustomTable';
+import CustomTable, {
+  goMemberCenterCell,
+} from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
 import TicketStatusComponent from '@/components/ticketStatus';
@@ -86,11 +88,7 @@ const colums: TableColumnProps<apiInterface.IspTicketLog>[] = [
   },
   {
     title: '处理人姓名-工号',
-    render: getRouteCell<apiInterface.IspTicketLog>(
-      (record) =>
-        `${record.operator.name}-${record.operator.member?.workId || '已退出'}`,
-      (record) => '/d/repair-requests-mgmt/records', // TODO 路由跳转
-    ),
+    render: (value, record, index) => goMemberCenterCell(record.operator),
     width: 60,
   },
   {

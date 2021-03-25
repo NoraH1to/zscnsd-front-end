@@ -20,6 +20,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import BaseTable from '@/components/BaseTable';
 import apiInterface from 'api';
 import TicketStatusComponent from '@/components/ticketStatus';
+import { goMemberCenterCell } from '@/components/CustomTable';
 
 const filters: componentData.PropData[] = [
   {
@@ -161,12 +162,9 @@ const colums: TableColumnProps<apiInterface.Ticket>[] = [
   },
   {
     title: '最后处理人姓名-工号',
-    render: (value, record, index) => {
-      return `${record.lastOperateLog.operator.name}-${
-        record.lastOperateLog.operator.member?.workId || '已退出'
-      }`;
-    },
-    width: 100,
+    render: (value, record, index) =>
+      goMemberCenterCell(record.lastOperateLog.operator),
+    width: 170,
   },
   {
     title: '最后处理时间',
