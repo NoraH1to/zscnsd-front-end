@@ -5,6 +5,7 @@ import { attendanceList } from '@/api/attendance';
 import { TableColumnProps, TableProps } from 'antd';
 import apiInterface from 'api';
 import CustomTable, {
+  dateCell,
   goMemberCenterCell,
 } from '@/components/CustomTable';
 import componentData from 'typings';
@@ -44,7 +45,7 @@ const colums: TableColumnProps<apiInterface.Attendance>[] = [
   {
     title: 'ID',
     dataIndex: 'id',
-    width: 30,
+    width: 80,
     fixed: 'left',
   },
   {
@@ -55,17 +56,18 @@ const colums: TableColumnProps<apiInterface.Attendance>[] = [
   {
     title: '签到时间',
     dataIndex: ['signInTime'],
-    width: 60,
+    render: (value, record, index) => dateCell([value]),
+    width: 160,
   },
   {
     title: '签退时间',
     dataIndex: ['signOutTime'],
-    width: 60,
+    width: 160,
   },
   {
     title: '值班片区',
     dataIndex: ['area', 'string'],
-    width: 80,
+    width: 100,
   },
 ];
 

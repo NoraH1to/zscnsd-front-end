@@ -166,43 +166,43 @@ const colums: TableColumnProps<apiInterface.User>[] = [
   {
     title: 'ID',
     dataIndex: 'id',
-    width: 30,
+    width: 80,
     fixed: 'left',
   },
   {
     title: '姓名',
     dataIndex: 'name',
-    width: 40,
+    width: 90,
   },
   {
     title: '学号',
     dataIndex: 'studentId',
-    width: 50,
+    width: 140,
   },
   {
     title: '运营商',
     dataIndex: ['isp', 'string'],
-    width: 40,
+    width: 90,
   },
   {
     title: '宽带账号',
     dataIndex: 'networkAccount',
-    width: 80,
+    width: 140,
   },
   {
     title: '宿舍楼',
     dataIndex: ['dormBlock', 'string'],
-    width: 50,
+    width: 120,
   },
   {
     title: '宿舍房间号',
     dataIndex: ['dormRoom'],
-    width: 30,
+    width: 110,
   },
   {
     title: '手机号',
     dataIndex: 'telephone',
-    width: 50,
+    width: 120,
   },
 ];
 

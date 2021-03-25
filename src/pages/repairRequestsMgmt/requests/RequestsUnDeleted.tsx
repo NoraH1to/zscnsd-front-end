@@ -33,6 +33,7 @@ import {
 } from 'antd';
 import apiInterface from 'api';
 import CustomTable, {
+  dateCell,
   goMemberCenterCell,
   setDefaultDataInFilters,
 } from '@/components/CustomTable';
@@ -44,6 +45,7 @@ import {
   UploadOutlined,
 } from '@ant-design/icons';
 import TicketStatusComponent from '@/components/ticketStatus';
+import { formatDate } from '@/utils';
 
 const filters: componentData.PropData[] = [
   {
@@ -187,23 +189,23 @@ const colums: TableColumnProps<apiInterface.Ticket>[] = [
   {
     title: 'ID',
     dataIndex: 'id',
-    width: 70,
+    width: 80,
     fixed: 'left',
   },
   {
     title: '宿舍楼',
     dataIndex: ['user', 'dormBlock', 'string'],
-    width: 80,
+    width: 110,
   },
   {
     title: '报修状态',
     render: (value, record, index) => <TicketStatusComponent ticket={record} />,
-    width: 80,
+    width: 100,
   },
   {
     title: '报修错误类型',
     dataIndex: ['faultType', 'content'],
-    width: 80,
+    width: 120,
     ellipsis: {
       showTitle: false,
     },
@@ -222,7 +224,8 @@ const colums: TableColumnProps<apiInterface.Ticket>[] = [
   {
     title: '最后处理时间',
     dataIndex: ['lastOperateLog', 'updateTime'],
-    width: 100,
+    render: (value, record, index) => dateCell([value]),
+    width: 160,
   },
 ];
 
@@ -365,10 +368,10 @@ const requestsUndeleted: FC<{
             <Card title="杂项">
               <Space direction="vertical">
                 <Typography.Text>
-                  {`创建时间：${record.createTime}`}
+                  {`创建时间：${formatDate(record.createTime)}`}
                 </Typography.Text>
                 <Typography.Text>
-                  {`更新时间：${record.updateTime}`}
+                  {`更新时间：${formatDate(record.updateTime)}`}
                 </Typography.Text>
               </Space>
             </Card>

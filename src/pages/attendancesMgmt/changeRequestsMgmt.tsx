@@ -12,9 +12,13 @@ import {
   useInit,
   useMuitActionDialog,
 } from '@/hooks/index';
-import { TableColumnProps, TableProps, Tooltip } from 'antd';
+import { Space, TableColumnProps, TableProps, Tooltip, Typography } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { goMemberCenterCell } from '@/components/CustomTable';
+import CustomTable, {
+  dateCell,
+  dateRangeCell,
+  goMemberCenterCell,
+} from '@/components/CustomTable';
 import componentData from 'typings';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import AttendanceChangeStatusComponent from '@/components/AttendanceChangeStatus';
@@ -207,7 +211,7 @@ const colums: TableColumnProps<apiInterface.AttendanceChange>[] = [
   {
     title: 'ID',
     dataIndex: 'id',
-    width: 70,
+    width: 80,
     fixed: 'left',
   },
   {
@@ -223,24 +227,21 @@ const colums: TableColumnProps<apiInterface.AttendanceChange>[] = [
   {
     title: '日期',
     dataIndex: 'date',
-    width: 80,
-  },
-  {
-    title: '换班日期',
-    dataIndex: 'changeDate',
-    width: 80,
+    render: (value, record, index) =>
+      dateRangeCell([record.date, record.changeDate]),
+    width: 160,
   },
   {
     title: '值班片区',
     dataIndex: ['area', 'string'],
-    width: 80,
+    width: 100,
   },
   {
     title: '状态',
     render: (value, record, index) => (
       <AttendanceChangeStatusComponent attendanceChange={record} />
     ),
-    width: 80,
+    width: 100,
   },
   {
     title: '理由',
@@ -258,21 +259,19 @@ const colums: TableColumnProps<apiInterface.AttendanceChange>[] = [
   {
     title: '申请时间',
     dataIndex: 'createTime',
-    width: 80,
+    render: (value, record, index) => dateCell([value]),
+    width: 160,
   },
   {
     title: '处理人姓名-工号',
-    render: getRouteCell<apiInterface.AttendanceChange>(
-      (record) =>
-        `${record.operator.name}-${record.operator.member?.workId || '已退出'}`,
-      (record) => '/d/repair-requests-mgmt/records', // TODO: 路由跳转
-    ),
-    width: 110,
+    render: (value, record, index) => goMemberCenterCell(record.operator),
+    width: 140,
   },
   {
     title: '处理时间',
     dataIndex: 'operateTime',
-    width: 80,
+    render: (value, record, index) => dateCell([value]),
+    width: 160,
   },
 ];
 

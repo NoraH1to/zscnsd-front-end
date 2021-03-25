@@ -49,7 +49,7 @@ const useDialogForm = <P,>(
     setFormData(update(formData, { $merge: data }));
     // 特殊处理日期字符串
     forEachObjIndexed((value, key, obj) => {
-      const _date = moment(value, 'YYYY-MM-DD HH:mm:ss', true);
+      const _date = moment(value, 'yyyy-MM-DD HH:mm:ss', true);
       if (_date.isValid()) {
         data[key] = _date;
       }

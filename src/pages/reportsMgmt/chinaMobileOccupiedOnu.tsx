@@ -11,7 +11,7 @@ import {
 } from '@/hooks/index';
 import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { goMemberCenterCell } from '@/components/CustomTable';
+import CustomTable, { dateCell, goMemberCenterCell } from '@/components/CustomTable';
 import componentData from 'typings';
 import { useHistory } from '@umijs/runtime';
 import { userSearch } from '@/api/user';
@@ -111,7 +111,7 @@ const colums: TableColumnProps<apiInterface.ReportChinaMobileOccupiedOnu>[] = [
   {
     title: 'ID',
     dataIndex: 'id',
-    width: 70,
+    width: 80,
     fixed: 'left',
   },
   {
@@ -122,27 +122,28 @@ const colums: TableColumnProps<apiInterface.ReportChinaMobileOccupiedOnu>[] = [
   {
     title: '原交换机SN码',
     dataIndex: 'oldSwitchSerialNumber',
-    width: 100,
+    width: 130,
   },
   {
     title: '原ONU数据',
     dataIndex: 'oldOnuData',
-    width: 100,
+    width: 130,
   },
   {
     title: '现交换机SN码',
     dataIndex: 'newSwitchSerialNumber',
-    width: 100,
+    width: 130,
   },
   {
     title: '现ONU数据',
     dataIndex: 'newOnuData',
-    width: 100,
+    width: 130,
   },
   {
     title: '上报时间',
     dataIndex: 'createTime',
-    width: 100,
+    render: (value, record, index) => dateCell([value]),
+    width: 160,
   },
 ];
 

@@ -153,23 +153,23 @@ const colums: TableColumnProps<apiInterface.Member>[] = [
   {
     title: '工号',
     dataIndex: ['member', 'workId'],
-    width: 70,
+    width: 80,
     fixed: 'left',
   },
   {
     title: '姓名',
     dataIndex: 'name',
-    width: 60,
+    width: 90,
   },
   {
     title: '学号',
     dataIndex: 'studentId',
-    width: 80,
+    width: 140,
   },
   {
     title: '角色',
     dataIndex: ['member', 'role', 'string'],
-    width: 60,
+    width: 110,
   },
   {
     title: '值班片区',
@@ -206,7 +206,7 @@ const colums: TableColumnProps<apiInterface.Member>[] = [
       return find((item) => record.member?.punishment == item.id, punishments)
         ?.string;
     },
-    width: 50,
+    width: 100,
   },
 ];
 

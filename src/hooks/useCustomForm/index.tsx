@@ -7,6 +7,7 @@ import './index.scss';
 import { FC, useEffect, useState } from 'react';
 import componentData from 'typings';
 import moment from 'moment';
+import { dateformatOut, formatDate } from '@/utils';
 
 const _Input: FC<{ item: componentData.PropData }> = (props) => {
   const { item } = props;
@@ -40,9 +41,9 @@ const _DatePicker: FC<{ item: componentData.PropData }> = (props) => {
   return (
     <BaseFormItem item={item}>
       <DatePicker
+        format={dateformatOut}
         showTime={{
-          format: 'HH:mm',
-          defaultValue: moment('00:00:00', 'HH:mm'),
+          defaultValue: moment('00:00:00'),
         }}
       ></DatePicker>
     </BaseFormItem>
@@ -214,7 +215,7 @@ const useCustomForm = (
         if (value && value._isAMomentObject) {
           changeValues = update(changeValues, {
             [key]: {
-              $set: value.format('YYYY-MM-DD HH:mm:ss'),
+              $set: formatDate(value),
             },
           });
         }

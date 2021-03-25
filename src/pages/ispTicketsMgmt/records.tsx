@@ -18,11 +18,13 @@ import {
 } from 'antd';
 import apiInterface from 'api';
 import CustomTable, {
+  dateCell,
   goMemberCenterCell,
 } from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
 import TicketStatusComponent from '@/components/ticketStatus';
+import { formatDate } from '@/utils';
 
 const filters: componentData.PropData[] = [
   {
@@ -68,33 +70,34 @@ const colums: TableColumnProps<apiInterface.IspTicketLog>[] = [
   {
     title: 'ID',
     dataIndex: 'id',
-    width: 30,
+    width: 80,
     fixed: 'left',
   },
   {
     title: '上报人姓名',
     dataIndex: ['ispTicket', 'name'],
-    width: 70,
+    width: 110,
   },
   {
     title: '宿舍楼',
     dataIndex: ['ispTicket', 'dormBlock', 'string'],
-    width: 80,
+    width: 110,
   },
   {
     title: '工单状态',
     render: (value, record, index) => <TicketStatusComponent ticket={record} />,
-    width: 50,
+    width: 100,
   },
   {
     title: '处理人姓名-工号',
     render: (value, record, index) => goMemberCenterCell(record.operator),
-    width: 60,
+    width: 140,
   },
   {
     title: '处理时间',
     dataIndex: ['createTime'],
-    width: 60,
+    render: (value, record, index) => dateCell([value]),
+    width: 160,
   },
 ];
 
@@ -139,13 +142,13 @@ const expandable: TableProps<apiInterface.IspTicketLog>['expandable'] = {
           <Card title="杂项">
             <Space direction="vertical">
               <Typography.Text>
-                {`创建时间：${record.createTime}`}
+                {`创建时间：${formatDate(record.createTime)}`}
               </Typography.Text>
               <Typography.Text>
-                {`更新时间：${record.updateTime}`}
+                {`更新时间：${formatDate(record.updateTime)}`}
               </Typography.Text>
               <Typography.Text>
-                {`删除时间：${record.deleteTime}`}
+                {`删除时间：${formatDate(record.deleteTime)}`}
               </Typography.Text>
             </Space>
           </Card>

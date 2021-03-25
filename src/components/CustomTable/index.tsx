@@ -25,6 +25,8 @@ import { useDialogForm } from '@/hooks';
 import { history } from 'umi';
 import { TableFilterType } from '@/common';
 import moment from 'moment';
+import { map, reduce, type } from 'ramda';
+import { formatDate } from '@/utils';
 
 interface Props<T extends object> {
   formData: any;
@@ -133,6 +135,43 @@ export const useTableSort = (
     SortSelect,
   };
 };
+
+export const dateCell = (dateStr: string[]) =>
+  dateStr && dateStr.length > 0 ? (
+    <Space direction="vertical">
+      {map(
+      (date) => (
+        <Typography.Text>
+          {formatDate(date)}
+        </Typography.Text>
+      ),
+      dateStr,
+    )}
+    </Space>
+  ) : (
+    <Typography.Text>{'_null'}</Typography.Text>
+  );
+
+export const dateRangeCell = (dateStr: string[]) =>
+  dateStr && dateStr.length > 0 ? (
+    <Space direction="vertical">
+      <Typography.Text>
+        {formatDate(dateStr[0])}
+      </Typography.Text>
+      {!!dateStr[1] ? (
+        <>
+          <Typography.Text style={{ display: 'block', textAlign: 'center' }}>
+            {'->'}
+          </Typography.Text>
+          <Typography.Text>
+            {formatDate(dateStr[1])}
+          </Typography.Text>
+        </>
+      ) : undefined}
+    </Space>
+  ) : (
+    <Typography.Text>{'_null'}</Typography.Text>
+  );
 
 export const goUserCenterCell = (user: apiInterface.User) =>
   getRouteCell(user.name, '/');

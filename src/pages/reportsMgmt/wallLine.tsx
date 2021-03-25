@@ -12,7 +12,7 @@ import {
 } from '@/hooks/index';
 import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { goMemberCenterCell } from '@/components/CustomTable';
+import CustomTable, { dateCell, goMemberCenterCell } from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
@@ -113,7 +113,7 @@ const colums: TableColumnProps<apiInterface.ReportWallLine>[] = [
   {
     title: 'ID',
     dataIndex: 'id',
-    width: 70,
+    width: 80,
     fixed: 'left',
   },
   {
@@ -124,12 +124,12 @@ const colums: TableColumnProps<apiInterface.ReportWallLine>[] = [
   {
     title: '宿舍楼栋',
     dataIndex: ['dormBlock', 'string'],
-    width: 80,
+    width: 110,
   },
   {
     title: '宿舍房间号',
     dataIndex: 'dormRoom',
-    width: 80,
+    width: 110,
   },
   {
     title: '用户姓名',
@@ -139,12 +139,13 @@ const colums: TableColumnProps<apiInterface.ReportWallLine>[] = [
   {
     title: '用户手机号',
     dataIndex: 'telephone',
-    width: 100,
+    width: 120,
   },
   {
     title: '上报时间',
     dataIndex: 'createTime',
-    width: 100,
+    render: (value, record, index) => dateCell([value]),
+    width: 160,
   },
 ];
 

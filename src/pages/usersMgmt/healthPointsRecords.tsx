@@ -8,7 +8,7 @@ import {
 } from '@/hooks/index';
 import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { goMemberCenterCell } from '@/components/CustomTable';
+import CustomTable, { dateCell, goMemberCenterCell } from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
@@ -121,7 +121,7 @@ const colums: TableColumnProps<apiInterface.MemberHealth>[] = [
   {
     title: 'ID',
     dataIndex: 'id',
-    width: 70,
+    width: 80,
     fixed: 'left',
   },
   {
@@ -138,12 +138,12 @@ const colums: TableColumnProps<apiInterface.MemberHealth>[] = [
       ) : (
         <span style={{ color: '#ff0000' }}>{value}</span>
       ),
-    width: 80,
+    width: 75,
   },
   {
     title: '原因',
     dataIndex: 'reason',
-    width: 80,
+    width: 100,
   },
   {
     title: '操作人姓名-工号',
@@ -153,7 +153,8 @@ const colums: TableColumnProps<apiInterface.MemberHealth>[] = [
   {
     title: '时间',
     dataIndex: 'createTime',
-    width: 100,
+    render: (value, record, index) => dateCell([value]),
+    width: 160,
   },
 ];
 

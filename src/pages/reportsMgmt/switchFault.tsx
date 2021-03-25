@@ -12,7 +12,7 @@ import {
 } from '@/hooks/index';
 import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { goMemberCenterCell } from '@/components/CustomTable';
+import CustomTable, { dateCell, goMemberCenterCell } from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
@@ -113,7 +113,7 @@ const colums: TableColumnProps<apiInterface.ReportSwitchFault>[] = [
   {
     title: 'ID',
     dataIndex: 'id',
-    width: 70,
+    width: 80,
     fixed: 'left',
   },
   {
@@ -124,27 +124,28 @@ const colums: TableColumnProps<apiInterface.ReportSwitchFault>[] = [
   {
     title: '宿舍楼栋',
     dataIndex: ['dormBlock', 'string'],
-    width: 80,
+    width: 110,
   },
   {
     title: '宿舍楼层',
     render: (value, record, index) => `${record.dormFloor} 楼`,
-    width: 80,
+    width: 90,
   },
   {
     title: '交换机SN码',
     dataIndex: 'switchSerialNumber',
-    width: 100,
+    width: 120,
   },
   {
     title: '交换机位置（从上往下）',
     render: (value, record, index) => `第 ${record.index} 台`,
-    width: 100,
+    width: 120,
   },
   {
     title: '上报时间',
     dataIndex: 'createTime',
-    width: 100,
+    render: (value, record, index) => dateCell([value]),
+    width: 160,
   },
 ];
 

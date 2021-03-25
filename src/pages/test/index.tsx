@@ -20,7 +20,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import BaseTable from '@/components/BaseTable';
 import apiInterface from 'api';
 import TicketStatusComponent from '@/components/ticketStatus';
-import { goMemberCenterCell } from '@/components/CustomTable';
+import { dateCell, goMemberCenterCell } from '@/components/CustomTable';
 
 const filters: componentData.PropData[] = [
   {
@@ -169,7 +169,8 @@ const colums: TableColumnProps<apiInterface.Ticket>[] = [
   {
     title: '最后处理时间',
     dataIndex: ['lastOperateLog', 'updateTime'],
-    width: 100,
+    render: (value, record, index) => dateCell([value]),
+    width: 160,
   },
 ];
 

@@ -12,7 +12,10 @@ import {
 } from '@/hooks/index';
 import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { goMemberCenterCell } from '@/components/CustomTable';
+import CustomTable, {
+  dateCell,
+  goMemberCenterCell,
+} from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
@@ -128,7 +131,7 @@ const colums: TableColumnProps<apiInterface.MemberPunishment>[] = [
   {
     title: 'ID',
     dataIndex: 'id',
-    width: 70,
+    width: 80,
     fixed: 'left',
   },
   {
@@ -142,12 +145,12 @@ const colums: TableColumnProps<apiInterface.MemberPunishment>[] = [
     render: (value, record, index) => (
       <span>{find((item) => value == item.id, punishments)?.string}</span>
     ),
-    width: 80,
+    width: 100,
   },
   {
     title: '原因',
     dataIndex: 'reason',
-    width: 80,
+    width: 120,
   },
   {
     title: '操作人姓名-工号',
@@ -157,7 +160,8 @@ const colums: TableColumnProps<apiInterface.MemberPunishment>[] = [
   {
     title: '时间',
     dataIndex: 'createTime',
-    width: 100,
+    render: (value, record, index) => dateCell([value]),
+    width: 160,
   },
 ];
 
