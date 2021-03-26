@@ -190,7 +190,7 @@ const workSemester: FC<{}> = () => {
       hooks: {
         api: workSemesterEdit,
         propData: EditPropData,
-        title: '编辑报修',
+        title: '编辑值班学期',
         onSubmit: () => apiHooks.setLoading(true),
       },
       apiParamKeys: (record: apiInterface.WorkSemester) => ({
