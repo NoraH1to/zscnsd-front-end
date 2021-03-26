@@ -11,7 +11,7 @@ import {
 } from '@/hooks/index';
 import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { dateCell, goMemberCenterCell } from '@/components/CustomTable';
+import CustomTable, { dateTimeCell, goMemberCenterCell } from '@/components/CustomTable';
 import componentData from 'typings';
 import { useHistory } from '@umijs/runtime';
 import { userSearch } from '@/api/user';
@@ -142,7 +142,7 @@ const colums: TableColumnProps<apiInterface.ReportChinaMobileOccupiedOnu>[] = [
   {
     title: '上报时间',
     dataIndex: 'createTime',
-    render: (value, record, index) => dateCell([value]),
+    render: (value, record, index) => dateTimeCell([value]),
     width: 160,
   },
 ];

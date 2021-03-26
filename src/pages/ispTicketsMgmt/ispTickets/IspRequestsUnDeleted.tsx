@@ -30,7 +30,7 @@ import {
   Button,
 } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { dateCell, goMemberCenterCell } from '@/components/CustomTable';
+import CustomTable, { dateTimeCell, goMemberCenterCell } from '@/components/CustomTable';
 import componentData from 'typings';
 import {
   DeleteOutlined,
@@ -221,7 +221,7 @@ const colums: TableColumnProps<apiInterface.IspTicket>[] = [
   {
     title: '最后处理时间',
     dataIndex: ['lastOperateLog', 'updateTime'],
-    render: (value, record, index) => dateCell([value]),
+    render: (value, record, index) => dateTimeCell([value]),
     width: 160,
   },
 ];

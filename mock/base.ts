@@ -257,7 +257,6 @@ export const memberPunishment = {
 };
 
 export const ispTicketOperateLogWithoutIspTicket = {
-  // TODO ispTicketOperateLog Mock
   'id|+1': 1,
   'ispTicketId|+1': 1,
   'operatorId|+1': 1,

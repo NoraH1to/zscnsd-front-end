@@ -136,17 +136,17 @@ export const useTableSort = (
   };
 };
 
-export const dateCell = (dateStr: string[]) =>
+export const dateCell = (dateStr: string[]) => dateTimeCell(dateStr, true);
+
+export const dateTimeCell = (dateStr: string[], dateOnly?: boolean) =>
   dateStr && dateStr.length > 0 ? (
     <Space direction="vertical">
       {map(
-      (date) => (
-        <Typography.Text>
-          {formatDate(date)}
-        </Typography.Text>
-      ),
-      dateStr,
-    )}
+        (date) => (
+          <Typography.Text>{formatDate(date, !!dateOnly)}</Typography.Text>
+        ),
+        dateStr,
+      )}
     </Space>
   ) : (
     <Typography.Text>{'_null'}</Typography.Text>
@@ -155,17 +155,13 @@ export const dateCell = (dateStr: string[]) =>
 export const dateRangeCell = (dateStr: string[]) =>
   dateStr && dateStr.length > 0 ? (
     <Space direction="vertical">
-      <Typography.Text>
-        {formatDate(dateStr[0])}
-      </Typography.Text>
+      <Typography.Text>{formatDate(dateStr[0])}</Typography.Text>
       {!!dateStr[1] ? (
         <>
           <Typography.Text style={{ display: 'block', textAlign: 'center' }}>
             {'->'}
           </Typography.Text>
-          <Typography.Text>
-            {formatDate(dateStr[1])}
-          </Typography.Text>
+          <Typography.Text>{formatDate(dateStr[1])}</Typography.Text>
         </>
       ) : undefined}
     </Space>

@@ -6,6 +6,7 @@ import useApi from './useApi';
 import componentData from 'typings';
 import { forEachObjIndexed } from 'ramda';
 import moment from 'moment';
+import { dateformatInput, datetimeformatInput } from '@/utils';
 
 const useDialogForm = <P,>(
   api: apiInterface.Api<P>,
@@ -49,7 +50,7 @@ const useDialogForm = <P,>(
     setFormData(update(formData, { $merge: data }));
     // 特殊处理日期字符串
     forEachObjIndexed((value, key, obj) => {
-      const _date = moment(value, 'yyyy-MM-DD HH:mm:ss', true);
+      const _date = moment(value, [dateformatInput, datetimeformatInput], true);
       if (_date.isValid()) {
         data[key] = _date;
       }

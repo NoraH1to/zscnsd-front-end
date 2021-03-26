@@ -7,7 +7,7 @@ import './index.scss';
 import { FC, useEffect, useState } from 'react';
 import componentData from 'typings';
 import moment from 'moment';
-import { dateformatOut, formatDate } from '@/utils';
+import { datetimeformatOut, formatDate } from '@/utils';
 
 const _Input: FC<{ item: componentData.PropData }> = (props) => {
   const { item } = props;
@@ -41,7 +41,7 @@ const _DatePicker: FC<{ item: componentData.PropData }> = (props) => {
   return (
     <BaseFormItem item={item}>
       <DatePicker
-        format={dateformatOut}
+        format={datetimeformatOut}
         showTime={{
           defaultValue: moment('00:00:00'),
         }}

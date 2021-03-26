@@ -18,7 +18,7 @@ import {
 } from 'antd';
 import apiInterface from 'api';
 import CustomTable, {
-  dateCell,
+  dateTimeCell,
   goMemberCenterCell,
 } from '@/components/CustomTable';
 import componentData from 'typings';
@@ -96,7 +96,7 @@ const colums: TableColumnProps<apiInterface.IspTicketLog>[] = [
   {
     title: '处理时间',
     dataIndex: ['createTime'],
-    render: (value, record, index) => dateCell([value]),
+    render: (value, record, index) => dateTimeCell([value]),
     width: 160,
   },
 ];

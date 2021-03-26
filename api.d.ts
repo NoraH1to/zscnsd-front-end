@@ -66,6 +66,9 @@ declare namespace apiInterface {
   // 考勤变动申请状态枚举
   interface AttendanceChangeStatus extends Enum {}
   interface AttendanceChangeStatusExtra extends Enum, BadgeStatus {}
+  // 值班学期收集状态枚举
+  interface WorkSemesterCollecting extends Enum {}
+  interface WorkSemesterCollectingExtra extends Enum, BadgeStatus {}
   // 报修工单故障错误类型
   interface TicketFaultType extends CUDTime {
     id: number;
@@ -272,6 +275,34 @@ declare namespace apiInterface {
   }
   // 分页请求体
   interface RequestPageQuery extends Page, RequestQuery {}
+
+  // 查询值班学期参数
+  interface WorkSemesterListQuery extends RequestPageQuery, TimeRange {
+    name?: WorkSemester['name'];
+    collecting?: WorkSemester['collectingTimetable'];
+  }
+  // 增加值班学期请求体
+  interface WorkSemesterAddData extends RequestData {
+    name: WorkSemester['name'];
+    startDate: WorkSemester['startDate'];
+    endDate: WorkSemester['endDate'];
+  }
+  // 修改值班学期请求体
+  interface WorkSemesterEditData extends RequestData {
+    id: WorkSemester['id'];
+    name: WorkSemester['name'];
+    startDate: WorkSemester['startDate'];
+    endDate: WorkSemester['endDate'];
+  }
+  // 删除值班学期
+  interface WorkSemesterDeleteData extends RequestData {
+    id: WorkSemester['id'][];
+  }
+  // 修改值班学期收集状态请求体
+  interface WorkSemesterCollectData extends RequestData {
+    id: WorkSemester['id'];
+    collecting: WorkSemester['collectingTimetable'];
+  }
 
   // 查询考勤变动申请参数
   interface AttendanceChangeListQuery extends RequestPageQuery, TimeRange {

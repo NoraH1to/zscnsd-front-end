@@ -19,7 +19,7 @@ import {
   Button,
 } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { dateCell, goMemberCenterCell } from '@/components/CustomTable';
+import CustomTable, { dateTimeCell, goMemberCenterCell } from '@/components/CustomTable';
 import componentData from 'typings';
 import { RollbackOutlined } from '@ant-design/icons';
 import TicketStatusComponent from '@/components/ticketStatus';
@@ -94,7 +94,7 @@ const colums: TableColumnProps<apiInterface.IspTicket>[] = [
   {
     title: '删除时间',
     dataIndex: 'deleteTime',
-    render: (value, record, index) => dateCell([value]),
+    render: (value, record, index) => dateTimeCell([value]),
     width: 160,
   },
 ];

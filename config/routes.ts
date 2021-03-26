@@ -317,7 +317,7 @@ const desktopRoute: routeInterface.route[] = [
         extraOpt: {
           key: '/d/scheduling-mgmt',
           name: '排班管理',
-          namePath: '排班管理',
+          namePath: '排班管理/值班学期',
           menu: true,
         },
       },

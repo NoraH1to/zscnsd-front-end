@@ -15,7 +15,7 @@ import {
 import { Space, TableColumnProps, TableProps, Tooltip, Typography } from 'antd';
 import apiInterface from 'api';
 import CustomTable, {
-  dateCell,
+  dateTimeCell,
   dateRangeCell,
   goMemberCenterCell,
 } from '@/components/CustomTable';
@@ -259,7 +259,7 @@ const colums: TableColumnProps<apiInterface.AttendanceChange>[] = [
   {
     title: '申请时间',
     dataIndex: 'createTime',
-    render: (value, record, index) => dateCell([value]),
+    render: (value, record, index) => dateTimeCell([value]),
     width: 160,
   },
   {
@@ -270,7 +270,7 @@ const colums: TableColumnProps<apiInterface.AttendanceChange>[] = [
   {
     title: '处理时间',
     dataIndex: 'operateTime',
-    render: (value, record, index) => dateCell([value]),
+    render: (value, record, index) => dateTimeCell([value]),
     width: 160,
   },
 ];

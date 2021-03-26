@@ -13,7 +13,7 @@ import {
 import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
 import CustomTable, {
-  dateCell,
+  dateTimeCell,
   goMemberCenterCell,
 } from '@/components/CustomTable';
 import componentData from 'typings';
@@ -160,7 +160,7 @@ const colums: TableColumnProps<apiInterface.MemberPunishment>[] = [
   {
     title: '时间',
     dataIndex: 'createTime',
-    render: (value, record, index) => dateCell([value]),
+    render: (value, record, index) => dateTimeCell([value]),
     width: 160,
   },
 ];

@@ -5,7 +5,7 @@ import { attendanceList } from '@/api/attendance';
 import { TableColumnProps, TableProps } from 'antd';
 import apiInterface from 'api';
 import CustomTable, {
-  dateCell,
+  dateTimeCell,
   goMemberCenterCell,
 } from '@/components/CustomTable';
 import componentData from 'typings';
@@ -56,7 +56,7 @@ const colums: TableColumnProps<apiInterface.Attendance>[] = [
   {
     title: '签到时间',
     dataIndex: ['signInTime'],
-    render: (value, record, index) => dateCell([value]),
+    render: (value, record, index) => dateTimeCell([value]),
     width: 160,
   },
   {

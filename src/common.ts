@@ -27,6 +27,19 @@ export const ticketDeleted: apiInterface.TicketDeleted[] = [
   },
 ];
 
+export const workSemesterCollecting: apiInterface.WorkSemesterCollectingExtra[] = [
+  {
+    id: 'true',
+    string: '收集中',
+    status: 'processing',
+  },
+  {
+    id: 'false',
+    string: '未在收集',
+    status: 'default',
+  },
+];
+
 export const ticketSortableList: apiInterface.Enum[] = [
   {
     id: 'createTime',
