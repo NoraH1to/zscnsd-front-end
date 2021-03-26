@@ -52,7 +52,7 @@ interface Sorter {
 
 export const setDefaultDataInFilters = (
   filters: componentData.PropData[],
-  defaultFormData: any,
+  defaultFormData?: any,
 ) => {
   if (defaultFormData)
     return filters.map((item) => {
