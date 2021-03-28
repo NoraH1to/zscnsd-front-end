@@ -209,7 +209,7 @@ const CustomTable = <T extends object>(props: Props<T>) => {
   // 被选中的行
   const [selectedList, setSelectedList] = useState<any>([]);
   const rowSelection = {
-    selectedList,
+    selectedRowKeys: selectedList,
     onChange: (selectedRowKeys: any[]) => {
       setSelectedList(selectedRowKeys);
     },
