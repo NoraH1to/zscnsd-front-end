@@ -125,7 +125,7 @@ export const useTableSort = (
         style={{ minWidth: '4rem' }}
       >
         {sortList.map((sort) => (
-          <Select.Option value={sort.id}>{sort.string}</Select.Option>
+          <Select.Option value={sort.id.toString()}>{sort.string}</Select.Option>
         ))}
       </Select>
     </div>
