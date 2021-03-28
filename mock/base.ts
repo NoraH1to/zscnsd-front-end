@@ -13,6 +13,7 @@ import {
   attendanceChangeStatus,
 } from '../src/common';
 import update from 'immutability-helper';
+import apiInterface from 'api';
 
 const maxDataCount = 56;
 
@@ -314,5 +315,40 @@ export const attendanceChangeRequest = {
   'operatorId|+1': 1,
   operateTime: getRandomDateTime(),
   operator: user,
+  ...getCUDTime(),
+};
+
+export const registerWhitelistGroupList: apiInterface.RegisterWhitelistGroup[] = [
+  {
+    id: 1,
+    name: '分组一',
+    enabled: true,
+    ...getCUDTime(),
+  },
+  {
+    id: 2,
+    name: '分组二',
+    enabled: true,
+    ...getCUDTime(),
+  },
+  {
+    id: 3,
+    name: '分组三',
+    enabled: false,
+    ...getCUDTime(),
+  },
+  {
+    id: 4,
+    name: '分组四',
+    enabled: true,
+    ...getCUDTime(),
+  },
+];
+
+export const registerWhitelist = {
+  'id|+1': 1,
+  name: Random.cname(),
+  studentId: Number.parseInt(Random.string('number', 13)),
+  'group|1': registerWhitelistGroupList,
   ...getCUDTime(),
 };

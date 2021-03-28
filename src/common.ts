@@ -18,25 +18,36 @@ export const ticketStatus: apiInterface.TicketStatusExtra[] = [
 
 export const ticketDeleted: apiInterface.TicketDeleted[] = [
   {
-    id: 'true',
+    id: true,
     string: '已删除',
   },
   {
-    id: 'false',
+    id: false,
     string: '未删除',
   },
 ];
 
 export const workSemesterCollecting: apiInterface.WorkSemesterCollectingExtra[] = [
   {
-    id: 'true',
+    id: true,
     string: '收集中',
     status: 'processing',
   },
   {
-    id: 'false',
+    id: false,
     string: '未在收集',
     status: 'default',
+  },
+];
+
+export const registerWhitelistGroupEnabled: apiInterface.RegisterWhitelistGroupEnabled[] = [
+  {
+    id: true,
+    string: '已启用',
+  },
+  {
+    id: false,
+    string: '未启用',
   },
 ];
 

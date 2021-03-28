@@ -41,7 +41,7 @@ declare namespace apiInterface {
   }
   // 枚举
   interface Enum {
-    id: number | string;
+    id: number | string | boolean;
     string: string;
   }
   interface BadgeStatus {
@@ -69,6 +69,8 @@ declare namespace apiInterface {
   // 值班学期收集状态枚举
   interface WorkSemesterCollecting extends Enum {}
   interface WorkSemesterCollectingExtra extends Enum, BadgeStatus {}
+  // 注册白名单分组启用枚举
+  interface RegisterWhitelistGroupEnabled extends Enum {}
   // 报修工单故障错误类型
   interface TicketFaultType extends CUDTime {
     id: number;
@@ -248,6 +250,20 @@ declare namespace apiInterface {
     operateTime: string;
     operator: Member;
   }
+  // 注册白名单分组
+  interface RegisterWhitelistGroup extends CUDTime {
+    id: number;
+    name: string;
+    enabled: boolean;
+  }
+  // 注册白名单
+  interface RegisterWhitelist extends CUDTime {
+    id: number;
+    name: UserBase['name'];
+    studentId: UserBase['studentId'];
+    groupId: RegisterWhitelistGroup['id'];
+    group: RegisterWhitelistGroup;
+  }
 
   // 时间范围
   interface TimeRange {
@@ -276,6 +292,60 @@ declare namespace apiInterface {
   // 分页请求体
   interface RequestPageQuery extends Page, RequestQuery {}
 
+  // 查询注册白名单参数
+  interface RegisterWhitelistListQuery extends RequestPageQuery {
+    groupId?: RegisterWhitelistGroup['id'];
+    name?: RegisterWhitelist['name'];
+    studentId?: RegisterWhitelist['studentId'];
+  }
+  // 增加注册白名单请求体
+  interface RegisterWhitelistAddData extends RequestData {
+    name: RegisterWhitelist['name'];
+    studentId: RegisterWhitelist['studentId'];
+    groupId: RegisterWhitelistGroup['id'];
+  }
+  // 修改注册白名单请求体
+  interface RegisterWhitelistEditData extends RequestData {
+    id: RegisterWhitelist['id'];
+    name: RegisterWhitelist['name'];
+    studentId: RegisterWhitelist['studentId'];
+    groupId: RegisterWhitelistGroup['id'];
+  }
+  // 删除注册白名单请求体
+  interface RegisterWhitelistDeleteData extends RequestData {
+    id: RegisterWhitelist['id'][];
+  }
+  // 批量修改注册白名单请求体
+  interface RegisterWhitelistBatchEditData extends RequestData {
+    id: RegisterWhitelist['id'][];
+    groupId: RegisterWhitelistGroup['id'];
+  }
+
+  // 查询注册白名单分组参数
+  interface RegisterWhitelistGroupListQuery extends RequestPageQuery {
+    name?: RegisterWhitelistGroup['name'];
+    enabled?: RegisterWhitelistGroup['enabled'];
+  }
+  // 增加注册白名单分组请求体
+  interface RegisterWhitelistGroupAddData extends RequestData {
+    name: RegisterWhitelistGroup['name'];
+    enabled: RegisterWhitelistGroup['enabled'];
+  }
+  // 修改注册白名单分组请求体
+  interface RegisterWhitelistGroupEditData extends RequestData {
+    id: RegisterWhitelistGroup['id'];
+    name: RegisterWhitelistGroup['name'];
+    enabled: RegisterWhitelistGroup['enabled'];
+  }
+  // 删除注册白名单请求体
+  interface RegisterWhitelistGroupDeleteData extends RequestData {
+    id: RegisterWhitelistGroup['id'][];
+  }
+  // 注册白名单分组搜索
+  interface RegisterWhitelistGroupSearch extends RequestQuery {
+    search: string;
+  }
+
   // 查询值班学期参数
   interface WorkSemesterListQuery extends RequestPageQuery, TimeRange {
     name?: WorkSemester['name'];
@@ -294,7 +364,7 @@ declare namespace apiInterface {
     startDate: WorkSemester['startDate'];
     endDate: WorkSemester['endDate'];
   }
-  // 删除值班学期
+  // 删除值班学期请求体
   interface WorkSemesterDeleteData extends RequestData {
     id: WorkSemester['id'][];
   }
