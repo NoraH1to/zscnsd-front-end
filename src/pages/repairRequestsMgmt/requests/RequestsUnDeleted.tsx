@@ -16,7 +16,6 @@ import {
   ticketAdd,
   ticketDelete,
   ticketEdit,
-  ticketFaultMenu,
   ticketList,
   ticketOperate,
 } from '@/api/ticket';
@@ -46,6 +45,7 @@ import {
 } from '@ant-design/icons';
 import TicketStatusComponent from '@/components/ticketStatus';
 import { formatDate } from '@/utils';
+import { ticketFaultMenu } from '@/api/ticketFaultMenu';
 
 const filters: componentData.PropData[] = [
   {

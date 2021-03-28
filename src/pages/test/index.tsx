@@ -10,7 +10,6 @@ import {
   ticketAdd,
   ticketDelete,
   ticketEdit,
-  ticketFaultMenu,
   ticketList,
 } from '@/api/ticket';
 import { useCustomForm } from '@/hooks';
@@ -21,6 +20,7 @@ import BaseTable from '@/components/BaseTable';
 import apiInterface from 'api';
 import TicketStatusComponent from '@/components/ticketStatus';
 import { dateTimeCell, goMemberCenterCell } from '@/components/CustomTable';
+import { ticketFaultMenu } from '@/api/ticketFaultMenu';
 
 const filters: componentData.PropData[] = [
   {

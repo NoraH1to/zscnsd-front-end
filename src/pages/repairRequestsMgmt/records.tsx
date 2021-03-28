@@ -7,7 +7,7 @@ import {
   ticketLogSortableList,
 } from '@/common';
 import { useInit, useRealLocation } from '@/hooks/index';
-import { ticketFaultMenu, ticketLogList } from '@/api/ticket';
+import { ticketLogList } from '@/api/ticket';
 import {
   Tooltip,
   TableColumnProps,
@@ -28,6 +28,7 @@ import componentData from 'typings';
 import { userSearch } from '@/api/user';
 import TicketStatusComponent from '@/components/ticketStatus';
 import { formatDate } from '@/utils';
+import { ticketFaultMenu } from '@/api/ticketFaultMenu';
 
 const filters: componentData.PropData[] = [
   {

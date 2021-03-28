@@ -7,7 +7,7 @@ import {
   ticketStatus,
 } from '@/common';
 import { useApi, useInit, useMuitActionDialog } from '@/hooks/index';
-import { ticketFaultMenu, ticketList, ticketRestore } from '@/api/ticket';
+import { ticketList, ticketRestore } from '@/api/ticket';
 import {
   Tooltip,
   TableColumnProps,
@@ -26,6 +26,7 @@ import { userSearch } from '@/api/user';
 import { RollbackOutlined } from '@ant-design/icons';
 import TicketStatusComponent from '@/components/ticketStatus';
 import { formatDate } from '@/utils';
+import { ticketFaultMenu } from '@/api/ticketFaultMenu';
 
 const filters: componentData.PropData[] = [
   {

@@ -7,10 +7,6 @@ export const ticketList = (params?: apiInterface.TicketListQuery) => {
   });
 };
 
-export const ticketFaultMenu = () => {
-  return GET('/api/ticket-fault-menu/list');
-};
-
 export const ticketAdd = (data?: apiInterface.TicketAddData) => {
   return POST('/api/ticket/add', {
     data,
