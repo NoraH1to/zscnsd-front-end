@@ -44,6 +44,7 @@ interface Props<T extends object> {
     Left?: ReactElement;
     Right?: ReactElement;
   };
+  tableProps?: TableProps<T>;
 }
 
 interface Sorter {
@@ -125,7 +126,9 @@ export const useTableSort = (
         style={{ minWidth: '4rem' }}
       >
         {sortList.map((sort) => (
-          <Select.Option value={sort.id.toString()}>{sort.string}</Select.Option>
+          <Select.Option value={sort.id.toString()}>
+            {sort.string}
+          </Select.Option>
         ))}
       </Select>
     </div>
@@ -200,6 +203,7 @@ const CustomTable = <T extends object>(props: Props<T>) => {
     onRow,
     sortList,
     extraComponent,
+    tableProps,
   } = props;
 
   // 被选中的行
@@ -445,6 +449,7 @@ const CustomTable = <T extends object>(props: Props<T>) => {
             }}
             expandable={expandable}
             onRow={onRow}
+            {...tableProps}
           ></Table>
         }
       />
