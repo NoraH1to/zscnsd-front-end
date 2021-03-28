@@ -26,7 +26,7 @@ import { userSearch } from '@/api/user';
 import { RollbackOutlined } from '@ant-design/icons';
 import TicketStatusComponent from '@/components/ticketStatus';
 import { formatDate } from '@/utils';
-import { ticketFaultMenu } from '@/api/ticketFaultMenu';
+import { ticketFaultMenuList } from '@/api/ticketFaultMenu';
 
 const filters: componentData.PropData[] = [
   {
@@ -50,7 +50,7 @@ const filters: componentData.PropData[] = [
     key: 'faultType',
     type: TableFilterType.select,
     name: '报修故障类型',
-    selectData: ticketFaultMenu,
+    selectData: ticketFaultMenuList,
   },
   {
     key: 'dormBlock',

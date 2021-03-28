@@ -1,7 +1,12 @@
 import { FC, useState } from 'react';
-import { TableFilterType } from '@/common';
-import { useApi, useDialogForm, useMuitActionDialog } from '@/hooks/index';
-import { TableColumnProps, TableProps, Button, Modal } from 'antd';
+import { TableFilterType, ticketFaultTypeVisible } from '@/common';
+import {
+  useApi,
+  useDialogForm,
+  useInit,
+  useMuitActionDialog,
+} from '@/hooks/index';
+import { TableColumnProps, TableProps, Button } from 'antd';
 import {
   EditOutlined,
   DeleteOutlined,
@@ -10,64 +15,47 @@ import {
 import apiInterface from 'api';
 import CustomTable from '@/components/CustomTable';
 import componentData from 'typings';
-import { registerWhitelistGroupSearch } from '@/api/registerWhitelistGroup';
 import {
-  registerWhitelistAdd,
-  registerWhitelistBatchEdit,
-  registerWhitelistDelete,
-  registerWhitelistEdit,
-  registerWhitelistList,
-} from '@/api/registerWhitelist';
-import RegisterAbleUserGroupMgmtComp from './registerAbleUserGroupMgmt';
+  ticketFaultMenuAdd,
+  ticketFaultMenuBatchEdit,
+  ticketFaultMenuDelete,
+  ticketFaultMenuEdit,
+  ticketFaultMenuList,
+} from '@/api/ticketFaultMenu';
+import TicketFaultTypeVisibleStatusComp from '@/components/TicketFaultTypeVisibleStatus';
 
 const filters: componentData.PropData[] = [
   {
-    key: 'groupId',
-    type: TableFilterType.selectSearch,
-    name: '分组',
-    selectData: registerWhitelistGroupSearch,
-    holder: '分组名称',
-    searchOption: {
-      keyProp: 'id',
-      labelProp: 'name',
-    },
-    rules: [{ required: true }],
+    key: 'content',
+    type: TableFilterType.str,
+    name: '错误内容',
   },
   {
-    key: 'name',
-    type: TableFilterType.str,
-    name: '姓名',
-  },
-  {
-    key: 'studentId',
-    type: TableFilterType.str,
-    name: '学号',
+    key: 'visible',
+    type: TableFilterType.select,
+    selectData: ticketFaultTypeVisible,
+    name: '是否可见',
   },
 ];
 
 const addPropData: componentData.PropData[] = [
   {
-    key: 'name',
+    key: 'content',
     type: TableFilterType.str,
-    name: '姓名',
+    name: '内容',
     rules: [{ required: true }],
   },
   {
-    key: 'studentId',
-    type: TableFilterType.str,
-    name: '学号',
+    key: 'order',
+    type: TableFilterType.number,
+    name: '顺序',
     rules: [{ required: true }],
   },
   {
-    key: 'groupId',
-    type: TableFilterType.selectSearch,
-    name: '分组',
-    selectData: registerWhitelistGroupSearch,
-    holder: '分组名称',
-    searchOption: {
-      keyProp: 'id',
-      labelProp: 'name',
-    },
+    key: 'visible',
+    type: TableFilterType.select,
+    selectData: ticketFaultTypeVisible,
+    name: '是否可见',
     rules: [{ required: true }],
   },
 ];
@@ -81,32 +69,27 @@ const EditPropData: componentData.PropData[] = [
     hidden: true,
   },
   {
-    key: 'name',
+    key: 'content',
     type: TableFilterType.str,
-    name: '姓名',
+    name: '内容',
     rules: [{ required: true }],
   },
   {
-    key: 'studentId',
-    type: TableFilterType.str,
-    name: '学号',
+    key: 'order',
+    type: TableFilterType.number,
+    name: '顺序',
     rules: [{ required: true }],
   },
   {
-    key: 'groupId',
-    type: TableFilterType.selectSearch,
-    name: '分组',
-    selectData: registerWhitelistGroupSearch,
-    holder: '分组名称',
-    searchOption: {
-      keyProp: 'id',
-      labelProp: 'name',
-    },
+    key: 'visible',
+    type: TableFilterType.select,
+    selectData: ticketFaultTypeVisible,
+    name: '是否可见',
     rules: [{ required: true }],
   },
 ];
 
-const onRow: TableProps<apiInterface.RegisterWhitelist>['onRow'] = (record) => {
+const onRow: TableProps<apiInterface.TicketFaultMenu>['onRow'] = (record) => {
   return {
     onClick: (event) => {
       // TODO: 点击行路由跳转
@@ -114,7 +97,7 @@ const onRow: TableProps<apiInterface.RegisterWhitelist>['onRow'] = (record) => {
   };
 };
 
-const colums: TableColumnProps<apiInterface.RegisterWhitelist>[] = [
+const colums: TableColumnProps<apiInterface.TicketFaultMenu>[] = [
   {
     title: 'ID',
     dataIndex: 'id',
@@ -122,18 +105,15 @@ const colums: TableColumnProps<apiInterface.RegisterWhitelist>[] = [
     fixed: 'left',
   },
   {
-    title: '姓名',
-    dataIndex: 'name',
-    width: 90,
-  },
-  {
-    title: '学号',
-    dataIndex: 'studentId',
+    title: '内容',
+    dataIndex: 'content',
     width: 140,
   },
   {
-    title: '所属分组',
-    dataIndex: ['group', 'name'],
+    title: '是否可见',
+    render: (value, record, index) => (
+      <TicketFaultTypeVisibleStatusComp ticketFaultType={record} />
+    ),
     width: 100,
   },
 ];
@@ -143,25 +123,19 @@ const errSelectMgmt: FC = () => {
   const [
     formData,
     setFormData,
-  ] = useState<apiInterface.RegisterWhitelistListQuery>({
-    page: 1,
-    count: 10,
-  });
-
-  // 分组管理dialog
-  const [groupMgmtVisible, setGroupMgmtVisible] = useState(false);
+  ] = useState<apiInterface.TicketFaultTypeListQuery>({});
 
   // api hooks
-  const apiHooks = useApi<apiInterface.RegisterWhitelistListQuery>(
-    registerWhitelistList,
+  const apiHooks = useInit<apiInterface.TicketFaultTypeListQuery>(
+    ticketFaultMenuList,
     formData,
   );
 
   // 添加接口 hooks
-  const apiAddHooks = useDialogForm<apiInterface.RegisterWhitelistAddData>(
-    registerWhitelistAdd,
+  const apiAddHooks = useDialogForm<apiInterface.TicketFaultTypeAddData>(
+    ticketFaultMenuAdd,
     addPropData,
-    '新增白名单',
+    '新增错误类型',
     () => apiHooks.setLoading(true),
   );
 
@@ -170,26 +144,21 @@ const errSelectMgmt: FC = () => {
       key: 'delete',
       value: '删除',
       propData: [],
-      api: registerWhitelistDelete,
+      api: ticketFaultMenuDelete,
     },
     {
-      key: 'editGroup',
-      value: '修改白名单分组',
+      key: 'visible',
+      value: '修改可见',
       propData: [
         {
-          key: 'groupId',
-          type: TableFilterType.selectSearch,
-          name: '分组',
-          selectData: registerWhitelistGroupSearch,
-          holder: '分组名称',
-          searchOption: {
-            keyProp: 'id',
-            labelProp: 'name',
-          },
+          key: 'visible',
+          type: TableFilterType.select,
+          name: '可见',
+          selectData: ticketFaultTypeVisible,
           rules: [{ required: true }],
         },
       ],
-      api: registerWhitelistBatchEdit,
+      api: ticketFaultMenuBatchEdit,
     },
   ];
 
@@ -203,16 +172,16 @@ const errSelectMgmt: FC = () => {
       text: '编辑',
       icon: <EditOutlined />,
       hooks: {
-        api: registerWhitelistEdit,
+        api: ticketFaultMenuEdit,
         propData: EditPropData,
-        title: '编辑白名单信息',
+        title: '编辑错误类型',
         onSubmit: () => apiHooks.setLoading(true),
       },
-      apiParamKeys: (record: apiInterface.RegisterWhitelist) => ({
+      apiParamKeys: (record: apiInterface.TicketFaultMenu) => ({
         id: record.id,
-        name: record.name,
-        studentId: record.studentId,
-        groupId: record.group.id,
+        content: record.content,
+        order: record.order,
+        visible: record.visible,
       }),
       type: 'dialog',
     },
@@ -220,10 +189,10 @@ const errSelectMgmt: FC = () => {
       key: 'delete',
       text: '删除',
       icon: <DeleteOutlined />,
-      hooks: useApi(registerWhitelistDelete, undefined, () =>
+      hooks: useApi(ticketFaultMenuDelete, undefined, () =>
         apiHooks.setLoading(true),
       ),
-      apiParamKeys: (record: apiInterface.RegisterWhitelist) => ({
+      apiParamKeys: (record: apiInterface.TicketFaultMenu) => ({
         id: [record.id],
       }),
       type: 'api',
@@ -232,31 +201,6 @@ const errSelectMgmt: FC = () => {
       },
     },
   ];
-
-  // TODO: 批量添加
-  const BatchAddBtn = (
-    <Button onClick={() => {}} type="dashed" icon={<UploadOutlined />}>
-      批量添加
-    </Button>
-  );
-
-  // TODO: 导出excel
-  const ExportBtn = (
-    <>
-      <Button
-        onClick={() => {
-          setGroupMgmtVisible(true);
-        }}
-        ghost
-        type="primary"
-      >
-        分组管理
-      </Button>
-      <Button onClick={() => {}} type="dashed">
-        导出结果为Excel
-      </Button>
-    </>
-  );
 
   return (
     <>
@@ -270,17 +214,8 @@ const errSelectMgmt: FC = () => {
         apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
         actions={actions}
         onRow={onRow}
-        extraComponent={{ Left: BatchAddBtn, Right: ExportBtn }}
+        tableProps={{ pagination: false }}
       />
-      <Modal
-        visible={groupMgmtVisible}
-        width="800px"
-        footer={null}
-        onCancel={() => setGroupMgmtVisible(false)}
-        title="分组管理"
-      >
-        <RegisterAbleUserGroupMgmtComp />
-      </Modal>
     </>
   );
 };

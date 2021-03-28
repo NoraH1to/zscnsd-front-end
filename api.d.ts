@@ -71,8 +71,10 @@ declare namespace apiInterface {
   interface WorkSemesterCollectingExtra extends Enum, BadgeStatus {}
   // 注册白名单分组启用枚举
   interface RegisterWhitelistGroupEnabled extends Enum {}
+  // 报修故障错误类型可见枚举
+  interface TicketFaultTypeVisible extends Enum {}
   // 报修工单故障错误类型
-  interface TicketFaultType extends CUDTime {
+  interface TicketFaultMenu extends CUDTime {
     id: number;
     content: string;
     order: number;
@@ -152,7 +154,7 @@ declare namespace apiInterface {
     user: User;
     status: TicketStatus;
     faultTypeId: number;
-    faultType: TicketFaultType;
+    faultType: TicketFaultMenu;
     comment: string; // 备注
     lastOperateLogId: TicketLog['id'];
     lastOperateLog: TicketLog;
@@ -698,7 +700,7 @@ declare namespace apiInterface {
   interface TicketListQuery extends RequestPageQuery, TimeRange {
     userId?: Ticket['userId'];
     status?: TicketStatus['id'];
-    faultType?: TicketFaultType['id'];
+    faultType?: TicketFaultMenu['id'];
     dromBlock?: DormBlock['id'];
     deleted?: boolean;
   }
@@ -706,7 +708,7 @@ declare namespace apiInterface {
   interface TicketAddData extends RequestData {
     userId: User['id'];
     status: TicketStatus['id'];
-    faultTypeId: TicketFaultType['id'];
+    faultTypeId: TicketFaultMenu['id'];
     comment: string;
   }
   // 删除报修请求体
@@ -722,7 +724,7 @@ declare namespace apiInterface {
     id: Ticket['id'];
     userId: User['id'];
     status: TicketStatus['id'];
-    faultTypeId: TicketFaultType['id'];
+    faultTypeId: TicketFaultMenu['id'];
     comment: Ticket['comment'];
   }
   // 处理报修请求体
@@ -730,5 +732,33 @@ declare namespace apiInterface {
     id: Ticket['id'];
     status: TicketStatus['id'];
     comment: Ticket['comment'];
+  }
+
+  // 查询报修错误类型参数
+  interface TicketFaultTypeListQuery extends RequestQuery {
+    content?: TicketFaultMenu['content'];
+    visible?: TicketFaultMenu['visible'];
+  }
+  // 增加报修错误类型请求体
+  interface TicketFaultMenuAddData extends RequestData {
+    content: TicketFaultMenu['content'];
+    order: TicketFaultMenu['order'];
+    visible: TicketFaultMenu['visible'];
+  }
+  // 修改报修错误类型请求体
+  interface TicketFaultTypeAddData extends RequestData {
+    id: TicketFaultMenu['id'];
+    content: TicketFaultMenu['content'];
+    order: TicketFaultMenu['order'];
+    visible: TicketFaultMenu['visible'];
+  }
+  // 删除报修错误类型请求体
+  interface TicketFaultTypeDeleteData extends RequestData {
+    id: TicketFaultMenu['id'][];
+  }
+  // 批量修改报修错误类型请求体
+  interface TicketFaultTypeBatchAddData extends RequestData {
+    id: TicketFaultMenu['id'][];
+    visible: TicketFaultMenu['visible'];
   }
 }

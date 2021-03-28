@@ -27,6 +27,17 @@ export const ticketDeleted: apiInterface.TicketDeleted[] = [
   },
 ];
 
+export const ticketFaultTypeVisible: apiInterface.TicketFaultTypeVisible[] = [
+  {
+    id: true,
+    string: '可见',
+  },
+  {
+    id: false,
+    string: '不可见',
+  },
+];
+
 export const workSemesterCollecting: apiInterface.WorkSemesterCollectingExtra[] = [
   {
     id: true,

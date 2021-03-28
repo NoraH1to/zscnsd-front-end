@@ -63,7 +63,7 @@ export const getCUDTime: Function = (): apiInterface.CUDTime => ({
   deleteTime: getRandomDateTime(),
 });
 
-export const ticketFaultType: apiInterface.TicketFaultType[] = [
+export const ticketFaultType: apiInterface.TicketFaultMenu[] = [
   {
     id: 1,
     content: Random.ctitle(),
