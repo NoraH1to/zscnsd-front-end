@@ -426,7 +426,7 @@ const CustomTable = <T extends object>(props: Props<T>) => {
               ),
             }}
             loading={loading}
-            dataSource={data.data?.content}
+            dataSource={data.data?.content || data.data || null}
             columns={(colums || []).concat(otherCol)}
             rowSelection={apiMuiltActionDialogHooks ? rowSelection : undefined}
             rowKey={'id'}
