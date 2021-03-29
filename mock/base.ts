@@ -11,6 +11,7 @@ import {
   areas,
   attendanceChangeType,
   attendanceChangeStatus,
+  workChangeType,
 } from '../src/common';
 import update from 'immutability-helper';
 import apiInterface from 'api';
@@ -116,7 +117,7 @@ export const arrangementWithoutUser = {
   'userId|+1': 1,
   'semesterId|+1': 1,
   semester: semester,
-  weekday: Random.integer(0, 6),
+  weekday: Random.integer(1, 7),
   'area|1': dormBlocks,
   ...getCUDTime(),
 };
@@ -350,5 +351,15 @@ export const registerWhitelist = {
   name: Random.cname(),
   studentId: Number.parseInt(Random.string('number', 13)),
   'group|1': registerWhitelistGroupList,
+  ...getCUDTime(),
+};
+
+export const workChange = {
+  'id|+1': 1,
+  'semesterId|+1': 1,
+  semester,
+  date: getRandomDateTime(),
+  'type|1': workChangeType,
+  changeWeekday: Random.integer(1, 7),
   ...getCUDTime(),
 };

@@ -301,3 +301,9 @@ export const attendanceChangeStatus: apiInterface.AttendanceChangeStatusExtra[] 
   { id: 1, string: '已通过', status: 'success' },
   { id: 2, string: '未通过', status: 'warning' },
 ];
+
+// 值班学期值班变动类型
+export const workChangeType: apiInterface.WorkChangeType[] = [
+  { id: 0, string: '不值班' },
+  { id: 1, string: '更改' },
+];

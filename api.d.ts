@@ -69,6 +69,8 @@ declare namespace apiInterface {
   // 值班学期收集状态枚举
   interface WorkSemesterCollecting extends Enum {}
   interface WorkSemesterCollectingExtra extends Enum, BadgeStatus {}
+  // 值班学期值班变动类型枚举
+  interface WorkChangeType extends Enum {}
   // 注册白名单分组启用枚举
   interface RegisterWhitelistGroupEnabled extends Enum {}
   // 报修故障错误类型可见枚举
@@ -266,6 +268,15 @@ declare namespace apiInterface {
     groupId: RegisterWhitelistGroup['id'];
     group: RegisterWhitelistGroup;
   }
+  // 值班学期值班变动
+  interface WorkChange extends CUDTime {
+    id: number;
+    semesterId: WorkSemester['id'];
+    semester: WorkSemester;
+    date: string;
+    type: WorkChangeType;
+    changeWeekday: number;
+  }
 
   // 时间范围
   interface TimeRange {
@@ -297,6 +308,31 @@ declare namespace apiInterface {
   // 查询值班表参数
   interface WorkArrangementListQuery extends RequestQuery {
     semesterId?: WorkArrangement['semesterId'];
+  }
+
+  // 查询值班学期值班变动参数
+  interface WorkChangeListQuery extends RequestPageQuery {
+    semesterId: WorkChange['semesterId'];
+    type?: WorkChange['type']['id'];
+  }
+  // 增加值班学期值班变动请求体
+  interface WorkChangeAddData extends RequestData {
+    semesterId: WorkChange['semesterId'];
+    date: WorkChange['date'];
+    type: WorkChange['type']['id'];
+    changeWeekday?: WorkChange['changeWeekday'];
+  }
+  // 修改值班学期值班变动请求体
+  interface WorkChangeEditData extends RequestData {
+    id: WorkChange['id'];
+    semesterId: WorkChange['semesterId'];
+    date: WorkChange['date'];
+    type: WorkChange['type']['id'];
+    changeWeekday?: WorkChange['changeWeekday'];
+  }
+  // 删除注册白名单请求体
+  interface WorkChangeDeleteData extends RequestData {
+    id: WorkChange['id'][];
   }
 
   // 查询注册白名单参数
