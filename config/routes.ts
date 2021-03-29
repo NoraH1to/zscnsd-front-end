@@ -322,6 +322,15 @@ const desktopRoute: routeInterface.route[] = [
         },
       },
       {
+        path: '/d/scheduling-mgmt/detail/:id',
+        component: '@/pages/schedulingMgmt/detail',
+        extraOpt: {
+          key: '/d/scheduling-mgmt/detail',
+          name: '学期详情',
+          menu: false,
+        },
+      },
+      {
         path: '/d/sys-mgmt',
         extraOpt: {
           default: '/d/sys-mgmt/register-able-users-mgmt',

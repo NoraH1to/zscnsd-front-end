@@ -19,6 +19,7 @@ import {
   workSemesterEdit,
   workSemesterList,
 } from '@/api/workSemester';
+import { history } from '@/.umi/core/history';
 
 const filters: componentData.PropData[] = [
   {
@@ -143,7 +144,7 @@ const colums: TableColumnProps<apiInterface.WorkSemester>[] = [
 const onRow: TableProps<apiInterface.WorkSemester>['onRow'] = (record) => {
   return {
     onClick: (event) => {
-      // TODO: 点击行路由跳转
+      history.push(`/d/scheduling-mgmt/detail/${record.id}`);
     }, // 点击行
   };
 };
