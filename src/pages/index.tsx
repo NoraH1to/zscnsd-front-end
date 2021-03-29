@@ -75,10 +75,11 @@ const index = (props: any) => {
   }, []);
 
   // 面包屑
-  const breadCrumb = useMemo(
+  const breadCrumbDataList = useMemo(
     () => getRouteNamePath(history.location.pathname, pcRoutes || []),
     [history.location.pathname],
-  )
+  );
+  const breadCrumb = breadCrumbDataList
     .split('/')
     .map((namePath) => (
       <Breadcrumb.Item key={namePath}>{namePath}</Breadcrumb.Item>
@@ -126,8 +127,10 @@ const index = (props: any) => {
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-header" style={{ padding: 0 }} />
-        <Content style={{ margin: '0 24px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>{breadCrumb}</Breadcrumb>
+        <Content style={{ margin: '24px 24px 0px 24px' }}>
+          {breadCrumbDataList == '_null' ? null : (
+            <Breadcrumb style={{ margin: '0 0 16px 0' }}>{breadCrumb}</Breadcrumb>
+          )}
           <div className="site-content" style={{ padding: 24 }}>
             {props.children}
           </div>
