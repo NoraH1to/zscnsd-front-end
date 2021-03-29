@@ -109,7 +109,7 @@ const colums: TableColumnProps<apiInterface.WorkChange>[] = [
     title: '日期',
     dataIndex: 'date',
     render: (value, record, index) => dateCell([value]),
-    width: 160,
+    width: 120,
   },
   {
     title: '更改的值班日',
