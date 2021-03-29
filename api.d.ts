@@ -221,8 +221,8 @@ declare namespace apiInterface {
   // 排班
   interface WorkArrangement extends CUDTime {
     id: number;
-    userId: User['id'];
-    user: null | User;
+    userId: Member['id'];
+    user: null | Member;
     semesterId: WorkSemester['id'];
     semester: WorkSemester;
     weekday: number;
@@ -293,6 +293,11 @@ declare namespace apiInterface {
   }
   // 分页请求体
   interface RequestPageQuery extends Page, RequestQuery {}
+
+  // 查询值班表参数
+  interface WorkArrangementListQuery extends RequestQuery {
+    semesterId?: WorkArrangement['semesterId'];
+  }
 
   // 查询注册白名单参数
   interface RegisterWhitelistListQuery extends RequestPageQuery {

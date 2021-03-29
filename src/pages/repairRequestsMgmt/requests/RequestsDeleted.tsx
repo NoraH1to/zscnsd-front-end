@@ -20,13 +20,16 @@ import {
   Button,
 } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { dateTimeCell, goMemberCenterCell } from '@/components/CustomTable';
+import CustomTable, {
+  dateTimeCell,
+  goMemberCenterCell,
+} from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
 import { RollbackOutlined } from '@ant-design/icons';
 import TicketStatusComponent from '@/components/ticketStatus';
-import { formatDate } from '@/utils';
 import { ticketFaultMenuList } from '@/api/ticketFaultMenu';
+import TimeCard from '@/components/timeCard';
 
 const filters: componentData.PropData[] = [
   {
@@ -217,16 +220,7 @@ const requestsDeleted: FC<{ defaultFormData?: any }> = ({
             </Card>
           </Col>
           <Col span={8}>
-            <Card title="杂项">
-              <Space direction="vertical">
-                <Typography.Text>
-                  {`创建时间：${formatDate(record.createTime)}`}
-                </Typography.Text>
-                <Typography.Text>
-                  {`更新时间：${formatDate(record.updateTime)}`}
-                </Typography.Text>
-              </Space>
-            </Card>
+            <TimeCard data={record} />
           </Col>
         </Row>
       </>

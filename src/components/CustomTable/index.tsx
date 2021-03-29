@@ -175,8 +175,10 @@ export const dateRangeCell = (dateStr: string[]) =>
 export const goUserCenterCell = (user: apiInterface.User) =>
   getRouteCell(user.name, '/');
 
-export const goMemberCenterCell = (user: apiInterface.Member) =>
-  getRouteCell(`${user.name}-${user.member?.workId || '已退出'}`, '/');
+export const goMemberCenterCell = (user: apiInterface.Member | null) =>
+  user
+    ? getRouteCell(`${user.name}-${user.member?.workId || '已退出'}`, '/')
+    : '_null';
 
 export const getRouteCell = (text: string, target: string): ReactElement => (
   <Typography.Link
