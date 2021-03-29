@@ -22,7 +22,7 @@ const _InputNumber: FC<{ item: componentData.PropData }> = (props) => {
   const { item } = props;
   return (
     <BaseFormItem item={item}>
-      <InputNumber></InputNumber>
+      <InputNumber placeholder={item?.holder}></InputNumber>
     </BaseFormItem>
   );
 };
@@ -31,7 +31,9 @@ const _DateRangePicker: FC<{ item: componentData.PropData }> = (props) => {
   const { item } = props;
   return (
     <BaseFormItem item={item}>
-      <DatePicker.RangePicker></DatePicker.RangePicker>
+      <DatePicker.RangePicker
+        placeholder={item?.holderList}
+      ></DatePicker.RangePicker>
     </BaseFormItem>
   );
 };
@@ -41,6 +43,7 @@ const _DatePicker: FC<{ item: componentData.PropData }> = (props) => {
   return (
     <BaseFormItem item={item}>
       <DatePicker
+        placeholder={item.holder}
         format={datetimeformatOut}
         showTime={{
           defaultValue: moment('00:00:00'),

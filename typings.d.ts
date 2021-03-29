@@ -53,6 +53,7 @@ declare namespace componentData {
     };
     default?: any;
     holder?: string;
+    holderList?: [string, string];
     timeRange?: {
       rangeStartProp: string;
       rangeEndProp: string;
