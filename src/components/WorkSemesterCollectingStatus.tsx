@@ -8,7 +8,7 @@ const WorkSemesterCollectingStatusComponent: FC<{
   workSemester: apiInterface.WorkSemester;
 }> = ({ workSemester }) => {
   const target = find<apiInterface.WorkSemesterCollectingExtra>(
-    propEq('id', workSemester.collectingTimetable.toString()),
+    propEq('id', workSemester.collectingTimetable),
   )(workSemesterCollecting);
   const status = target?.status || 'default';
   const text = target?.string || '_null';
