@@ -297,8 +297,9 @@ const CustomTable = <T extends object>(props: Props<T>) => {
           width: 130,
           fixed: 'right',
           render: (value, record, index) => {
-            const outMenu = actions.slice(0, 2);
-            const inMenu = actions.slice(2);
+            const currentActions = actions.filter(item => !item.hidden || !item.hidden(record))
+            const outMenu = currentActions.slice(0, 2);
+            const inMenu = currentActions.slice(2);
             return (
               <>
                 {outMenu.map((item) => (

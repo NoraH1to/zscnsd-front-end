@@ -16,6 +16,7 @@ declare namespace componentData {
     hooks: componentData.DialogFormHooks | any;
     apiParamKeys: (record: any) => any;
     type: 'dialog' | 'api';
+    hidden?: (record: any) => boolean;
   }
   interface CustomFormHooks {
     form?: JSX.Element;
