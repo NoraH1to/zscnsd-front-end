@@ -243,31 +243,31 @@ export const areas: apiInterface.Area[] = [
 export const weekDays: apiInterface.Enum[] = [
   {
     id: 1,
-    string: '星期一',
+    string: '周一',
   },
   {
     id: 2,
-    string: '星期二',
+    string: '周二',
   },
   {
     id: 3,
-    string: '星期三',
+    string: '周三',
   },
   {
     id: 4,
-    string: '星期四',
+    string: '周四',
   },
   {
     id: 5,
-    string: '星期五',
+    string: '周五',
   },
   {
     id: 6,
-    string: '星期六',
+    string: '周六',
   },
   {
     id: 7,
-    string: '星期日',
+    string: '周日',
   },
 ];
 
