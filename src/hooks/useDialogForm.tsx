@@ -77,7 +77,7 @@ const useDialogForm = <P,>(
         setVisible(false);
         formRef.resetFields();
       }}
-      destroyOnClose={false}
+      destroyOnClose={true}
     >
       {form}
     </Modal>
