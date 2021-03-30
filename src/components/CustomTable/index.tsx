@@ -118,7 +118,6 @@ export const useTableSort = (
                 : { $unset: ['sort'] },
             ),
           );
-          console.log(value);
           onChange && onChange({ sort: value || null });
         }}
         allowClear={true}

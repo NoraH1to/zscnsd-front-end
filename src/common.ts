@@ -7,6 +7,8 @@ export enum TableFilterType {
   time,
   select,
   selectSearch,
+  muitSelect,
+  image,
 }
 
 export const ticketStatus: apiInterface.TicketStatusExtra[] = [
@@ -269,7 +271,7 @@ export const weekDays: apiInterface.Enum[] = [
   },
 ];
 
-export const weekDaysPure: number[] = [0, 1, 2, 3, 4, 5, 6];
+export const weekDaysPure: number[] = [1, 2, 3, 4, 5, 6, 7];
 
 export const punishments: apiInterface.Enum[] = [
   {
@@ -306,4 +308,10 @@ export const attendanceChangeStatus: apiInterface.AttendanceChangeStatusExtra[] 
 export const workChangeType: apiInterface.WorkChangeType[] = [
   { id: 0, string: '不值班' },
   { id: 1, string: '更改' },
+];
+
+// 成员课程表提交状态
+export const memberTimetableStatus: apiInterface.MemberTimetableStatus[] = [
+  { id: 0, string: '未提交' },
+  { id: 1, string: '已提交' },
 ];

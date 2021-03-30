@@ -75,6 +75,8 @@ declare namespace apiInterface {
   interface RegisterWhitelistGroupEnabled extends Enum {}
   // 报修故障错误类型可见枚举
   interface TicketFaultTypeVisible extends Enum {}
+  // 成员课程表提交状态枚举
+  interface MemberTimetableStatus extends Enum {}
   // 报修工单故障错误类型
   interface TicketFaultMenu extends CUDTime {
     id: number;
@@ -277,6 +279,17 @@ declare namespace apiInterface {
     type: WorkChangeType;
     changeWeekday: number;
   }
+  // 成员课程表
+  interface MemberTimetable extends CUDTime {
+    id: number;
+    userId: Member['id'];
+    user: Member;
+    semesterId: WorkSemester['id'];
+    semester: WorkSemester;
+    imagePath: string;
+    availableWeekday: number[];
+    comment: string;
+  }
 
   // 时间范围
   interface TimeRange {
@@ -308,6 +321,34 @@ declare namespace apiInterface {
   // 查询值班表参数
   interface WorkArrangementListQuery extends RequestQuery {
     semesterId?: WorkArrangement['semesterId'];
+  }
+
+  // 查询成员课程表参数
+  interface MemberTimetableListQuery extends RequestPageQuery {
+    semesterId: WorkSemester['id'];
+    userId?: Member['id'];
+    status: MemberTimetableStatus['id'];
+  }
+  // 增加成员课程表请求体
+  interface MemberTimetableAddAdminData extends RequestData {
+    semesterId: WorkSemester['id'];
+    userId: MemberTimetable['user']['id'];
+    imagePath: MemberTimetable['imagePath'];
+    availableWeekday: MemberTimetable['availableWeekday'];
+    comment: MemberTimetable['comment'];
+  }
+  // 修改成员课程表请求体
+  interface MemberTimetableEditData extends RequestData {
+    id: MemberTimetable['id'];
+    semesterId: WorkSemester['id'];
+    userId: MemberTimetable['user']['id'];
+    imagePath: MemberTimetable['imagePath'];
+    availableWeekday: MemberTimetable['availableWeekday'];
+    comment: MemberTimetable['comment'];
+  }
+  // 删除成员课程表请求体
+  interface MemberTimetableDeleteData extends RequestData {
+    id: MemberTimetable['id'][];
   }
 
   // 查询值班学期值班变动参数
@@ -801,5 +842,10 @@ declare namespace apiInterface {
   interface TicketFaultTypeBatchAddData extends RequestData {
     id: TicketFaultMenu['id'][];
     visible: TicketFaultMenu['visible'];
+  }
+
+  // 下载文件参数
+  interface FileDownloadQuery extends RequestQuery {
+    path: string;
   }
 }

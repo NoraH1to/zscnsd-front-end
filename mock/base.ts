@@ -363,3 +363,15 @@ export const workChange = {
   changeWeekday: Random.integer(1, 7),
   ...getCUDTime(),
 };
+
+export const memberTimetable = {
+  'id|+1': 1,
+  'userId|+1': 1,
+  user,
+  'semesterId|+1': 1,
+  semester,
+  imagePath: Random.image('500x300', '#989898'),
+  availableWeekday: weekDaysPure,
+  comment: Random.ctitle(10, 20),
+  ...getCUDTime(),
+};
