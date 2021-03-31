@@ -118,7 +118,7 @@ export const arrangementWithoutUser = {
   'semesterId|+1': 1,
   semester: semester,
   weekday: Random.integer(1, 7),
-  'area|1': dormBlocks,
+  'area|1': areas,
   ...getCUDTime(),
 };
 
