@@ -1,0 +1,33 @@
+.work-arrangement {
+  .ant-table-header {
+    // display: none !important;
+  }
+  .ant-table-row-expand-icon-cell {
+    // width: 20px !important;
+    // display: none;
+  }
+  .ant-table.ant-table-middle .ant-table-tbody .ant-table-wrapper:only-child .ant-table {
+    margin-left: 0 !important;
+  }
+  .ant-table .ant-table-expanded-row-fixed {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.mk-work-flex-container {
+  display: flex;
+  .work-arrangement {
+    width: 1000px;
+  }
+  .member-list {
+    flex-grow: 1;
+    margin: 0 0 0 32px;
+    .ant-space {
+      width: 100%;
+    }
+    .ant-card {
+      margin: 0 0 16px 0;
+    }
+  }
+}

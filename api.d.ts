@@ -54,7 +54,12 @@ declare namespace apiInterface {
   // 权限枚举
   interface Role extends Enum {}
   // 片区枚举
-  interface Area extends Enum {}
+  interface Area extends Enum {
+    id: number;
+  }
+  interface WeekDays extends Enum {
+    id: number;
+  }
   // 报修工单状态枚举
   interface TicketStatus extends Enum {}
   interface TicketStatusExtra extends TicketStatus, BadgeStatus {}
@@ -230,7 +235,7 @@ declare namespace apiInterface {
     semesterId: WorkSemester['id'];
     semester: WorkSemester;
     weekday: number;
-    area: DormBlock;
+    area: Area;
   }
   // 考勤记录
   interface Attendance extends CUDTime {

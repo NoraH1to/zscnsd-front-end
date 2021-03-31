@@ -240,7 +240,7 @@ export const areas: apiInterface.Area[] = [
   { id: 5, string: '朝晖片区' },
 ];
 
-export const weekDays: apiInterface.Enum[] = [
+export const weekDays: apiInterface.WeekDays[] = [
   {
     id: 1,
     string: '周一',
