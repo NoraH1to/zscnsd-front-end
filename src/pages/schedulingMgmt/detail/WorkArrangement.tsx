@@ -132,6 +132,14 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     semesterId,
   });
 
+  // 缓存当前数据的请求表单
+  const [
+    currentFormData,
+    setCurrentFormData,
+  ] = useState<apiInterface.WorkArrangementListQuery>({
+    semesterId,
+  });
+
   // 排班visible
   const [visible, setVisible] = useState(false);
 
@@ -150,11 +158,20 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     loading,
     setLoading,
     data,
+    setParams,
     errorData,
   } = useInit<apiInterface.WorkArrangementListQuery>(
     workArrangementList,
     formData,
   );
+
+  const handleSubmitBtnClick = async (
+    e?: React.MouseEvent<HTMLElement, MouseEvent>,
+  ) => {
+    setCurrentFormData(formData);
+    setParams(formData);
+    setLoading(true);
+  };
 
   // 排班 api
   const {
@@ -162,7 +179,7 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     setLoading: setMakeWorkLoading,
     data: makeWorkData,
     setParams: setMakeWorkParams,
-  } = useApi(workArrangementUpdate, undefined, () => setLoading(true));
+  } = useApi(workArrangementUpdate, undefined, handleSubmitBtnClick);
 
   // 筛选表单
   const {
@@ -172,12 +189,13 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
   } = useCustomForm(filters, (newFormData) => {
     setFormData(update(formData, { $merge: newFormData }));
   });
-  const handleSubmitBtnClick: React.MouseEventHandler<HTMLElement> = async (
-    e,
-  ) => setLoading(true);
 
   const SubmitBtn = (
-    <Button loading={loading} type="primary" onClick={handleSubmitBtnClick}>
+    <Button
+      loading={loading}
+      type="primary"
+      onClick={(e) => handleSubmitBtnClick(e)}
+    >
       搜索
     </Button>
   );
@@ -222,7 +240,7 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
           // TODO: 请求
           setMakeWorkParams({
             userId: timeTable.user['id'],
-            semesterId: formData.semesterId || 0,
+            semesterId: currentFormData.semesterId || 0,
             weekday: col + 1,
             area: area?.id || 0,
           });
@@ -362,7 +380,11 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
         >
           <div className="mk-work-flex-container">
             <div className="work-arrangement">
-              <BaseTable Table={WorkArrangementTable} />
+              <BaseTable
+                Table={WorkArrangementTable}
+                Filter={form}
+                FilterBtn={SubmitBtn}
+              />
             </div>
             <MemberList semesterId={semesterId || 0} />
           </div>
