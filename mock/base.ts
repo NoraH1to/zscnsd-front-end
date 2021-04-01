@@ -371,7 +371,7 @@ export const memberTimetable = {
   'semesterId|+1': 1,
   semester,
   imagePath: Random.image('500x300', '#989898'),
-  availableWeekday: weekDaysPure,
+  availableWeekday: weekDaysPure.slice(0, 3),
   comment: Random.ctitle(10, 20),
   ...getCUDTime(),
 };
