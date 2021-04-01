@@ -327,6 +327,13 @@ declare namespace apiInterface {
   interface WorkArrangementListQuery extends RequestQuery {
     semesterId?: WorkArrangement['semesterId'];
   }
+  // 更新值班表请求体
+  interface WorkArrangementUpdateData extends RequestData {
+    userId: Member['id'];
+    semesterId: WorkArrangement['semesterId'];
+    weekday: WorkArrangement['weekday'];
+    area: Area['id'];
+  }
 
   // 查询成员课程表参数
   interface MemberTimetableListQuery extends RequestPageQuery {

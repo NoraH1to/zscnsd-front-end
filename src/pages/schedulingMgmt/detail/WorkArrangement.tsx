@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import { areas, TableFilterType, weekDays } from '@/common';
-import { useCustomForm, useInit } from '@/hooks/index';
+import { useApi, useCustomForm, useInit } from '@/hooks/index';
 import {
   TableColumnProps,
   TableProps,
@@ -12,16 +12,19 @@ import {
   Typography,
   Pagination,
 } from 'antd';
-import apiInterface from 'api';
+import apiInterface, { MemberTimetable } from 'api';
 import componentData from 'typings';
-import { workArrangementList } from '@/api/workArrangement';
+import {
+  workArrangementList,
+  workArrangementUpdate,
+} from '@/api/workArrangement';
 import { find, forEachObjIndexed } from 'ramda';
 import './workArrangement.scss';
 import BaseTable from '@/components/BaseTable';
 import update from 'immutability-helper';
-import { memberList } from '@/api/member';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { memberTimetableList } from '@/api/memberTimetable';
 
 interface colObj {
   area?: apiInterface.Area;
@@ -30,20 +33,23 @@ interface colObj {
 
 // 拖拽类型
 const dragItemTypes = {
-  MEMBER: 'member',
+  TIMETABLE: 'timetable',
 };
 
-const MemberCard: FC<{ member: apiInterface.Member }> = ({ member }) => {
+const MemberCard: FC<{ timeTable: apiInterface.MemberTimetable }> = ({
+  timeTable,
+}) => {
   const [{ opacity }, drag] = useDrag(
     () => ({
-      type: dragItemTypes.MEMBER,
-      item: member,
+      type: dragItemTypes.TIMETABLE,
+      item: timeTable,
       collect: (monitor) => ({
         opacity: monitor.isDragging() ? 0.4 : 1,
       }),
     }),
-    [member, dragItemTypes.MEMBER],
+    [timeTable, dragItemTypes.TIMETABLE],
   );
+  const { user: member } = timeTable;
   return (
     <div ref={drag} role="Box" style={{ opacity }}>
       <Card>
@@ -64,20 +70,27 @@ const MemberCard: FC<{ member: apiInterface.Member }> = ({ member }) => {
 };
 
 // 用于拖拽的成员列表
-const MemberList: FC = () => {
-  const [formData, setFormData] = useState<apiInterface.MemberListQuery>({
+const MemberList: FC<{ semesterId: MemberTimetable['semesterId'] }> = ({
+  semesterId,
+}) => {
+  const [
+    formData,
+    setFormData,
+  ] = useState<apiInterface.MemberTimetableListQuery>({
     page: 1,
     count: 10,
+    semesterId,
+    status: 1,
   });
   const { loading, setLoading, data, setParams } = useInit(
-    memberList,
+    memberTimetableList,
     formData,
   );
   return (
     <div className="member-list">
       <Space direction="vertical" align="center">
-        {data?.data?.content.map((member: apiInterface.Member) => (
-          <MemberCard member={member} />
+        {data?.data?.content.map((timeTable: apiInterface.MemberTimetable) => (
+          <MemberCard timeTable={timeTable} />
         ))}
       </Space>
       <Pagination
@@ -109,23 +122,6 @@ const onRow: TableProps<apiInterface.WorkArrangement>['onRow'] = (record) => {
     }, // 点击行
   };
 };
-
-const colums: TableColumnProps<colObj>[] = [
-  {
-    title: '宿舍楼栋',
-    dataIndex: ['area', 'string'],
-    width: 80,
-    fixed: 'left',
-  },
-  ...weekDays.map<TableColumnProps<colObj>>((day, col) => ({
-    title: day.string,
-    width: 100,
-    render: (value, record, index) => {
-      return record[day.id]?.user?.name;
-    },
-    onCell: (record, row) => ({ record, row, col }), // 声明文件的锅，不这样没法传参
-  })),
-];
 
 const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
   // 表单数据
@@ -160,6 +156,14 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     formData,
   );
 
+  // 排班 api
+  const {
+    loading: makeWorkLoading,
+    setLoading: setMakeWorkLoading,
+    data: makeWorkData,
+    setParams: setMakeWorkParams,
+  } = useApi(workArrangementUpdate, undefined, () => setLoading(true));
+
   // 筛选表单
   const {
     form,
@@ -191,6 +195,42 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
       排班
     </Button>
   );
+
+  const colums: TableColumnProps<colObj>[] = [
+    {
+      title: '宿舍楼栋',
+      dataIndex: ['area', 'string'],
+      width: 80,
+      fixed: 'left',
+    },
+    ...weekDays.map<TableColumnProps<colObj>>((day, col) => ({
+      title: day.string,
+      width: 100,
+      render: (value, record, index) => {
+        return record[day.id]?.user?.name;
+      },
+      onCell: (record, row) => ({
+        record,
+        row,
+        col,
+        _onDrop: (
+          timeTable: apiInterface.MemberTimetable,
+          row: number,
+          col: number,
+          area?: apiInterface.Area,
+        ) => {
+          // TODO: 请求
+          setMakeWorkParams({
+            userId: timeTable.user['id'],
+            semesterId: formData.semesterId || 0,
+            weekday: col + 1,
+            area: area?.id || 0,
+          });
+          setMakeWorkLoading(true);
+        },
+      }), // 报错是声明文件的锅，不这样没法传参
+    })),
+  ];
 
   const dealData = (dataList: apiInterface.WorkArrangement[]) => {
     const dayObject: colObj = {};
@@ -234,20 +274,30 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     row: number;
     col: number;
     style: any;
+    _onDrop: (
+      timeTable: apiInterface.MemberTimetable,
+      row: number,
+      col: number,
+      area?: apiInterface.Area,
+    ) => {};
     [index: string]: any;
-  }> = ({ style, record, row, col, ...restProps }) => {
+  }> = ({ style, record, row, col, _onDrop, ...restProps }) => {
     const [{ isOver, canDrop }, drop] = useDrop(
       () => ({
-        accept: dragItemTypes.MEMBER,
+        accept: dragItemTypes.TIMETABLE,
         collect: (monitor) => ({
           isOver: monitor.isOver(),
           canDrop: monitor.canDrop(),
         }),
-        drop: (item: apiInterface.Member) => {
-          // TODO: 发送请求
+        drop: (timeTable: apiInterface.MemberTimetable) => {
+          _onDrop(timeTable, row, col, record.area);
         },
-        canDrop: (item: apiInterface.Member) => {
-          return !!record && !record[col + 1];
+        canDrop: (timeTable: apiInterface.MemberTimetable) => {
+          return (
+            !!record &&
+            !record[col + 1] &&
+            !!find((day) => day == col + 1, timeTable.availableWeekday)
+          );
         },
       }),
       [row],
@@ -312,13 +362,9 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
         >
           <div className="mk-work-flex-container">
             <div className="work-arrangement">
-              <BaseTable
-                Filter={form}
-                FilterBtn={SubmitBtn}
-                Table={WorkArrangementTable}
-              />
+              <BaseTable Table={WorkArrangementTable} />
             </div>
-            <MemberList />
+            <MemberList semesterId={semesterId || 0} />
           </div>
         </Modal>
       </DndProvider>

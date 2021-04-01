@@ -8,3 +8,11 @@ export const workArrangementList = (
     params,
   });
 };
+
+export const workArrangementUpdate = (
+  data?: apiInterface.WorkArrangementUpdateData,
+) => {
+  return POST('/api/work-arrangement/update', {
+    data,
+  });
+};
