@@ -117,14 +117,6 @@ const EditPropData: componentData.PropData[] = [
   },
 ];
 
-const onRow: TableProps<apiInterface.MemberTimetable>['onRow'] = (record) => {
-  return {
-    onClick: (event) => {
-      // TODO: 点击行路由跳转
-    }, // 点击行
-  };
-};
-
 const colums: TableColumnProps<apiInterface.MemberTimetable>[] = [
   {
     title: 'ID',

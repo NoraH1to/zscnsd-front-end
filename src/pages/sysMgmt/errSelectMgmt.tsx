@@ -89,14 +89,6 @@ const EditPropData: componentData.PropData[] = [
   },
 ];
 
-const onRow: TableProps<apiInterface.TicketFaultMenu>['onRow'] = (record) => {
-  return {
-    onClick: (event) => {
-      // TODO: 点击行路由跳转
-    }, // 点击行
-  };
-};
-
 const colums: TableColumnProps<apiInterface.TicketFaultMenu>[] = [
   {
     title: 'ID',
@@ -213,7 +205,6 @@ const errSelectMgmt: FC = () => {
         apiAddHooks={apiAddHooks}
         apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
         actions={actions}
-        onRow={onRow}
         tableProps={{ pagination: false }}
       />
     </>

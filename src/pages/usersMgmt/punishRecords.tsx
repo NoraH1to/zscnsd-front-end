@@ -202,16 +202,6 @@ const punishRecords: FC = () => {
     apiHooks.setLoading(true),
   );
 
-  const onRow: TableProps<apiInterface.MemberPunishment>['onRow'] = (
-    record,
-  ) => {
-    return {
-      onClick: (event) => {
-        // TODO: 点击行路由跳转
-      }, // 点击行
-    };
-  };
-
   const actions: componentData.CustomTableAction[] = [
     {
       key: 'edit',

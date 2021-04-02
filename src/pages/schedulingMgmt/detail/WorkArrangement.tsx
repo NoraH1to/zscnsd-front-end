@@ -117,9 +117,7 @@ const MemberList: FC<{ semesterId: MemberTimetable['semesterId'] }> = ({
 
 const onRow: TableProps<apiInterface.WorkArrangement>['onRow'] = (record) => {
   return {
-    onClick: (event) => {
-      // TODO: 点击行路由跳转
-    }, // 点击行
+    onClick: (event) => {}, // 点击行
   };
 };
 
@@ -237,7 +235,6 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
           col: number,
           area?: apiInterface.Area,
         ) => {
-          // TODO: 请求
           setMakeWorkParams({
             userId: timeTable.user['id'],
             semesterId: currentFormData.semesterId || 0,

@@ -275,14 +275,6 @@ const colums: TableColumnProps<apiInterface.AttendanceChange>[] = [
   },
 ];
 
-const onRow: TableProps<apiInterface.AttendanceChange>['onRow'] = (record) => {
-  return {
-    onClick: (event) => {
-      // TODO: 点击行路由跳转
-    }, // 点击行
-  };
-};
-
 const changeRequestsMgmt: FC = () => {
   // 表单数据
   const [
@@ -399,7 +391,6 @@ const changeRequestsMgmt: FC = () => {
       apiAddHooks={apiAddHooks}
       apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
       actions={actions}
-      onRow={onRow}
       sortList={attendanceChangeSortableList}
     />
   );

@@ -282,7 +282,6 @@ export const ispTicket = {
 };
 
 export const ispTicketOperateLog = {
-  // TODO ispTicketOperateLog Mock
   'id|+1': 1,
   'ispTicketId|+1': 1,
   ispTicket,

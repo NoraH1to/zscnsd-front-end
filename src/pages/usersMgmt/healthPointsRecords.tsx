@@ -8,7 +8,10 @@ import {
 } from '@/hooks/index';
 import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { dateTimeCell, goMemberCenterCell } from '@/components/CustomTable';
+import CustomTable, {
+  dateTimeCell,
+  goMemberCenterCell,
+} from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
@@ -191,14 +194,6 @@ const healthPointsRecords: FC = () => {
   const apiMuiltActionDialogHooks = useMuitActionDialog(muitActions, () =>
     apiHooks.setLoading(true),
   );
-
-  const onRow: TableProps<apiInterface.MemberHealth>['onRow'] = (record) => {
-    return {
-      onClick: (event) => {
-        // TODO: 点击行路由跳转
-      }, // 点击行
-    };
-  };
 
   const actions: componentData.CustomTableAction[] = [
     {

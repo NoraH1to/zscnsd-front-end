@@ -26,6 +26,4 @@ const requests: FC = () => {
   );
 };
 
-// TODO： 根据路由传参
-
 export default requests;

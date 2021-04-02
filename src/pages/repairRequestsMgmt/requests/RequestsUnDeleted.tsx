@@ -237,7 +237,6 @@ const onRow: TableProps<apiInterface.Ticket>['onRow'] = (record) => {
   };
 };
 
-// TODO: 能接受初始参数
 const requestsUndeleted: FC<{
   defaultFormData?: any;
 }> = ({ defaultFormData }) => {
@@ -365,7 +364,7 @@ const requestsUndeleted: FC<{
             </Card>
           </Col>
           <Col span={8}>
-            <TimeCard data={record}/>
+            <TimeCard data={record} />
           </Col>
         </Row>
       </>

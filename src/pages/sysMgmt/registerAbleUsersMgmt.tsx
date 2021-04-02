@@ -106,14 +106,6 @@ const EditPropData: componentData.PropData[] = [
   },
 ];
 
-const onRow: TableProps<apiInterface.RegisterWhitelist>['onRow'] = (record) => {
-  return {
-    onClick: (event) => {
-      // TODO: 点击行路由跳转
-    }, // 点击行
-  };
-};
-
 const colums: TableColumnProps<apiInterface.RegisterWhitelist>[] = [
   {
     title: 'ID',
@@ -269,7 +261,6 @@ const registerAbleUsersMgmt: FC = () => {
         apiAddHooks={apiAddHooks}
         apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
         actions={actions}
-        onRow={onRow}
         extraComponent={{ Left: BatchAddBtn, Right: ExportBtn }}
       />
       <Modal

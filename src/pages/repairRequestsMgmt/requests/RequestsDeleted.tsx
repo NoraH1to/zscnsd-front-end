@@ -133,7 +133,6 @@ const onRow: TableProps<apiInterface.Ticket>['onRow'] = (record) => {
   };
 };
 
-// TODO: 能接受初始参数
 const requestsDeleted: FC<{ defaultFormData?: any }> = ({
   defaultFormData,
 }) => {
