@@ -25,8 +25,14 @@ export const userDelete = (data?: apiInterface.UserDeleteData) => {
   });
 };
 
-export const userSearch = (params?: apiInterface.UserSearch) => {
+export const userSearch = (params?: apiInterface.UserSearchData) => {
   return GET('/api/user/search', {
     params,
+  });
+};
+
+export const userLoginAdmin = (data?: apiInterface.UserLoginAdminData) => {
+  return POST('/api/user/admin-login', {
+    data,
   });
 };

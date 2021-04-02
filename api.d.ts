@@ -295,6 +295,11 @@ declare namespace apiInterface {
     availableWeekday: number[];
     comment: string;
   }
+  // 后台登录返回数据
+  interface UserLoginAdmin extends RequestData {
+    token: string;
+    user: Member;
+  }
 
   // 时间范围
   interface TimeRange {
@@ -695,8 +700,13 @@ declare namespace apiInterface {
     id: User['id'][];
   }
   // 用户模糊搜索
-  interface UserSearch extends RequestQuery {
+  interface UserSearchData extends RequestQuery {
     search: string | number;
+  }
+  // 后台登录请求体
+  interface UserLoginAdminData extends RequestData {
+    workId: MemberInfo['workId'];
+    password: string;
   }
 
   // 查询组织成员参数

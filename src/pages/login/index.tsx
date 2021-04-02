@@ -1,26 +1,70 @@
-import { useApi, useInit } from '@/hooks';
+import { userLoginAdmin } from '@/api/user';
+import { TableFilterType } from '@/common';
+import { useApi, useCustomForm } from '@/hooks';
+import './index.scss';
+import apiInterface from 'api';
 import { FC, useState } from 'react';
+import componentData from 'typings';
+import update from 'immutability-helper';
+import { Button, Card } from 'antd';
+import { history } from '@/.umi/core/history';
+
+const propData: componentData.PropData[] = [
+  {
+    key: 'workId',
+    type: TableFilterType.str,
+    name: '工号',
+    rules: [{ required: true }],
+  },
+  {
+    key: 'password',
+    type: TableFilterType.password,
+    name: '密码',
+    rules: [{ required: true }],
+  },
+];
 
 const login: FC = () => {
-  const [counter, setCounter] = useState(0);
-  const { loading, setLoading, data, errorData } = useInit(
-    (params: any) =>
-      new Promise<any>((resolve, reject) => {
-        setTimeout(() => {
-          resolve({
-            data: {},
-            code: 233,
-            msg: '2333',
-          });
-        }, 3000);
-      }),
-    {},
+  const [formData, setFormData] = useState<apiInterface.UserLoginAdminData>({
+    workId: '',
+    password: '',
+  });
+  const { loading, setLoading, data, errorData, setParams } = useApi(
+    userLoginAdmin,
+    formData,
+    (res: any) => {
+      if (!res?.data?.token) return;
+      window.localStorage.setItem('Token', res.data.token);
+      history.push('/');
+    },
   );
+  const onFormChange = (newFormData: any) => {
+    setFormData(update(formData, { $merge: newFormData }));
+  };
+  const { form, validateFields, validatedContainer } = useCustomForm(
+    propData,
+    onFormChange,
+    { layout: 'horizontal' },
+  );
+  const submit = async () => {
+    await validateFields();
+    if (!validatedContainer.validated) return;
+    setParams(formData);
+    setLoading(true);
+  };
   return (
-    <div>
-      <button onClick={() => setLoading(true)}>233</button>
-      {`${loading}:${JSON.stringify(data)}`}
-      <button onClick={() => setCounter(counter + 1)}>{counter}</button>
+    <div className="login-container">
+      <Card
+        className="login-card"
+        title="ZSCNSD WORK SYSTEM"
+        actions={[
+          <Button type="primary" onClick={() => submit()} loading={loading}>
+            登入
+          </Button>,
+        ]}
+      >
+        {form}
+      </Card>
     </div>
   );
 };

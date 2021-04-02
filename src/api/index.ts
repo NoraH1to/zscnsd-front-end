@@ -8,6 +8,7 @@ axios.defaults.withCredentials = true;
 // 请求拦截
 axios.interceptors.request.use(
   (config) => {
+    config.headers['Token'] = window.localStorage.getItem('Token');
     return config;
   },
   (error) => {

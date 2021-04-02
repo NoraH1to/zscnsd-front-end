@@ -9,6 +9,7 @@ export enum TableFilterType {
   selectSearch,
   muitSelect,
   image,
+  password,
 }
 
 export const ticketStatus: apiInterface.TicketStatusExtra[] = [

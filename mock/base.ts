@@ -374,3 +374,8 @@ export const memberTimetable = {
   comment: Random.ctitle(10, 20),
   ...getCUDTime(),
 };
+
+export const userLogin = {
+  token: Random.string(20),
+  user: member,
+};

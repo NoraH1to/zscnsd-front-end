@@ -19,11 +19,16 @@ import { datetimeformatOut, formatDate } from '@/utils';
 import UploadImg from '@/components/UploadImg';
 import useUploadImg from '../useUploadImg';
 
-const _Input: FC<{ item: componentData.PropData }> = (props) => {
-  const { item } = props;
+const _Input: FC<{ item: componentData.PropData; password?: boolean }> = (
+  props,
+) => {
+  const { item, password } = props;
   return (
     <BaseFormItem item={item}>
-      <Input placeholder={item?.holder}></Input>
+      <Input
+        type={password ? 'password' : 'text'}
+        placeholder={item?.holder}
+      ></Input>
     </BaseFormItem>
   );
 };
@@ -290,6 +295,8 @@ const useCustomForm = (
             onValuesChange={onValuesChange}
           />
         );
+      case TableFilterType.password:
+        return <_Input key={item.key} item={item} password={true} />;
       default:
         return <ErrorProp />;
     }

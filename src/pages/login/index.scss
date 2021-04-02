@@ -1,0 +1,13 @@
+.login-container {
+  width: 1000px;
+  margin: 0 auto;
+  height: 100%;
+  background: '#cccccc';
+  .login-card {
+    position: relative;
+    width: 450px;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
