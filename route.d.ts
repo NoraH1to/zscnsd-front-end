@@ -1,8 +1,9 @@
+import { IRoute } from '@umijs/types';
+
 declare namespace routeInterface {
-  export interface route {
+  export interface route extends IRoute {
     path: string;
     redirect?: string;
-    component?: string | Function;
     routes?: route[];
     exact?: boolean;
     extraOpt?: {
@@ -20,10 +21,9 @@ declare namespace routeInterface {
     };
   }
 
-  export interface mRoute {
+  export interface mRoute extends IRoute {
     path: string;
     redirect?: string;
-    component?: string | Function;
     routes?: mRoute[];
     exact?: boolean;
     extraOpt?: {

@@ -1,3 +1,6 @@
+import { IRoute } from '@umijs/types';
+import { routeInterface } from 'route';
+
 // 桌面端路由
 const desktopRoute: routeInterface.route[] = [
   {
@@ -17,6 +20,7 @@ const desktopRoute: routeInterface.route[] = [
   {
     path: '/d',
     component: '@/pages/index.tsx',
+    __isDynamic: true,
     extraOpt: {
       default: '/d/home',
     },

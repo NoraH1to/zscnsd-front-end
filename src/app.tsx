@@ -1,6 +1,7 @@
 import { History, Location, history } from 'umi';
 import routes from '@/../config/routes';
 import { map, prop, find } from 'ramda';
+import { routeInterface } from 'route';
 
 // 有默认子由路的路由
 const getRoutesHasDefault = (

@@ -9,4 +9,5 @@ export default defineConfig({
   },
   sass: {},
   fastRefresh: {},
+  dynamicImport: { loading: '@/components/LoadingPage' },
 });
