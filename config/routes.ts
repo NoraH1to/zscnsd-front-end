@@ -4,6 +4,11 @@ import { routeInterface } from 'route';
 // 桌面端路由
 const desktopRoute: routeInterface.route[] = [
   {
+    path: '/permission-denied',
+    component: '@/pages/permissionDenied',
+    title: '无权限',
+  },
+  {
     path: '/',
     redirect: '/d/home', // TODO 改成判断手机还是pc
   },
@@ -20,7 +25,7 @@ const desktopRoute: routeInterface.route[] = [
   {
     path: '/d',
     component: '@/pages/index.tsx',
-    wrappers: ['@/wrappers/Auth/IsLogin'],
+    wrappers: ['@/wrappers/Auth/IsLogin', '@/wrappers/Auth/IsMgmt'],
     __isDynamic: true,
     extraOpt: {
       default: '/d/home',
@@ -63,6 +68,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/repair-requests-mgmt/requests',
             component: '@/pages/repairRequestsMgmt/requests',
+            wrappers: ['@/wrappers/Auth/IsMgmt'],
             extraOpt: {
               key: '/d/repair-requests-mgmt/requests',
               name: '所有报修',
@@ -74,6 +80,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/repair-requests-mgmt/records',
             component: '@/pages/repairRequestsMgmt/records',
+            wrappers: ['@/wrappers/Auth/IsMgmt'],
             extraOpt: {
               key: '/d/repair-requests-mgmt/records',
               name: '报修处理记录',
@@ -85,6 +92,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/repair-requests-mgmt/detail',
             component: '@/pages/repairRequestsMgmt/detail',
+            wrappers: ['@/wrappers/Auth/IsMgmt'],
             extraOpt: {
               hidden: true,
               key: '/d/repair-requests-mgmt/detail',
@@ -115,6 +123,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/isp-tickets-mgmt/tickets',
             component: '@/pages/ispTicketsMgmt/ispTickets',
+            wrappers: ['@/wrappers/Auth/IsMgmt'],
             extraOpt: {
               key: '/d/isp-tickets-mgmt/tickets',
               name: '所有工单',
@@ -126,6 +135,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/isp-tickets-mgmt/records',
             component: '@/pages/ispTicketsMgmt/records',
+            wrappers: ['@/wrappers/Auth/IsMgmt'],
             extraOpt: {
               key: '/d/isp-tickets-mgmt/records',
               name: '工单处理记录',
@@ -137,6 +147,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/isp-tickets-mgmt/detail',
             component: '@/pages/ispTicketsMgmt/detail',
+            wrappers: ['@/wrappers/Auth/IsMgmt'],
             extraOpt: {
               hidden: true,
               key: '/d/isp-tickets-mgmt/detail',
@@ -167,6 +178,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/report/switch-fault-report-list',
             component: '@/pages/reportsMgmt/switchFault',
+            wrappers: ['@/wrappers/Auth/IsMgmt'],
             extraOpt: {
               key: '/d/report/switch-fault-report-list',
               name: '交换机故障上报',
@@ -178,6 +190,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/report/wall-line',
             component: '@/pages/reportsMgmt/wallLine',
+            wrappers: ['@/wrappers/Auth/IsMgmt'],
             extraOpt: {
               key: '/d/report/wall-line',
               name: '主线上报',
@@ -189,6 +202,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/report/china-mobile-nodata',
             component: '@/pages/reportsMgmt/chinaMobileNoData',
+            wrappers: ['@/wrappers/Auth/IsMgmt'],
             extraOpt: {
               key: '/d/report/china-mobile-nodata',
               name: '移动无数据上报',
@@ -200,6 +214,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/report/china-mobile-occupied-onu',
             component: '@/pages/reportsMgmt/chinaMobileOccupiedOnu',
+            wrappers: ['@/wrappers/Auth/IsMgmt'],
             extraOpt: {
               key: '/d/report/china-mobile-occupied-onu',
               name: '移动ONU被占上报',
@@ -231,6 +246,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/users-mgmt/users',
             component: '@/pages/usersMgmt/users',
+            wrappers: ['@/wrappers/Auth/IsSuperAdmin'],
             extraOpt: {
               key: '/d/users-mgmt/users',
               name: '用户列表',
@@ -242,6 +258,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/users-mgmt/members',
             component: '@/pages/usersMgmt/members',
+            wrappers: ['@/wrappers/Auth/IsMgmt'],
             extraOpt: {
               key: '/d/users-mgmt/members',
               name: '成员列表',
@@ -253,6 +270,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/users-mgmt/health-points-records',
             component: '@/pages/usersMgmt/healthPointsRecords',
+            wrappers: ['@/wrappers/Auth/IsMgmt'],
             extraOpt: {
               key: '/d/users-mgmt/health-points-records',
               name: '血条记录',
@@ -264,6 +282,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/users-mgmt/punish-records',
             component: '@/pages/usersMgmt/punishRecords',
+            wrappers: ['@/wrappers/Auth/IsMgmt'],
             extraOpt: {
               key: '/d/users-mgmt/punish-records',
               name: '处罚记录',
@@ -295,6 +314,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/attendances-mgmt/records',
             component: '@/pages/attendancesMgmt/records',
+            wrappers: ['@/wrappers/Auth/IsMgmt'],
             extraOpt: {
               key: '/d/attendances-mgmt/records',
               name: '考勤记录',
@@ -306,6 +326,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/attendances-mgmt/change-requests-mgmt',
             component: '@/pages/attendancesMgmt/changeRequestsMgmt',
+            wrappers: ['@/wrappers/Auth/IsMgmt'],
             extraOpt: {
               key: '/d/attendances-mgmt/change-requests-mgmt',
               name: '变动申请管理',
@@ -319,6 +340,7 @@ const desktopRoute: routeInterface.route[] = [
       {
         path: '/d/scheduling-mgmt',
         component: '@/pages/schedulingMgmt',
+        wrappers: ['@/wrappers/Auth/IsAdmin'],
         extraOpt: {
           key: '/d/scheduling-mgmt',
           name: '排班管理',
@@ -329,6 +351,7 @@ const desktopRoute: routeInterface.route[] = [
       {
         path: '/d/scheduling-mgmt/detail/:id',
         component: '@/pages/schedulingMgmt/detail',
+        wrappers: ['@/wrappers/Auth/IsAdmin'],
         extraOpt: {
           key: '/d/scheduling-mgmt/detail',
           name: '学期详情',
@@ -356,6 +379,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/sys-mgmt/register-able-users-mgmt',
             component: '@/pages/sysMgmt/registerAbleUsersMgmt',
+            wrappers: ['@/wrappers/Auth/IsSuperAdmin'],
             extraOpt: {
               key: '/d/sys-mgmt',
               name: '允许注册用户管理',
@@ -367,6 +391,7 @@ const desktopRoute: routeInterface.route[] = [
           {
             path: '/d/sys-mgmt/err-select-mgmt',
             component: '@/pages/sysMgmt/errSelectMgmt',
+            wrappers: ['@/wrappers/Auth/IsSuperAdmin'],
             extraOpt: {
               key: '/d/sys-mgmt',
               name: '故障错误选项管理',
@@ -380,6 +405,7 @@ const desktopRoute: routeInterface.route[] = [
       {
         path: '/d/user-center',
         component: '@/pages/userCenter',
+        wrappers: ['@/wrappers/Auth/IsMgmt'],
         extraOpt: {
           key: '/d/user-center',
           name: '个人中心',

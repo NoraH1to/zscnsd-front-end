@@ -52,7 +52,9 @@ declare namespace apiInterface {
   // 宿舍楼栋枚举
   interface DormBlock extends Enum {}
   // 权限枚举
-  interface Role extends Enum {}
+  interface Role extends Enum {
+    id: number;
+  }
   // 片区枚举
   interface Area extends Enum {
     id: number;

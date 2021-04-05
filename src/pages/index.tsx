@@ -7,12 +7,9 @@ import { History, Location } from 'umi';
 
 import { useState, useEffect, useMemo, useContext } from 'react';
 import { routeInterface } from 'route';
-import { useInit } from '@/hooks';
-import { memberDetail } from '@/api/member';
-import { authContext } from '@/wrappers/Auth/authContext';
 
 // 抽取出 PC 端的路由
-const [, , pcRoute] = desktopRoute;
+const [, , ,pcRoute] = desktopRoute;
 const { routes: pcRoutes } = pcRoute;
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -50,12 +47,6 @@ const getMenuNeedOpen = (path: string, routes: routeInterface.route[]): any => {
 };
 
 const index = (props: any) => {
-  const userContext = useContext(authContext);
-  const { data } = useInit(
-    memberDetail,
-    undefined,
-    (res: any) => userContext.setUser && userContext.setUser(res.data),
-  );
   const {
     routes,
     history,

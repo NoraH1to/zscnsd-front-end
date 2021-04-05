@@ -377,5 +377,5 @@ export const memberTimetable = {
 
 export const userLogin = {
   token: Random.string(20),
-  user: member,
+  user,
 };
