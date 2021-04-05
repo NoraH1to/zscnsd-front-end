@@ -5,7 +5,11 @@ import { desktopRoute } from '@/../config/routes';
 
 import { History, Location } from 'umi';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useContext } from 'react';
+import { routeInterface } from 'route';
+import { useInit } from '@/hooks';
+import { memberDetail } from '@/api/member';
+import { authContext } from '@/wrappers/Auth/authContext';
 
 // 抽取出 PC 端的路由
 const [, , pcRoute] = desktopRoute;
@@ -46,6 +50,12 @@ const getMenuNeedOpen = (path: string, routes: routeInterface.route[]): any => {
 };
 
 const index = (props: any) => {
+  const userContext = useContext(authContext);
+  const { data } = useInit(
+    memberDetail,
+    undefined,
+    (res: any) => userContext.setUser && userContext.setUser(res.data),
+  );
   const {
     routes,
     history,
@@ -129,7 +139,9 @@ const index = (props: any) => {
         <Header className="site-layout-header" style={{ padding: 0 }} />
         <Content style={{ margin: '24px 24px 0px 24px' }}>
           {breadCrumbDataList == '_null' ? null : (
-            <Breadcrumb style={{ margin: '0 0 16px 0' }}>{breadCrumb}</Breadcrumb>
+            <Breadcrumb style={{ margin: '0 0 16px 0' }}>
+              {breadCrumb}
+            </Breadcrumb>
           )}
           <div className="site-content" style={{ padding: 24 }}>
             {props.children}

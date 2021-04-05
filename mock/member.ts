@@ -6,4 +6,5 @@ export default {
   'POST /api/member/add': base('data', user),
   'POST /api/member/delete': base('data', {}),
   'POST /api/member/update': base('data', user),
+  'GET /api/member/detail': base('data', user),
 };

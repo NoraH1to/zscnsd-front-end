@@ -20,6 +20,7 @@ const desktopRoute: routeInterface.route[] = [
   {
     path: '/d',
     component: '@/pages/index.tsx',
+    wrappers: ['@/wrappers/Auth/IsLogin'],
     __isDynamic: true,
     extraOpt: {
       default: '/d/home',
@@ -409,8 +410,12 @@ const mobileRoute: routeInterface.mRoute[] = [
   },
 ];
 
-export default <(routeInterface.mRoute | routeInterface.route)[]>(
-  desktopRoute.concat(mobileRoute)
-);
+export default <(routeInterface.mRoute | routeInterface.route)[]>[
+  {
+    path: '/',
+    component: '@/index.tsx',
+    routes: desktopRoute.concat(mobileRoute),
+  },
+];
 
 export { desktopRoute, mobileRoute };

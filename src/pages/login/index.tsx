@@ -3,11 +3,12 @@ import { TableFilterType } from '@/common';
 import { useApi, useCustomForm } from '@/hooks';
 import './index.scss';
 import apiInterface from 'api';
-import { FC, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import componentData from 'typings';
 import update from 'immutability-helper';
 import { Button, Card } from 'antd';
 import { history } from '@/.umi/core/history';
+import { authContext } from '@/wrappers/Auth/authContext';
 
 const propData: componentData.PropData[] = [
   {
@@ -25,6 +26,7 @@ const propData: componentData.PropData[] = [
 ];
 
 const login: FC = () => {
+  const userContext = useContext(authContext);
   const [formData, setFormData] = useState<apiInterface.UserLoginAdminData>({
     workId: '',
     password: '',
@@ -35,6 +37,7 @@ const login: FC = () => {
     (res: any) => {
       if (!res?.data?.token) return;
       window.localStorage.setItem('Token', res.data.token);
+      userContext.setUser && userContext.setUser(res.data.user);
       history.push('/');
     },
   );

@@ -739,6 +739,10 @@ declare namespace apiInterface {
     role: MemberInfo['role']['id'];
     password: string;
   }
+  // 查询组织成员详情参数
+  interface MemberDetailQuery extends RequestQuery {
+    userId?: Member['id'];
+  }
 
   // 查询工单参数
   interface IspTicketListQuery extends RequestPageQuery, TimeRange {

@@ -24,3 +24,9 @@ export const memberDelete = (data?: apiInterface.MemberDeleteData) => {
     data,
   });
 };
+
+export const memberDetail = (params?: apiInterface.MemberDetailQuery) => {
+  return GET('/api/member/detail', {
+    params,
+  });
+};
