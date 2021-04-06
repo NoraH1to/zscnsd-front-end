@@ -8,4 +8,6 @@ export default {
   'POST /api/user/admin-update': base('data', user),
   'POST /api/user/delete': base('data', {}),
   'POST /api/user/admin-login': base('data', userLogin),
+  'POST /api/user/update-password': base('data', user),
+  'POST /api/user/admin-logout': base('data', {}),
 };

@@ -9,6 +9,7 @@ import { useState, useEffect, useMemo, useContext } from 'react';
 import { routeInterface } from 'route';
 
 import SideMenu from '@/components/SideMenu';
+import HeaderContent from '@/components/Header';
 
 // 抽取出 PC 端的路由
 const [, , , pcRoute] = desktopRoute;
@@ -52,7 +53,9 @@ const index = (props: any) => {
         <SideMenu pcRoutes={pcRoutes} history={history} />
       </Sider>
       <Layout className="site-layout">
-        <Header className="site-layout-header" style={{ padding: 0 }} />
+        <Header className="site-layout-header" style={{ padding: 0 }}>
+          <HeaderContent />
+        </Header>
         <Content style={{ margin: '24px 24px 0px 24px' }}>
           {breadCrumbDataList == '_null' ? null : (
             <Breadcrumb style={{ margin: '0 0 16px 0' }}>

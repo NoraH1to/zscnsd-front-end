@@ -5,7 +5,7 @@ import { useInit } from './hooks';
 import { authContext } from './wrappers/Auth/authContext';
 
 const index: FC = (props) => {
-  const [user, setUser] = useState<apiInterface.Member>();
+  const [user, setUser] = useState<apiInterface.Member | undefined>();
   const { data } = useInit(
     memberDetail,
     undefined,

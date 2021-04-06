@@ -36,3 +36,13 @@ export const userLoginAdmin = (data?: apiInterface.UserLoginAdminData) => {
     data,
   });
 };
+
+export const userPasswordEdit = (data?: apiInterface.UserPasswordEditData) => {
+  return POST('/api/user/update-password', {
+    data,
+  });
+};
+
+export const userLogoutAdmin = () => {
+  return POST('/api/user/admin-logout');
+};

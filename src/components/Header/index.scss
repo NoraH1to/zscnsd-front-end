@@ -1,0 +1,13 @@
+.header-container {
+  height: 100%;
+  padding: 0 32px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  .avatar-container {
+    cursor: pointer;
+    .ant-avatar {
+      user-select: none;
+    }
+  }
+}

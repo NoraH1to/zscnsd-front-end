@@ -710,6 +710,11 @@ declare namespace apiInterface {
     workId: MemberInfo['workId'];
     password: string;
   }
+  // 修改密码
+  interface UserPasswordEditData extends RequestData {
+    oldPassword: string;
+    newPassword: string;
+  }
 
   // 查询组织成员参数
   interface MemberListQuery extends RequestPageQuery {
