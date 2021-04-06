@@ -1,40 +1,25 @@
-import { history } from '@/.umi/core/history';
+import { history } from 'umi';
+import { useRealLocation } from '@/hooks';
 import { authContext } from '@/wrappers/Auth/authContext';
 import { FC, useEffect, useState, useContext } from 'react';
 import './index.scss';
+import { ParsedQuery } from 'query-string';
 
 const permissionDenied: FC = () => {
   const userContext = useContext(authContext);
   const [count, setCount] = useState(5);
+  const { query } = useRealLocation();
   const [go, setGo] = useState<{ path: string; tip: string }>({
-    path: '/',
-    tip: '首页',
+    path: query.path?.toString() || '/login',
+    tip: query.tip?.toString() || '登入',
   });
-  useEffect(() => {
-    if (!userContext.user) {
-      setGo({ path: '/login', tip: '登录页面' });
-      return;
-    }
-    if (!!userContext?.user?.member?.role?.id) {
-      switch (userContext.user.member.role.id) {
-        case 0:
-          setGo({ path: '/login', tip: '登录页面' });
-          break;
-        case 1:
-          setGo({ path: '/login', tip: '登录页面' });
-          break;
-      }
-    }
-    return;
-  }, []);
   useEffect(() => {
     if (count != 0) {
       setTimeout(() => {
         setCount((count) => count - 1);
       }, 1000);
     } else {
-      if (go.path == '-1') history.goBack();
-      else history.push(go.path);
+      history.push(go.path);
     }
   }, [count]);
   return (
