@@ -30,7 +30,10 @@ import {
   Button,
 } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { dateTimeCell, goMemberCenterCell } from '@/components/CustomTable';
+import CustomTable, {
+  dateTimeCell,
+  goMemberCenterCell,
+} from '@/components/CustomTable';
 import componentData from 'typings';
 import {
   DeleteOutlined,
@@ -39,6 +42,7 @@ import {
 } from '@ant-design/icons';
 import TicketStatusComponent from '@/components/ticketStatus';
 import { formatDate } from '@/utils';
+import { userSearch } from '@/api/user';
 
 const filters: componentData.PropData[] = [
   {
@@ -75,6 +79,17 @@ const filters: componentData.PropData[] = [
     default: 'false',
     rules: [{ required: true }],
     hidden: true,
+  },
+  {
+    key: 'operatorId',
+    type: TableFilterType.selectSearch,
+    name: '处理人',
+    selectData: userSearch,
+    holder: '姓名/学号/工号',
+    searchOption: {
+      keyProp: 'id',
+      labelProp: 'name',
+    },
   },
 ];
 

@@ -79,6 +79,17 @@ const filters: componentData.PropData[] = [
     rules: [{ required: true }],
     hidden: true,
   },
+  {
+    key: 'operatorId',
+    type: TableFilterType.selectSearch,
+    name: '处理人',
+    selectData: userSearch,
+    holder: '姓名/学号/工号',
+    searchOption: {
+      keyProp: 'id',
+      labelProp: 'name',
+    },
+  },
 ];
 
 const colums: TableColumnProps<apiInterface.Ticket>[] = [

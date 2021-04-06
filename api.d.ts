@@ -770,6 +770,7 @@ declare namespace apiInterface {
     name?: IspTicket['name'];
     dromBlock?: DormBlock['id'];
     deleted?: boolean;
+    operatorId?: Member['id'];
   }
   // 增加工单请求体
   interface IspTicketAddData extends RequestData {
@@ -831,6 +832,7 @@ declare namespace apiInterface {
     faultType?: TicketFaultMenu['id'];
     dromBlock?: DormBlock['id'];
     deleted?: boolean;
+    operatorId?: Member['id'];
   }
   // 增加报修请求体
   interface TicketAddData extends RequestData {
