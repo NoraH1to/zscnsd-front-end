@@ -145,7 +145,9 @@ export const dateTimeCell = (dateStr: string[], dateOnly?: boolean) =>
     <Space direction="vertical">
       {map(
         (date) => (
-          <Typography.Text>{formatDate(date, !!dateOnly)}</Typography.Text>
+          <Typography.Text key={date}>
+            {formatDate(date, !!dateOnly)}
+          </Typography.Text>
         ),
         dateStr,
       )}
