@@ -26,8 +26,8 @@ const useDialogForm = <P,>(
   const { loading, setLoading, setParams, data, errorData } = useApi<P>(
     api,
     formData,
-    () => {
-      onSubmit && onSubmit();
+    (res: any) => {
+      onSubmit && onSubmit(res);
       formRef.resetFields();
     },
   );

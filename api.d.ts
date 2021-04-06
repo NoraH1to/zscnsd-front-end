@@ -1,4 +1,4 @@
-import { BadgeProps } from 'antd';
+import { BadgeProps, TagProps } from 'antd';
 import { AxiosResponse } from 'axios';
 import React from 'react';
 
@@ -54,6 +54,7 @@ declare namespace apiInterface {
   // 权限枚举
   interface Role extends Enum {
     id: number;
+    color: TagProps['color'];
   }
   // 片区枚举
   interface Area extends Enum {
@@ -714,6 +715,18 @@ declare namespace apiInterface {
   interface UserPasswordEditData extends RequestData {
     oldPassword: string;
     newPassword: string;
+  }
+  // 获取用户详情参数
+  interface UserInfoQuery extends RequestQuery {
+    userId?: UserBase['id'];
+  }
+  // 修改个人用户信息请求体
+  interface UserEditUserData extends RequestData {
+    isp: User['isp']['id'];
+    networkAccount: User['networkAccount'];
+    dormBlock: User['dormBlock']['id'];
+    dormRoom: User['dormRoom'];
+    telephone: User['telephone'];
   }
 
   // 查询组织成员参数

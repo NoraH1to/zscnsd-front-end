@@ -1,0 +1,16 @@
+.user-center-container {
+  display: flex;
+  flex-direction: column;
+  .row {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .user-info-container {
+      min-width: 600px;
+    }
+  }
+  .tabs-container {
+    margin-top: 18px;
+  }
+}

@@ -177,11 +177,11 @@ export const attendanceChangeSortableList: apiInterface.Enum[] = [
 ];
 
 export const roles: apiInterface.Role[] = [
-  { id: 0, string: '组织成员' },
-  { id: 2, string: '值班组长' },
-  { id: 3, string: '管理员' },
-  { id: 4, string: '超级管理员' },
-  { id: 1, string: '退休成员' },
+  { id: 0, string: '组织成员', color: 'blue' },
+  { id: 2, string: '值班组长', color: 'green' },
+  { id: 3, string: '管理员', color: 'orange' },
+  { id: 4, string: '超级管理员', color: 'gold' },
+  { id: 1, string: '退休成员', color: 'geekblue' },
 ];
 
 export const isps: apiInterface.Isp[] = [

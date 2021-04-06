@@ -46,3 +46,15 @@ export const userPasswordEdit = (data?: apiInterface.UserPasswordEditData) => {
 export const userLogoutAdmin = () => {
   return POST('/api/user/admin-logout');
 };
+
+export const userDetail = (params?: apiInterface.UserInfoQuery) => {
+  return GET('/api/user/detail', {
+    params,
+  });
+};
+
+export const userEdit = (data?: apiInterface.UserEditUserData) => {
+  return POST('/api/user/user-update', {
+    data,
+  });
+};

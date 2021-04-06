@@ -10,4 +10,6 @@ export default {
   'POST /api/user/admin-login': base('data', userLogin),
   'POST /api/user/update-password': base('data', user),
   'POST /api/user/admin-logout': base('data', {}),
+  'GET /api/user/detail': base('data', user),
+  'POST /api/user/user-update': base('data', user),
 };
