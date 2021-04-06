@@ -311,8 +311,8 @@ declare namespace apiInterface {
   }
   // 分页
   interface Page {
-    page: number;
-    count: number;
+    page?: number;
+    count?: number;
     order?: string;
   }
   // GET 查询

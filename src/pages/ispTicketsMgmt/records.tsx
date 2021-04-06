@@ -5,7 +5,7 @@ import {
   ticketStatus,
   ispTicketLogSortableList,
 } from '@/common';
-import { useInit } from '@/hooks/index';
+import { useInit, useRealLocation } from '@/hooks/index';
 import { ispTicketLogList } from '@/api/ispTicket';
 import {
   TableColumnProps,
@@ -20,6 +20,7 @@ import apiInterface from 'api';
 import CustomTable, {
   dateTimeCell,
   goMemberCenterCell,
+  setDefaultDataInFilters,
 } from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
@@ -160,15 +161,18 @@ const expandable: TableProps<apiInterface.IspTicketLog>['expandable'] = {
   expandedRowClassName: () => 'expand',
 };
 
-const records: FC = () => {
+const Records: FC<{ defaultFormData?: apiInterface.IspTicketLogListQuery }> = ({
+  defaultFormData,
+}) => {
   // 表单数据
-  const [formData, setFormData] = useState<apiInterface.TicketLogListQuery>({
+  const [formData, setFormData] = useState<apiInterface.IspTicketLogListQuery>({
+    ...defaultFormData,
     page: 1,
     count: 10,
   });
 
   // api hooks
-  const apiHooks = useInit<apiInterface.TicketLogListQuery>(
+  const apiHooks = useInit<apiInterface.IspTicketLogListQuery>(
     ispTicketLogList,
     formData,
   );
@@ -177,7 +181,7 @@ const records: FC = () => {
     <CustomTable
       formData={formData}
       setFormData={setFormData}
-      filters={filters}
+      filters={setDefaultDataInFilters(filters, defaultFormData)}
       colums={colums}
       apiHooks={apiHooks}
       onRow={onRow}
@@ -187,4 +191,12 @@ const records: FC = () => {
   );
 };
 
-export default records;
+const _records: FC<{
+  defaultFormData: apiInterface.IspTicketLogListQuery;
+}> = ({ defaultFormData }) => {
+  const localtion = useRealLocation();
+  const defaultProps = localtion.query;
+  return <Records defaultFormData={defaultFormData || defaultProps} />;
+};
+
+export default _records;

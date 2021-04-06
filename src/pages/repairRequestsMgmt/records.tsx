@@ -203,7 +203,9 @@ const expandable: TableProps<apiInterface.TicketLog>['expandable'] = {
   expandedRowClassName: () => 'expand',
 };
 
-const Records: FC<{ defaultFormData?: any }> = ({ defaultFormData }) => {
+const Records: FC<{ defaultFormData?: apiInterface.TicketLogListQuery }> = ({
+  defaultFormData,
+}) => {
   // 表单数据
   const [formData, setFormData] = useState<apiInterface.TicketLogListQuery>({
     ...defaultFormData,
@@ -231,10 +233,12 @@ const Records: FC<{ defaultFormData?: any }> = ({ defaultFormData }) => {
   );
 };
 
-const _records: FC = () => {
+const _records: FC<{
+  defaultFormData: apiInterface.TicketLogListQuery;
+}> = ({ defaultFormData }) => {
   const localtion = useRealLocation();
   const defaultProps = localtion.query;
-  return <Records defaultFormData={defaultProps} />;
+  return <Records defaultFormData={defaultFormData || defaultProps} />;
 };
 
 export default _records;

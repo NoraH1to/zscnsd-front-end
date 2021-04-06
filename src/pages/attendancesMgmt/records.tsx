@@ -1,12 +1,13 @@
 import { FC, useState } from 'react';
 import { TableFilterType, areas, attendanceSortableList } from '@/common';
-import { useInit } from '@/hooks/index';
+import { useInit, useRealLocation } from '@/hooks/index';
 import { attendanceList } from '@/api/attendance';
 import { TableColumnProps, TableProps } from 'antd';
 import apiInterface from 'api';
 import CustomTable, {
   dateTimeCell,
   goMemberCenterCell,
+  setDefaultDataInFilters,
 } from '@/components/CustomTable';
 import componentData from 'typings';
 import { history } from 'umi';
@@ -86,9 +87,12 @@ const onRow: TableProps<apiInterface.Attendance>['onRow'] = (record) => {
   };
 };
 
-const records: FC = () => {
+const Records: FC<{ defaultFormData: apiInterface.AttendanceListQuery }> = ({
+  defaultFormData,
+}) => {
   // 表单数据
   const [formData, setFormData] = useState<apiInterface.AttendanceListQuery>({
+    ...defaultFormData,
     page: 1,
     count: 10,
   });
@@ -103,7 +107,7 @@ const records: FC = () => {
     <CustomTable
       formData={formData}
       setFormData={setFormData}
-      filters={filters}
+      filters={setDefaultDataInFilters(filters, defaultFormData)}
       colums={colums}
       apiHooks={apiHooks}
       onRow={onRow}
@@ -112,4 +116,12 @@ const records: FC = () => {
   );
 };
 
-export default records;
+const _records: FC<{
+  defaultFormData: apiInterface.AttendanceListQuery;
+}> = ({ defaultFormData }) => {
+  const localtion = useRealLocation();
+  const defaultProps = localtion.query;
+  return <Records defaultFormData={defaultFormData || defaultProps} />;
+};
+
+export default _records;

@@ -1,6 +1,6 @@
 import { useDialogForm, useInit, useRealLocation } from '@/hooks';
 import { authContext } from '@/wrappers/Auth/authContext';
-import { Button, Tabs } from 'antd';
+import { Button, Skeleton, Tabs } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import { FC, useContext, useEffect, useState } from 'react';
 import UserInfo from './UserInfo';
@@ -9,6 +9,13 @@ import { userDetail, userEdit } from '@/api/user';
 import apiInterface from 'api';
 import componentData from 'typings';
 import { dormBlocks, isps, TableFilterType } from '@/common';
+import SkeletonContainer from '@/components/SkeletonContainer';
+import Requests from '@/pages/repairRequestsMgmt/requests';
+import RequestRecords from '@/pages/repairRequestsMgmt/records';
+import IspRecords from '@/pages/ispTicketsMgmt/records';
+import HealthPointsRecords from '@/pages/usersMgmt/healthPointsRecords';
+import PunishRecords from '@/pages/usersMgmt/punishRecords';
+import AttendanceRecords from '@/pages/attendancesMgmt/records';
 
 const EditUserInfoBtn: FC<{ user?: apiInterface.Member; onChange?: any }> = ({
   user,
@@ -95,7 +102,7 @@ const userCenter: FC = () => {
       userContext.user?.id;
   const isMember = () => !!userContext.user?.member;
 
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<apiInterface.Member | undefined>();
   const { data, loading, setLoading } = useInit(
     userDetail,
     {
@@ -125,19 +132,34 @@ const userCenter: FC = () => {
         <div className="tabs-container">
           <Tabs>
             <Tabs.TabPane tab="报修记录" key="repair">
-              233
+              <SkeletonContainer when={!!user?.id}>
+                <Requests defaultFormData={{ operatorId: user?.id }} />
+              </SkeletonContainer>
             </Tabs.TabPane>
-            <Tabs.TabPane tab="处理记录" key="repair-records">
-              233
+            <Tabs.TabPane tab="报修处理记录" key="repair-records">
+              <SkeletonContainer when={!!user?.id}>
+                <RequestRecords defaultFormData={{ operatorId: user?.id }} />
+              </SkeletonContainer>
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="工单处理记录" key="isp-records">
+              <SkeletonContainer when={!!user?.id}>
+                <IspRecords defaultFormData={{ operatorId: user?.id }} />
+              </SkeletonContainer>
             </Tabs.TabPane>
             <Tabs.TabPane tab="考勤记录" key="attendance-records">
-              233
+              <SkeletonContainer when={!!user?.id}>
+                <AttendanceRecords defaultFormData={{ userId: user?.id }} />
+              </SkeletonContainer>
             </Tabs.TabPane>
             <Tabs.TabPane tab="血条记录" key="health-records">
-              233
+              <SkeletonContainer when={!!user?.id}>
+                <HealthPointsRecords defaultFormData={{ userId: user?.id }} />
+              </SkeletonContainer>
             </Tabs.TabPane>
             <Tabs.TabPane tab="处罚记录" key="punish-records">
-              233
+              <SkeletonContainer when={!!user?.id}>
+                <PunishRecords defaultFormData={{ userId: user?.id }} />
+              </SkeletonContainer>
             </Tabs.TabPane>
           </Tabs>
         </div>

@@ -9,12 +9,14 @@ import {
   useDialogForm,
   useInit,
   useMuitActionDialog,
+  useRealLocation,
 } from '@/hooks/index';
 import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
 import CustomTable, {
   dateTimeCell,
   goMemberCenterCell,
+  setDefaultDataInFilters,
 } from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
@@ -165,12 +167,15 @@ const colums: TableColumnProps<apiInterface.MemberPunishment>[] = [
   },
 ];
 
-const punishRecords: FC = () => {
+const PunishRecords: FC<{
+  defaultFormData: apiInterface.MemberPunishmentListQuery;
+}> = ({ defaultFormData }) => {
   // 表单数据
   const [
     formData,
     setFormData,
   ] = useState<apiInterface.MemberPunishmentListQuery>({
+    ...defaultFormData,
     page: 1,
     count: 10,
   });
@@ -249,7 +254,7 @@ const punishRecords: FC = () => {
     <CustomTable
       formData={formData}
       setFormData={setFormData}
-      filters={filters}
+      filters={setDefaultDataInFilters(filters, defaultFormData)}
       colums={colums}
       apiHooks={apiHooks}
       apiAddHooks={apiAddHooks}
@@ -261,4 +266,12 @@ const punishRecords: FC = () => {
   );
 };
 
-export default punishRecords;
+const _punishRecords: FC<{
+  defaultFormData: apiInterface.MemberPunishmentListQuery;
+}> = ({ defaultFormData }) => {
+  const localtion = useRealLocation();
+  const defaultProps = localtion.query;
+  return <PunishRecords defaultFormData={defaultFormData || defaultProps} />;
+};
+
+export default _punishRecords;

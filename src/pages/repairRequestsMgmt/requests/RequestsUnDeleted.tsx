@@ -251,6 +251,7 @@ const onRow: TableProps<apiInterface.Ticket>['onRow'] = (record) => {
 const requestsUndeleted: FC<{
   defaultFormData?: any;
 }> = ({ defaultFormData }) => {
+  console.log(defaultFormData);
   // 表单数据
   const [formData, setFormData] = useState<apiInterface.TicketListQuery>({
     ...defaultFormData,

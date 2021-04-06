@@ -5,12 +5,14 @@ import {
   useDialogForm,
   useInit,
   useMuitActionDialog,
+  useRealLocation,
 } from '@/hooks/index';
 import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
 import CustomTable, {
   dateTimeCell,
   goMemberCenterCell,
+  setDefaultDataInFilters,
 } from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
@@ -161,9 +163,12 @@ const colums: TableColumnProps<apiInterface.MemberHealth>[] = [
   },
 ];
 
-const healthPointsRecords: FC = () => {
+const HealthPointsRecords: FC<{
+  defaultFormData: apiInterface.MemberHealthListQuery;
+}> = ({ defaultFormData }) => {
   // 表单数据
   const [formData, setFormData] = useState<apiInterface.MemberHealthListQuery>({
+    ...defaultFormData,
     page: 1,
     count: 10,
   });
@@ -242,7 +247,7 @@ const healthPointsRecords: FC = () => {
     <CustomTable
       formData={formData}
       setFormData={setFormData}
-      filters={filters}
+      filters={setDefaultDataInFilters(filters, defaultFormData)}
       colums={colums}
       apiHooks={apiHooks}
       apiAddHooks={apiAddHooks}
@@ -254,4 +259,14 @@ const healthPointsRecords: FC = () => {
   );
 };
 
-export default healthPointsRecords;
+const _healthPointsRecords: FC<{
+  defaultFormData: apiInterface.MemberHealthListQuery;
+}> = ({ defaultFormData }) => {
+  const localtion = useRealLocation();
+  const defaultProps = localtion.query;
+  return (
+    <HealthPointsRecords defaultFormData={defaultFormData || defaultProps} />
+  );
+};
+
+export default _healthPointsRecords;

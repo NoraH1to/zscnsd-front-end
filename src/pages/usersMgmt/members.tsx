@@ -22,6 +22,8 @@ import CustomTable from '@/components/CustomTable';
 import componentData from 'typings';
 import { memberAdd, memberDelete, memberEdit, memberList } from '@/api/member';
 import { userSearch } from '@/api/user';
+import { history } from 'umi';
+import { stringify } from 'query-string';
 
 const filters: componentData.PropData[] = [
   {
@@ -144,7 +146,10 @@ const EditPropData: componentData.PropData[] = [
 const onRow: TableProps<apiInterface.Member>['onRow'] = (record) => {
   return {
     onClick: (event) => {
-      // TODO: 点击行路由跳转
+      history.push({
+        pathname: '/d/user-center',
+        search: stringify({ id: record.id }),
+      });
     }, // 点击行
   };
 };
