@@ -125,7 +125,7 @@ export const useTableSort = (
         style={{ minWidth: '4rem' }}
       >
         {sortList.map((sort) => (
-          <Select.Option value={sort.id.toString()}>
+          <Select.Option value={sort.id.toString()} key={sort.id.toString()}>
             {sort.string}
           </Select.Option>
         ))}
@@ -296,7 +296,9 @@ const CustomTable = <T extends object>(props: Props<T>) => {
           width: 130,
           fixed: 'right',
           render: (value, record, index) => {
-            const currentActions = actions.filter(item => !item.hidden || !item.hidden(record))
+            const currentActions = actions.filter(
+              (item) => !item.hidden || !item.hidden(record),
+            );
             const outMenu = currentActions.slice(0, 2);
             const inMenu = currentActions.slice(2);
             return (

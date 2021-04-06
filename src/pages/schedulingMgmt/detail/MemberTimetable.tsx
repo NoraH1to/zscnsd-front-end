@@ -311,7 +311,6 @@ const MemberTimeTable: FC<{ semesterId: number }> = ({ semesterId }) => {
         apiHooks={apiHooks}
         apiAddHooks={apiAddHooks}
         apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
-        onRow={onRow}
         expandable={expandable}
       />
     </>

@@ -90,7 +90,7 @@ const MemberList: FC<{ semesterId: MemberTimetable['semesterId'] }> = ({
     <div className="member-list">
       <Space direction="vertical" align="center">
         {data?.data?.content.map((timeTable: apiInterface.MemberTimetable) => (
-          <MemberCard timeTable={timeTable} />
+          <MemberCard key={timeTable.id} timeTable={timeTable} />
         ))}
       </Space>
       <Pagination
@@ -329,7 +329,12 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     }
 
     return (
-      <td ref={drop} style={{ backgroundColor, ...style }} {...restProps} />
+      <td
+        key={`${row}-${col}`}
+        ref={drop}
+        style={{ backgroundColor, ...style }}
+        {...restProps}
+      />
     );
   };
 

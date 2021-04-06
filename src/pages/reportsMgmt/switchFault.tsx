@@ -12,7 +12,10 @@ import {
 } from '@/hooks/index';
 import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { dateTimeCell, goMemberCenterCell } from '@/components/CustomTable';
+import CustomTable, {
+  dateTimeCell,
+  goMemberCenterCell,
+} from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';

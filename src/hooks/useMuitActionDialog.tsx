@@ -83,7 +83,9 @@ const useMuitActionDialog = (
           }}
         >
           {actionTypeList.map((item) => (
-            <Select.Option value={item.key}>{item.value}</Select.Option>
+            <Select.Option value={item.key} key={item.key}>
+              {item.value}
+            </Select.Option>
           ))}
         </Select>
       </FormItem>
