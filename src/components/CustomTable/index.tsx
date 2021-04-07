@@ -22,11 +22,12 @@ import BaseTable from '@/components/BaseTable';
 import apiInterface from 'api';
 import componentData from 'typings';
 import { useDialogForm } from '@/hooks';
-import { history } from 'umi';
+import { History, history } from 'umi';
 import { TableFilterType } from '@/common';
 import moment from 'moment';
 import { map, reduce, type } from 'ramda';
 import { formatDate } from '@/utils';
+import { stringify } from 'query-string';
 
 interface Props<T extends object> {
   formData: any;
@@ -174,14 +175,20 @@ export const dateRangeCell = (dateStr: string[]) =>
   );
 
 export const goUserCenterCell = (user: apiInterface.User) =>
-  getRouteCell(user.name, '/');
+  getRouteCell(user.name, {
+    pathname: '/d/user-center',
+    search: stringify({ id: user.id }),
+  });
 
 export const goMemberCenterCell = (user: apiInterface.Member | null) =>
   user
-    ? getRouteCell(`${user.name}-${user.member?.workId || '已退出'}`, '/')
+    ? getRouteCell(`${user.name}-${user.member?.workId || '已退出'}`, {
+        pathname: '/d/user-center',
+        search: stringify({ id: user.id }),
+      })
     : '_null';
 
-export const getRouteCell = (text: string, target: string): ReactElement => (
+export const getRouteCell = (text: string, target: any): ReactElement => (
   <Typography.Link
     onClick={(e) => {
       history.push(target);
