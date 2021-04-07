@@ -1,8 +1,9 @@
 import { FC } from 'react';
+import { Button } from 'antd-mobile';
 
 const mobileIndex: FC = () => (
   <div>
-    <h1>mobile index</h1>
+    <Button>Mobile Button</Button>
   </div>
 );
 

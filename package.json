@@ -24,6 +24,7 @@
     "@types/ramda": "^0.27.38",
     "@umijs/preset-react": "1.x",
     "antd": "^4.12.3",
+    "antd-mobile": "^2.3.4",
     "axios": "^0.21.1",
     "immutability-helper": "^3.1.1",
     "moment": "^2.29.1",

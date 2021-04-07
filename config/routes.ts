@@ -432,7 +432,7 @@ const desktopRoute: routeInterface.route[] = [
 const mobileRoute: routeInterface.mRoute[] = [
   {
     path: '/m',
-    component: '@/pages/mobile',
+    component: '@/mobile/pages',
   },
 ];
 
