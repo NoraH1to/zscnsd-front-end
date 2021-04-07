@@ -16,7 +16,8 @@ const IsSthRole: FC<{ roles: number[] }> = (props) => {
   } else {
     if (
       userContext.user?.member?.role.id == 0 ||
-      userContext.user?.member?.role.id == 1
+      userContext.user?.member?.role.id == 1 ||
+      (!userContext.user && !window.localStorage.getItem('Token'))
     )
       query = { path: '/login', tip: '登入页' };
     return (

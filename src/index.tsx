@@ -1,6 +1,8 @@
 import apiInterface from 'api';
+import axios from 'axios';
 import { FC, useContext, useState } from 'react';
 import { memberDetail } from './api/member';
+import LoadingPage from './components/LoadingPage';
 import { useInit } from './hooks';
 import { authContext } from './wrappers/Auth/authContext';
 
@@ -11,11 +13,13 @@ const index: FC = (props) => {
     undefined,
     (res: any) => setUser && setUser(res.data),
   );
-  return (
-    <authContext.Provider value={{ user, setUser }}>
-      {props.children}
-    </authContext.Provider>
-  );
+  if (!user) return <LoadingPage />;
+  else
+    return (
+      <authContext.Provider value={{ user, setUser }}>
+        {props.children}
+      </authContext.Provider>
+    );
 };
 
 export default index;
