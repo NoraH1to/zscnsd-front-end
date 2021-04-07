@@ -299,9 +299,16 @@ declare namespace apiInterface {
     comment: string;
   }
   // 后台登录返回数据
-  interface UserLoginAdmin extends RequestData {
+  interface UserLoginAdmin {
     token: string;
     user: Member;
+  }
+  // 某周值班表
+  interface WorkArrangementTimeTable {
+    userId: UserBase['id'];
+    user: Member;
+    date: string;
+    area: Area;
   }
 
   // 时间范围
@@ -341,6 +348,10 @@ declare namespace apiInterface {
     semesterId: WorkArrangement['semesterId'];
     weekday: WorkArrangement['weekday'];
     area: Area['id'];
+  }
+  // 查询某周值班表参数
+  interface WorkArrangementTimeTableListQuery extends RequestQuery {
+    date?: WorkArrangementTimeTable['date'];
   }
 
   // 查询成员课程表参数

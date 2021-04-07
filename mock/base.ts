@@ -379,3 +379,10 @@ export const userLogin = {
   token: Random.string(20),
   user,
 };
+
+export const arrangementTimeTable = {
+  'userId|+1': 1,
+  user,
+  date: getRandomDateTime(),
+  'area|1': areas,
+};

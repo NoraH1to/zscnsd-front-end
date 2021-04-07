@@ -16,3 +16,11 @@ export const workArrangementUpdate = (
     data,
   });
 };
+
+export const workArrangementTimeTableList = (
+  params?: apiInterface.WorkArrangementTimeTableListQuery,
+) => {
+  return GET('/api/work-arrangement/timetable-list', {
+    params,
+  });
+};
