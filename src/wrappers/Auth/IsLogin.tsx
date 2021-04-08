@@ -7,7 +7,7 @@ const IsLogin: FC = (props) => {
   if (!!userContext.user || !!window.localStorage.getItem('Token')) {
     return <div>{props.children}</div>;
   } else {
-    return <Redirect to="/login" />;
+    return <Redirect to="/d/login" />;
   }
 };
 

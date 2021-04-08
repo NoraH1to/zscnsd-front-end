@@ -10,7 +10,7 @@ const IsSthRole: FC<{ roles: number[] }> = (props) => {
     (roleId) => userContext.user?.member?.role.id == roleId,
     props.roles,
   );
-  let query = { path: '/', tip: '首页' };
+  let query = { path: '/d', tip: '首页' };
   if (!!roleId) {
     return <div>{props.children}</div>;
   } else {
@@ -19,10 +19,10 @@ const IsSthRole: FC<{ roles: number[] }> = (props) => {
       userContext.user?.member?.role.id == 1 ||
       (!userContext.user && !window.localStorage.getItem('Token'))
     )
-      query = { path: '/login', tip: '登入页' };
+      query = { path: '/d/login', tip: '登入页' };
     return (
       <Redirect
-        to={{ pathname: '/permission-denied', search: stringify(query) }}
+        to={{ pathname: '/d/permission-denied', search: stringify(query) }}
       />
     );
   }

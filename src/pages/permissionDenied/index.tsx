@@ -10,7 +10,7 @@ const permissionDenied: FC = () => {
   const [count, setCount] = useState(5);
   const { query } = useRealLocation();
   const [go, setGo] = useState<{ path: string; tip: string }>({
-    path: query.path?.toString() || '/login',
+    path: query.path?.toString() || '/d/login',
     tip: query.tip?.toString() || '登入',
   });
   useEffect(() => {

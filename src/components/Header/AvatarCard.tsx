@@ -14,7 +14,7 @@ const LogoutBtn: FC = () => {
   const afterLogout = () => {
     window.localStorage.removeItem('Token');
     userContext.setUser && userContext.setUser(undefined);
-    history.replace('/login');
+    history.replace('/d/login');
   };
   const { loading, setLoading } = useApi(
     userLogoutAdmin,

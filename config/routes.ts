@@ -4,17 +4,17 @@ import { routeInterface } from 'route';
 // 桌面端路由
 const desktopRoute: routeInterface.route[] = [
   {
-    path: '/permission-denied',
+    path: '/d/permission-denied',
     component: '@/pages/permissionDenied',
     title: '无权限',
   },
   {
-    path: '/',
+    path: '/d',
     redirect: '/d/home', // TODO 改成判断手机还是pc
   },
   // PC端路由
   {
-    path: '/login',
+    path: '/d/login',
     component: '@/pages/login',
     extraOpt: {
       hidden: true,
@@ -24,7 +24,7 @@ const desktopRoute: routeInterface.route[] = [
   },
   {
     path: '/d',
-    component: '@/pages/index.tsx',
+    component: '@/pages/main.tsx',
     wrappers: ['@/wrappers/Auth/IsLogin', '@/wrappers/Auth/IsMgmt'],
     __isDynamic: true,
     extraOpt: {
@@ -433,6 +433,22 @@ const mobileRoute: routeInterface.mRoute[] = [
   {
     path: '/m',
     component: '@/mobile/pages',
+    __isDynamic: true,
+    extraOpt: {
+      default: '/m/home',
+    },
+    routes: [
+      {
+        path: '/m/',
+        extraOpt: {
+          default: '/m/home',
+        },
+      },
+      {
+        path: '/m/home',
+        component: '@/mobile/pages/home',
+      },
+    ],
   },
 ];
 
@@ -440,7 +456,10 @@ export default <(routeInterface.mRoute | routeInterface.route)[]>[
   {
     path: '/',
     component: '@/index.tsx',
-    routes: desktopRoute.concat(mobileRoute),
+    routes: [
+      { path: '/d', component: '@/pages/index.tsx', routes: desktopRoute },
+      { path: '/m', component: '@/mobile/index.tsx', routes: desktopRoute },
+    ],
   },
 ];
 

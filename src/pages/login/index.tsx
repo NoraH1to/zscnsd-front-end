@@ -38,7 +38,7 @@ const login: FC = () => {
       if (!res?.data?.token) return;
       window.localStorage.setItem('Token', res.data.token);
       userContext.setUser && userContext.setUser(res.data.user);
-      history.push('/');
+      history.push('/d');
     },
   );
   const onFormChange = (newFormData: any) => {
