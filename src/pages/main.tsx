@@ -1,19 +1,15 @@
-import { Layout, Menu, Breadcrumb } from 'antd';
-import './index.scss';
+import { Layout, Breadcrumb } from 'antd';
+import './main.scss';
 
 import { desktopRoute } from '@/../config/routes';
 
-import { History, Location } from 'umi';
+import { History } from 'umi';
 
-import { useState, useEffect, useMemo, useContext } from 'react';
+import { useMemo } from 'react';
 import { routeInterface } from 'route';
 
 import SideMenu from '@/components/SideMenu';
 import HeaderContent from '@/components/Header';
-import { memberDetail } from '@/api/member';
-import { useInit } from '@/hooks';
-import LoadingPage from '@/components/LoadingPage';
-import { authContext } from '@/wrappers/Auth/authContext';
 
 // 抽取出 PC 端的路由
 const [, , , pcRoute] = desktopRoute;

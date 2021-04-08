@@ -432,7 +432,7 @@ const desktopRoute: routeInterface.route[] = [
 const mobileRoute: routeInterface.mRoute[] = [
   {
     path: '/m',
-    component: '@/mobile/pages',
+    component: '@/mobile/pages/main.tsx',
     __isDynamic: true,
     extraOpt: {
       default: '/m/home',
@@ -448,6 +448,16 @@ const mobileRoute: routeInterface.mRoute[] = [
         path: '/m/home',
         component: '@/mobile/pages/home',
       },
+      {
+        path: '/m/work',
+        component: '@/mobile/pages/work',
+        __isDynamic: true,
+      },
+      {
+        path: '/m/user-center',
+        component: '@/mobile/pages/userCenter',
+        __isDynamic: true,
+      },
     ],
   },
 ];
@@ -455,10 +465,10 @@ const mobileRoute: routeInterface.mRoute[] = [
 export default <(routeInterface.mRoute | routeInterface.route)[]>[
   {
     path: '/',
-    component: '@/index.tsx',
+    component: '@/index.tsx', // TODO: 判断去移动端还是后台（或者用nginx解决）
     routes: [
       { path: '/d', component: '@/pages/index.tsx', routes: desktopRoute },
-      { path: '/m', component: '@/mobile/index.tsx', routes: desktopRoute },
+      { path: '/m', component: '@/pages/index.tsx', routes: mobileRoute },
     ],
   },
 ];

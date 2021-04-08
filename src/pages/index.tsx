@@ -1,7 +1,3 @@
-import { Layout, Menu, Breadcrumb } from 'antd';
-import './index.scss';
-
-import { desktopRoute } from '@/../config/routes';
 import { useState, FC } from 'react';
 
 import { memberDetail } from '@/api/member';
