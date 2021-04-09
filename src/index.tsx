@@ -1,11 +1,23 @@
-import apiInterface from 'api';
-import axios from 'axios';
-import { FC, useContext, useState } from 'react';
-import { memberDetail } from './api/member';
-import LoadingPage from './components/LoadingPage';
-import { useInit } from './hooks';
-import { authContext } from './wrappers/Auth/authContext';
+import { FC } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const index: FC = (props) => <>{props.children}</>;
+const index: FC = (props) => (
+  <>
+    <ToastContainer
+      position="top-center"
+      autoClose={3500}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      limit={3}
+    />
+    {props.children}
+  </>
+);
 
 export default index;

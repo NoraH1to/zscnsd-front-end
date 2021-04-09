@@ -9,11 +9,6 @@ const desktopRoute: routeInterface.route[] = [
     title: '无权限',
   },
   {
-    path: '/d',
-    redirect: '/d/home', // TODO 改成判断手机还是pc
-  },
-  // PC端路由
-  {
     path: '/d/login',
     component: '@/pages/login',
     extraOpt: {
@@ -22,6 +17,11 @@ const desktopRoute: routeInterface.route[] = [
       pageTitle: 'ZSCNSD 登入',
     },
   },
+  {
+    path: '/d',
+    redirect: '/d/home', // TODO 改成判断手机还是pc
+  },
+  // PC端路由
   {
     path: '/d',
     component: '@/pages/main.tsx',
@@ -432,6 +432,10 @@ const desktopRoute: routeInterface.route[] = [
 const mobileRoute: routeInterface.mRoute[] = [
   {
     path: '/m',
+    redirect: '/m/home',
+  },
+  {
+    path: '/m',
     component: '@/mobile/pages/main.tsx',
     __isDynamic: true,
     extraOpt: {
@@ -451,12 +455,38 @@ const mobileRoute: routeInterface.mRoute[] = [
       {
         path: '/m/work',
         component: '@/mobile/pages/work',
-        __isDynamic: true,
       },
       {
         path: '/m/user-center',
         component: '@/mobile/pages/userCenter',
-        __isDynamic: true,
+      },
+      {
+        path: '/m/my-requests',
+        component: '@/mobile/pages/myRequests',
+      },
+      {
+        path: '/m/repair-requests',
+        component: '@/mobile/pages/repairRequests',
+      },
+      {
+        path: '/m/reports',
+        component: '@/mobile/pages/reports',
+      },
+      {
+        path: '/m/attendance-change-requests',
+        component: '@/mobile/pages/attendance/attendanceChangeRequests',
+      },
+      {
+        path: '/m/attendance-records',
+        component: '@/mobile/pages/attendance/records',
+      },
+      {
+        path: '/m/attendance-timetable',
+        component: '@/mobile/pages/attendance/timetable',
+      },
+      {
+        path: '/m/upload-classtable',
+        component: '@/mobile/pages/uploadClassTable',
       },
     ],
   },
@@ -468,7 +498,11 @@ export default <(routeInterface.mRoute | routeInterface.route)[]>[
     component: '@/index.tsx', // TODO: 判断去移动端还是后台（或者用nginx解决）
     routes: [
       { path: '/d', component: '@/pages/index.tsx', routes: desktopRoute },
-      { path: '/m', component: '@/pages/index.tsx', routes: mobileRoute },
+      {
+        path: '/m',
+        component: '@/mobile/pages/index.tsx',
+        routes: mobileRoute,
+      },
     ],
   },
 ];

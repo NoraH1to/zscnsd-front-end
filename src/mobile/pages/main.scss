@@ -1,9 +1,20 @@
 .m-container {
-  display: flex;
-  flex-direction: column;
   height: 100vh;
   .m-content-container {
-    flex-grow: 1;
-    overflow-y: auto;
+    padding-bottom: 50px;
+    .m-content {
+      height: 100%;
+      padding: 9px 22px;
+    }
+  }
+  .m-navigation {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .am-tab-bar-bar {
+      background: rgba(255, 255, 255, 0.8) !important;
+      backdrop-filter: blur(20px);
+    }
   }
 }

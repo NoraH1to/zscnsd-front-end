@@ -532,6 +532,14 @@ declare namespace apiInterface {
     userId?: Attendance['userId'];
     area?: Attendance['area']['id'];
   }
+  // 考勤签到请求体
+  interface AttendanceSignInData extends RequestData {
+    area: Attendance['area']['id'];
+  }
+  // 考勤签退请求体
+  interface AttendanceSignOutData extends RequestData {
+    area: Attendance['area']['id'];
+  }
 
   // 查询成员惩罚记录参数
   interface MemberPunishmentListQuery extends RequestPageQuery, TimeRange {
