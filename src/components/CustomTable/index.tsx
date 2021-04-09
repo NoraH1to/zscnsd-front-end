@@ -318,7 +318,7 @@ const CustomTable = <T extends object>(props: Props<T>) => {
                       icon={item.icon}
                       type="text"
                       shape={item.icon ? 'circle' : undefined}
-                      onClick={() => {
+                      onClick={(e) => {
                         let param: any = {};
                         if (item.type == 'dialog') {
                           param = item.apiParamKeys(record);
@@ -328,6 +328,7 @@ const CustomTable = <T extends object>(props: Props<T>) => {
                           item.hooks.setParams(item.apiParamKeys(record));
                           item.hooks.setLoading(true);
                         }
+                        e.stopPropagation();
                       }}
                       {...item.btnProps}
                     />
@@ -353,6 +354,7 @@ const CustomTable = <T extends object>(props: Props<T>) => {
                                   );
                                   item.hooks.setLoading(true);
                                 }
+                                e.stopPropagation();
                               }}
                             >
                               {item.text}
