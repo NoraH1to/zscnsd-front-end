@@ -1,5 +1,5 @@
 import { useCustomForm } from '@/hooks';
-import { Modal } from 'antd';
+import { Modal, ModalProps } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import update from 'immutability-helper';
 import useApi from './useApi';
@@ -13,6 +13,7 @@ const useDialogForm = <P,>(
   propData: componentData.PropData[],
   title?: string,
   onSubmit?: Function,
+  mobile?: boolean,
 ): componentData.DialogFormHooks => {
   const getDefaultFormData = useMemo(() => {
     const result: any = {};
@@ -58,6 +59,9 @@ const useDialogForm = <P,>(
     formRef.setFieldsValue(data);
   };
 
+  // 移动端附加选项
+  const mobileOption: ModalProps = mobile ? { centered: true } : {};
+
   const DialogForm = (
     <Modal
       key={title}
@@ -78,6 +82,7 @@ const useDialogForm = <P,>(
         formRef.resetFields();
       }}
       destroyOnClose={true}
+      {...mobileOption}
     >
       {form}
     </Modal>
