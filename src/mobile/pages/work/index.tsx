@@ -1,11 +1,12 @@
 import { attendanceSignIn, attendanceSignOut } from '@/api/attendance';
-import { areas } from '@/common';
-import { useApi } from '@/hooks';
+import { areas, TableFilterType } from '@/common';
+import { useApi, useDialogForm } from '@/hooks';
 import Card from '@/mobile/components/Card';
 import CardListContainer from '@/mobile/components/Card/CardListContainer';
 import PageContainer from '@/mobile/components/PageContainer';
 import { WhiteSpace, Modal } from 'antd-mobile';
 import { FC } from 'react';
+import componentData from 'typings';
 import { history } from 'umi';
 import './index.scss';
 
@@ -17,25 +18,31 @@ const ATTENDANCE_TIMETABLE_PATH = '/m/attendance-timetable';
 const UPLOAD_CLASSTABLE_PATH = '/m/upload-classtable';
 
 const SignInCard: FC = () => {
-  const { loading, setLoading, setParams } = useApi(attendanceSignIn);
+  const propData: componentData.PropData[] = [
+    {
+      key: 'area',
+      name: '片区',
+      type: TableFilterType.select,
+      selectData: areas,
+      rules: [{ required: true }],
+    },
+  ];
+  const { visible, setVisible, DialogForm, setForm } = useDialogForm(
+    attendanceSignIn,
+    propData,
+    '签到',
+    undefined,
+    true,
+  );
   return (
     <>
       <Card
-        onClick={() => {
-          Modal.operation(
-            areas.map((area) => ({
-              text: area.string,
-              onPress: () => {
-                setParams({ area: area.id });
-                setLoading(true);
-              },
-            })),
-          );
-        }}
+        onClick={() => setVisible(true)}
         text="签到"
         textColor="#E2BDD7"
         bgColor="#d7501e"
       />
+      {DialogForm}
     </>
   );
 };
