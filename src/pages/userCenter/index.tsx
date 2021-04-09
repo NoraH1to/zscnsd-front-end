@@ -52,7 +52,7 @@ const EditUserInfoBtn: FC<{ user?: apiInterface.User; onChange?: any }> = ({
     },
     {
       key: 'telephone',
-      type: TableFilterType.number,
+      type: TableFilterType.str,
       name: '手机号',
       rules: [{ required: true }],
     },
