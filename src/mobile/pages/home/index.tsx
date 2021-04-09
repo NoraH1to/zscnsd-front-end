@@ -4,6 +4,7 @@ import CardListContainer from '@/mobile/components/Card/CardListContainer';
 import { WhiteSpace } from 'antd-mobile';
 import { FC } from 'react';
 import './index.scss';
+import PageContainer from '@/mobile/components/PageContainer';
 
 const MY_REQUESTS_PATH = '/m/my-requests';
 
@@ -18,11 +19,10 @@ const home: FC = () => {
     />,
   ];
   return (
-    <div className="m-home">
-      <h1 id="m-home-title">首页</h1>
+    <PageContainer title="首页">
       <CardListContainer cards={cards} />
       <WhiteSpace />
-    </div>
+    </PageContainer>
   );
 };
 

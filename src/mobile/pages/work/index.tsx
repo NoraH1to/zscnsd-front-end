@@ -3,6 +3,7 @@ import { areas } from '@/common';
 import { useApi } from '@/hooks';
 import Card from '@/mobile/components/Card';
 import CardListContainer from '@/mobile/components/Card/CardListContainer';
+import PageContainer from '@/mobile/components/PageContainer';
 import { WhiteSpace, Modal } from 'antd-mobile';
 import { FC } from 'react';
 import { history } from 'umi';
@@ -20,7 +21,6 @@ const SignInCard: FC = () => {
   return (
     <>
       <Card
-        key="card-sign-in"
         onClick={() => {
           Modal.operation(
             areas.map((area) => ({
@@ -44,7 +44,6 @@ const SignOutCard: FC = () => {
   const { loading, setLoading } = useApi(attendanceSignOut);
   return (
     <Card
-      key="card-sign-out"
       onClick={() => {
         Modal.alert('签退', '确定要签退吗？', [
           { text: '取消' },
@@ -59,7 +58,10 @@ const SignOutCard: FC = () => {
 };
 
 const work: FC = () => {
-  const signCards = [<SignInCard />, <SignOutCard />];
+  const signCards = [
+    <SignInCard key="card-sign-in" />,
+    <SignOutCard key="card-sign-out" />,
+  ];
   const cards = [
     <Card
       key="card-goto-repair-requests"
@@ -105,8 +107,7 @@ const work: FC = () => {
     />,
   ];
   return (
-    <div className="m-work">
-      <h1 id="m-work-title">工作</h1>
+    <PageContainer title="工作">
       <CardListContainer
         style={{ width: '47%', fontSize: '0.8em' }}
         cards={signCards}
@@ -114,7 +115,7 @@ const work: FC = () => {
       <div style={{ marginBottom: '6%' }} />
       <CardListContainer cards={cards} />
       <WhiteSpace />
-    </div>
+    </PageContainer>
   );
 };
 

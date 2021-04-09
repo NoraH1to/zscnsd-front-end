@@ -69,7 +69,7 @@ const EditPasswordBtn = () => {
   );
 };
 
-const AvatarCard: FC<{ user?: apiInterface.Member }> = ({ user }) => {
+const AvatarCard: FC<{ user?: apiInterface.User }> = ({ user }) => {
   const headerContext = useContext(_headerContext);
   const handlerClickUserCenterLink = () => {
     history.push('/d/user-center');

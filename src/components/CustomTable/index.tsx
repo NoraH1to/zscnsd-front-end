@@ -180,7 +180,7 @@ export const goUserCenterCell = (user: apiInterface.User) =>
     search: stringify({ id: user.id }),
   });
 
-export const goMemberCenterCell = (user: apiInterface.Member | null) =>
+export const goMemberCenterCell = (user: apiInterface.User | null) =>
   user
     ? getRouteCell(`${user.name}-${user.member?.workId || '已退出'}`, {
         pathname: '/d/user-center',

@@ -4,7 +4,7 @@ import apiInterface from 'api';
 import { find } from 'ramda';
 import { FC } from 'react';
 
-const MemberRoleTag: FC<{ user: apiInterface.Member | undefined }> = ({
+const MemberRoleTag: FC<{ user: apiInterface.User | undefined }> = ({
   user,
 }) => {
   const role = find((item) => item.id == user?.member.role.id, roles);

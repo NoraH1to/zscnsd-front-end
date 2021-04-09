@@ -6,7 +6,7 @@ import LoadingPage from '@/components/LoadingPage';
 import { authContext } from '@/wrappers/Auth/authContext';
 
 const index: FC = (props) => {
-  const [user, setUser] = useState<apiInterface.Member | undefined>();
+  const [user, setUser] = useState<apiInterface.User | undefined>();
   const { data } = useInit(
     memberDetail,
     undefined,

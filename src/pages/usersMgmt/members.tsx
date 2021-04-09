@@ -143,7 +143,7 @@ const EditPropData: componentData.PropData[] = [
   },
 ];
 
-const onRow: TableProps<apiInterface.Member>['onRow'] = (record) => {
+const onRow: TableProps<apiInterface.User>['onRow'] = (record) => {
   return {
     onClick: (event) => {
       history.push({
@@ -154,7 +154,7 @@ const onRow: TableProps<apiInterface.Member>['onRow'] = (record) => {
   };
 };
 
-const colums: TableColumnProps<apiInterface.Member>[] = [
+const colums: TableColumnProps<apiInterface.User>[] = [
   {
     title: '工号',
     dataIndex: ['member', 'workId'],

@@ -3,7 +3,7 @@ import apiInterface from 'api';
 import { FC } from 'react';
 
 const UserInfoCard: FC<{
-  user: apiInterface.Member | undefined;
+  user: apiInterface.User | apiInterface.User | undefined;
   cardProps: CardProps;
 }> = ({ user, cardProps }) => {
   return (

@@ -97,8 +97,8 @@ declare namespace apiInterface {
     id: number;
     ticket: Ticket;
     ticketId: Ticket['id'];
-    operatorId: Member['id'];
-    operator: Member;
+    operatorId: User['id'];
+    operator: User;
     status: TicketStatus;
     comment: string; // 处理备注
   }
@@ -107,8 +107,8 @@ declare namespace apiInterface {
     id: number;
     ispTicket: IspTicket;
     ispTicketId: Ticket['id'];
-    operatorId: Member['id'];
-    operator: Member;
+    operatorId: User['id'];
+    operator: User;
     status: TicketStatus;
     comment: string; // 处理备注
   }
@@ -121,7 +121,8 @@ declare namespace apiInterface {
     punishment: number; // 惩罚级别
     workArrangement: WorkArrangement[];
   }
-  interface UserBase extends CUDTime {
+  // 用户信息
+  interface User extends CUDTime {
     id: number;
     name: string;
     studentId: number;
@@ -130,34 +131,27 @@ declare namespace apiInterface {
     dormBlock: DormBlock;
     dormRoom: number;
     telephone: string;
-  }
-  // 用户信息
-  interface User extends UserBase {
     member?: MemberInfo;
-  }
-  // 成员信息
-  interface Member extends UserBase {
-    member: MemberInfo;
   }
   // 成员惩罚
   interface MemberPunishment extends CUDTime {
     id: number;
-    userId: Member['id'];
-    user: Member;
+    userId: User['id'];
+    user: User;
     value: number;
     reason: string;
-    operatorId: Member['id'];
-    operator: Member;
+    operatorId: User['id'];
+    operator: User;
   }
   // 成员血条
   interface MemberHealth extends CUDTime {
     id: number;
-    userId: Member['id'];
-    user: Member;
+    userId: User['id'];
+    user: User;
     value: number;
     reason: string;
-    operatorId: Member['id'];
-    operator: Member;
+    operatorId: User['id'];
+    operator: User;
   }
   // 报修
   interface Ticket extends CUDTime {
@@ -186,8 +180,8 @@ declare namespace apiInterface {
   // 移动ONU被占上报
   interface ReportChinaMobileOccupiedOnu extends CUDTime {
     id: number;
-    userId: Member['id'];
-    user: Member;
+    userId: User['id'];
+    user: User;
     oldSwitchSerialNumber: string;
     oldOnuData: string;
     newSwitchSerialNumber: string;
@@ -196,27 +190,27 @@ declare namespace apiInterface {
   // 移动无数据上报
   interface ReportChinaMobileNoData extends CUDTime {
     id: number;
-    userId: Member['id'];
-    user: Member;
-    networkAccount: Member['networkAccount'];
+    userId: User['id'];
+    user: User;
+    networkAccount: User['networkAccount'];
     switchSerialNumber: string;
     onuData: string;
   }
   // 主线上报
   interface ReportWallLine extends CUDTime {
     id: number;
-    userId: Member['id'];
-    user: Member;
+    userId: User['id'];
+    user: User;
     dormBlock: DormBlock;
     dormRoom: number;
-    name: Member['name'];
-    telephone: Member['telephone'];
+    name: User['name'];
+    telephone: User['telephone'];
   }
   // 交换机故障上报
   interface ReportSwitchFault extends CUDTime {
     id: number;
-    userId: Member['id'];
-    user: Member;
+    userId: User['id'];
+    user: User;
     dormBlock: DormBlock;
     dormFloor: number;
     switchSerialNumber: string;
@@ -233,8 +227,8 @@ declare namespace apiInterface {
   // 排班
   interface WorkArrangement extends CUDTime {
     id: number;
-    userId: Member['id'];
-    user: null | Member;
+    userId: User['id'];
+    user: null | User;
     semesterId: WorkSemester['id'];
     semester: WorkSemester;
     weekday: number;
@@ -243,8 +237,8 @@ declare namespace apiInterface {
   // 考勤记录
   interface Attendance extends CUDTime {
     id: number;
-    userId: Member['id'];
-    user: Member;
+    userId: User['id'];
+    user: User;
     signInTime: string;
     signOutTime: string;
     area: Area;
@@ -252,17 +246,17 @@ declare namespace apiInterface {
   // 考勤变动申请
   interface AttendanceChange extends CUDTime {
     id: number;
-    userId: Member['id'];
-    user: Member;
+    userId: User['id'];
+    user: User;
     type: AttendanceChangeType;
     date: string;
     changeDate: string;
     status: AttendanceChangeStatus;
     reason: string;
     area: Attendance['area'];
-    operatorId: Member['id'];
+    operatorId: User['id'];
     operateTime: string;
-    operator: Member;
+    operator: User;
   }
   // 注册白名单分组
   interface RegisterWhitelistGroup extends CUDTime {
@@ -273,8 +267,8 @@ declare namespace apiInterface {
   // 注册白名单
   interface RegisterWhitelist extends CUDTime {
     id: number;
-    name: UserBase['name'];
-    studentId: UserBase['studentId'];
+    name: User['name'];
+    studentId: User['studentId'];
     groupId: RegisterWhitelistGroup['id'];
     group: RegisterWhitelistGroup;
   }
@@ -290,8 +284,8 @@ declare namespace apiInterface {
   // 成员课程表
   interface MemberTimetable extends CUDTime {
     id: number;
-    userId: Member['id'];
-    user: Member;
+    userId: User['id'];
+    user: User;
     semesterId: WorkSemester['id'];
     semester: WorkSemester;
     imagePath: string;
@@ -301,12 +295,12 @@ declare namespace apiInterface {
   // 后台登录返回数据
   interface UserLoginAdmin {
     token: string;
-    user: Member;
+    user: User;
   }
   // 某周值班表
   interface WorkArrangementTimeTable {
-    userId: UserBase['id'];
-    user: Member;
+    userId: User['id'];
+    user: User;
     date: string;
     area: Area;
   }
@@ -344,7 +338,7 @@ declare namespace apiInterface {
   }
   // 更新值班表请求体
   interface WorkArrangementUpdateData extends RequestData {
-    userId: Member['id'];
+    userId: User['id'];
     semesterId: WorkArrangement['semesterId'];
     weekday: WorkArrangement['weekday'];
     area: Area['id'];
@@ -357,7 +351,7 @@ declare namespace apiInterface {
   // 查询成员课程表参数
   interface MemberTimetableListQuery extends RequestPageQuery {
     semesterId: WorkSemester['id'];
-    userId?: Member['id'];
+    userId?: User['id'];
     status: MemberTimetableStatus['id'];
   }
   // 增加成员课程表请求体
@@ -593,7 +587,7 @@ declare namespace apiInterface {
   interface ReportChinaMobileOccupiedOnuListQuery
     extends RequestPageQuery,
       TimeRange {
-    userId?: Member['id'];
+    userId?: User['id'];
   }
   // 增加移动ONU被占上报请求体
   interface ReportChinaMobileOccupiedOnuAddData extends RequestData {
@@ -619,7 +613,7 @@ declare namespace apiInterface {
   interface ReportChinaMobileNoDataListQuery
     extends RequestPageQuery,
       TimeRange {
-    userId?: Member['id'];
+    userId?: User['id'];
   }
   // 增加移动无数据上报请求体
   interface ReportChinaMobileNoDataAddData extends RequestData {
@@ -641,7 +635,7 @@ declare namespace apiInterface {
 
   // 查询主线上报参数
   interface ReportWallLineListQuery extends RequestPageQuery, TimeRange {
-    userId?: Member['id'];
+    userId?: User['id'];
   }
   // 增加主线上报请求体
   interface ReportWallLineAddData extends RequestData {
@@ -665,7 +659,7 @@ declare namespace apiInterface {
 
   // 查询交换机故障上报参数
   interface ReportSwitchFaultListQuery extends RequestPageQuery, TimeRange {
-    userId?: Member['id'];
+    userId?: User['id'];
   }
   // 增加交换机故障上报请求体
   interface ReportSwitchFaultAddData extends RequestData {
@@ -737,7 +731,7 @@ declare namespace apiInterface {
   }
   // 获取用户详情参数
   interface UserInfoQuery extends RequestQuery {
-    userId?: UserBase['id'];
+    userId?: User['id'];
   }
   // 修改个人用户信息请求体
   interface UserEditUserData extends RequestData {
@@ -780,7 +774,7 @@ declare namespace apiInterface {
   }
   // 查询组织成员详情参数
   interface MemberDetailQuery extends RequestQuery {
-    userId?: Member['id'];
+    userId?: User['id'];
   }
 
   // 查询工单参数
@@ -789,7 +783,7 @@ declare namespace apiInterface {
     name?: IspTicket['name'];
     dromBlock?: DormBlock['id'];
     deleted?: boolean;
-    operatorId?: Member['id'];
+    operatorId?: User['id'];
   }
   // 增加工单请求体
   interface IspTicketAddData extends RequestData {
@@ -829,7 +823,7 @@ declare namespace apiInterface {
   interface IspTicketLogListQuery extends RequestPageQuery, TimeRange {
     ticketId?: IspTicket['id'];
     status?: IspTicket['status']['id'];
-    operatorId?: Member['id'];
+    operatorId?: User['id'];
     deleted?: boolean;
   }
 
@@ -840,7 +834,7 @@ declare namespace apiInterface {
     status?: Ticket['status']['id'];
     faultType?: Ticket['faultType']['id'];
     dormBlock?: User['dormBlock']['id'];
-    operatorId?: Member['id'];
+    operatorId?: User['id'];
     deleted?: boolean;
   }
 
@@ -851,7 +845,7 @@ declare namespace apiInterface {
     faultType?: TicketFaultMenu['id'];
     dromBlock?: DormBlock['id'];
     deleted?: boolean;
-    operatorId?: Member['id'];
+    operatorId?: User['id'];
   }
   // 增加报修请求体
   interface TicketAddData extends RequestData {

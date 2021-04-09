@@ -17,7 +17,7 @@ import HealthPointsRecords from '@/pages/usersMgmt/healthPointsRecords';
 import PunishRecords from '@/pages/usersMgmt/punishRecords';
 import AttendanceRecords from '@/pages/attendancesMgmt/records';
 
-const EditUserInfoBtn: FC<{ user?: apiInterface.Member; onChange?: any }> = ({
+const EditUserInfoBtn: FC<{ user?: apiInterface.User; onChange?: any }> = ({
   user,
   onChange,
 }) => {
@@ -102,7 +102,7 @@ const userCenter: FC = () => {
       userContext.user?.id;
   const isMember = () => !!userContext.user?.member;
 
-  const [user, setUser] = useState<apiInterface.Member | undefined>();
+  const [user, setUser] = useState<apiInterface.User | undefined>();
   const { data, loading, setLoading } = useInit(
     userDetail,
     {

@@ -1,9 +1,9 @@
-import { Member } from 'api';
+import { User } from 'api';
 import { createContext, Dispatch } from 'react';
 
 interface UserContext {
-  user?: Member;
-  setUser?: Dispatch<Member | undefined>;
+  user?: User;
+  setUser?: Dispatch<User | undefined>;
 }
 
 export const mobileAuthContext = createContext<UserContext>({});
