@@ -107,7 +107,12 @@ const work: FC = () => {
     />,
     <Card
       key="card-goto-attendance-records"
-      onClick={() => history.push(ATTENDANCE_RECORDS_PATH)}
+      onClick={() =>
+        history.push({
+          pathname: ATTENDANCE_RECORDS_PATH,
+          search: stringify({ userId: userContext.user?.id }),
+        })
+      }
       text="考勤记录"
       textColor="#eee1cf"
       bgColor="#866cda"
