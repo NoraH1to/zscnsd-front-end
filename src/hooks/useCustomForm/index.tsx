@@ -15,7 +15,7 @@ import './index.scss';
 import { FC, useEffect, useState } from 'react';
 import componentData from 'typings';
 import moment from 'moment';
-import { datetimeformatOut, formatDate } from '@/utils';
+import { dateformatOut, datetimeformatOut, formatDate } from '@/utils';
 import UploadImg from '@/components/UploadImg';
 import useUploadImg from '../useUploadImg';
 
@@ -53,16 +53,32 @@ const _DateRangePicker: FC<{ item: componentData.PropData }> = (props) => {
   );
 };
 
-const _DatePicker: FC<{ item: componentData.PropData }> = (props) => {
-  const { item } = props;
+const _DatePicker: FC<{
+  item: componentData.PropData;
+  withoutTime?: boolean;
+}> = (props) => {
+  const { item, withoutTime } = props;
+  const [value, setValue] = useState<any>();
   return (
     <BaseFormItem item={item}>
       <DatePicker
-        placeholder={item.holder}
-        format={datetimeformatOut}
-        showTime={{
-          defaultValue: moment('00:00:00'),
+        value={value}
+        onChange={(date) => {
+          if (withoutTime) {
+            setValue(date?.set({ hour: 0, minute: 0, second: 0 }));
+          } else {
+            setValue(date);
+          }
         }}
+        placeholder={item.holder}
+        format={withoutTime ? dateformatOut : datetimeformatOut}
+        showTime={
+          withoutTime
+            ? false
+            : {
+                defaultValue: moment('00:00:00'),
+              }
+        }
       ></DatePicker>
     </BaseFormItem>
   );
@@ -280,6 +296,8 @@ const useCustomForm = (
         return <_DateRangePicker key={item.key} item={item} />;
       case TableFilterType.time:
         return <_DatePicker key={item.key} item={item} />;
+      case TableFilterType.timeWithoutTime:
+        return <_DatePicker key={item.key} item={item} withoutTime={true} />;
       case TableFilterType.select:
         return <_Select key={item.key} item={item} />;
       case TableFilterType.selectSearch:
