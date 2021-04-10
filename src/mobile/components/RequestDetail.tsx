@@ -14,7 +14,7 @@ const RequestDetail: FC<{
       loading={!ticket}
       {...cardProps}
     >
-      {!!ticket && (
+      {!!ticket && Object.keys(ticket).length > 0 && (
         <Space direction="vertical">
           <TicketStatusComponent ticket={ticket} />
           <Typography.Text>{`宿舍楼-房间号：${ticket.user.dormBlock.string}-${ticket.user.dormRoom}`}</Typography.Text>
