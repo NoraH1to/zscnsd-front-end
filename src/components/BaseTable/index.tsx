@@ -5,8 +5,8 @@ import { Button, Divider, Modal } from 'antd';
 const baseTable: FC<{
   Filter?: ReactElement;
   FilterBtn?: ReactElement;
-  TableActionLeft?: ReactElement;
-  TableActionRight?: ReactElement;
+  TableActionLeft?: ReactElement | (ReactElement | null)[];
+  TableActionRight?: ReactElement | (ReactElement | null)[];
   Table: ReactElement | ReactElement[];
   mobile?: boolean;
 }> = (props) => {
