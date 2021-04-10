@@ -354,7 +354,6 @@ const CustomTable = <T extends object>(props: Props<T>) => {
                                   );
                                   item.hooks.setLoading(true);
                                 }
-                                e.stopPropagation();
                               }}
                             >
                               {item.text}
