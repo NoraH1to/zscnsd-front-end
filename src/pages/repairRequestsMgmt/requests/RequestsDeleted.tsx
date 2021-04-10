@@ -27,7 +27,7 @@ import CustomTable, {
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
 import { RollbackOutlined } from '@ant-design/icons';
-import TicketStatusComponent from '@/components/ticketStatus';
+import TicketStatusComponent from '@/components/TicketStatusComp';
 import { ticketFaultMenuList } from '@/api/ticketFaultMenu';
 import TimeCard from '@/components/timeCard';
 import TicketCommentCard from '@/components/TicketCommentCard';

@@ -24,7 +24,7 @@ import CustomTable, {
 } from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
-import TicketStatusComponent from '@/components/ticketStatus';
+import TicketStatusComponent from '@/components/TicketStatusComp';
 import { formatDate } from '@/utils';
 
 const filters: componentData.PropData[] = [

@@ -43,7 +43,7 @@ import {
   EditOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
-import TicketStatusComponent from '@/components/ticketStatus';
+import TicketStatusComponent from '@/components/TicketStatusComp';
 import { ticketFaultMenuList } from '@/api/ticketFaultMenu';
 import TimeCard from '@/components/timeCard';
 import TicketCommentCard from '@/components/TicketCommentCard';

@@ -1,4 +1,4 @@
-import TicketStatusComponent from '@/components/TicketStatus';
+import TicketStatusComponent from '@/components/TicketStatusComp';
 import { formatDate } from '@/utils';
 import { Card, CardProps, Space, Typography } from 'antd';
 import { FC } from 'react';

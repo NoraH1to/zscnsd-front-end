@@ -40,7 +40,7 @@ import {
   EditOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
-import TicketStatusComponent from '@/components/ticketStatus';
+import TicketStatusComponent from '@/components/TicketStatusComp';
 import { formatDate } from '@/utils';
 import { userSearch } from '@/api/user';
 
