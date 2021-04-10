@@ -4,6 +4,7 @@ import { useApi, useDialogForm } from '@/hooks';
 import Card from '@/mobile/components/Card';
 import ActionCardListContainer from '@/mobile/components/Card/ActionCardListContainer';
 import PageContainer from '@/mobile/components/PageContainer';
+import { confirmDialog } from '@/utils';
 import { WhiteSpace, Modal } from 'antd-mobile';
 import { FC } from 'react';
 import componentData from 'typings';
@@ -52,10 +53,7 @@ const SignOutCard: FC = () => {
   return (
     <Card
       onClick={() => {
-        Modal.alert('签退', '确定要签退吗？', [
-          { text: '取消' },
-          { text: '签退', onPress: () => setLoading(true) },
-        ]);
+        confirmDialog({ actionText: '签退', onOk: () => setLoading(true) });
       }}
       text="签退"
       textColor="#edd8f0"
