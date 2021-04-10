@@ -54,12 +54,12 @@ const filters: componentData.PropData[] = [
   },
   {
     key: 'start',
-    name: '工单提交时间起点',
+    name: '报修提交时间起点',
     type: TableFilterType.timeWithoutTime,
   },
   {
     key: 'end',
-    name: '工单提交时间终点',
+    name: '报修提交时间终点',
     type: TableFilterType.timeWithoutTime,
   },
   {
@@ -107,7 +107,7 @@ const repairReuqests: FC = () => {
         dataOnClick={(data: apiInterface.Ticket) =>
           history.push({
             pathname: DETAIL_PATH,
-            search: stringify({ id: data.id }),
+            search: stringify({ ticketId: data.id }),
           })
         }
       />
