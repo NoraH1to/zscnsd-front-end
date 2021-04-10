@@ -1,6 +1,6 @@
 import { history } from 'umi';
 import Card from '@/mobile/components/Card';
-import CardListContainer from '@/mobile/components/Card/CardListContainer';
+import ActionCardListContainer from '@/mobile/components/Card/ActionCardListContainer';
 import { WhiteSpace } from 'antd-mobile';
 import { FC } from 'react';
 import './index.scss';
@@ -20,7 +20,7 @@ const home: FC = () => {
   ];
   return (
     <PageContainer title="首页">
-      <CardListContainer cards={cards} />
+      <ActionCardListContainer cards={cards} />
       <WhiteSpace />
     </PageContainer>
   );

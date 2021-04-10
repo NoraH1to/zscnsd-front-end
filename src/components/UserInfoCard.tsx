@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 const UserInfoCard: FC<{
   user: apiInterface.User | apiInterface.User | undefined;
-  cardProps: CardProps;
+  cardProps?: CardProps;
 }> = ({ user, cardProps }) => {
   return (
     <Card title="基本信息" {...cardProps}>

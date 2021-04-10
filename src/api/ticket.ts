@@ -42,3 +42,9 @@ export const ticketLogList = (params?: apiInterface.TicketLogListQuery) => {
     params,
   });
 };
+
+export const ticketDetail = (params?: apiInterface.TicketDetailQuery) => {
+  return GET('/api/ticket/detail', {
+    params,
+  });
+};

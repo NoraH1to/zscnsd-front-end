@@ -1,30 +1,43 @@
 import './index.scss';
-import { FC, ReactElement } from 'react';
-import { Divider } from 'antd';
+import { FC, ReactElement, useState } from 'react';
+import { Button, Divider, Modal } from 'antd';
 
 const baseTable: FC<{
   Filter?: ReactElement;
   FilterBtn?: ReactElement;
   TableActionLeft?: ReactElement;
   TableActionRight?: ReactElement;
-  Table: ReactElement;
+  Table: ReactElement | ReactElement[];
+  mobile?: boolean;
 }> = (props) => {
-  const { Filter, FilterBtn, TableActionLeft, TableActionRight, Table} = props;
+  const {
+    Filter,
+    FilterBtn,
+    TableActionLeft,
+    TableActionRight,
+    Table,
+    mobile,
+  } = props;
+  const form = (
+    <div className="requests-container">
+      <div className="filter-container">{Filter}</div>
+      <div className="submit-btn">{FilterBtn}</div>
+    </div>
+  );
   return (
     <>
-      <div className="requests-container">
-        <div className="filter-container">{Filter}</div>
-        <div className="submit-btn">{FilterBtn}</div>
-      </div>
-      <Divider />
+      {mobile ? (
+        <></>
+      ) : (
+        <>
+          {form}
+          <Divider />
+        </>
+      )}
       <div className="table-container">
         <div className="table-action">
-          <div>
-            {TableActionLeft}
-          </div>
-          <div>
-            {TableActionRight}
-          </div>
+          <div>{TableActionLeft}</div>
+          <div>{TableActionRight}</div>
         </div>
         <div className="table">{Table}</div>
       </div>

@@ -2,7 +2,7 @@ import { attendanceSignIn, attendanceSignOut } from '@/api/attendance';
 import { areas, TableFilterType } from '@/common';
 import { useApi, useDialogForm } from '@/hooks';
 import Card from '@/mobile/components/Card';
-import CardListContainer from '@/mobile/components/Card/CardListContainer';
+import ActionCardListContainer from '@/mobile/components/Card/ActionCardListContainer';
 import PageContainer from '@/mobile/components/PageContainer';
 import { WhiteSpace, Modal } from 'antd-mobile';
 import { FC } from 'react';
@@ -115,12 +115,12 @@ const work: FC = () => {
   ];
   return (
     <PageContainer title="工作">
-      <CardListContainer
+      <ActionCardListContainer
         style={{ width: '47%', fontSize: '0.8em' }}
         cards={signCards}
       />
       <div style={{ marginBottom: '6%' }} />
-      <CardListContainer cards={cards} />
+      <ActionCardListContainer cards={cards} />
       <WhiteSpace />
     </PageContainer>
   );

@@ -469,6 +469,10 @@ const mobileRoute: routeInterface.mRoute[] = [
         component: '@/mobile/pages/repairRequests',
       },
       {
+        path: '/m/repair-requests/detail',
+        component: '@/mobile/pages/repairRequests/detail',
+      },
+      {
         path: '/m/reports',
         component: '@/mobile/pages/reports',
       },

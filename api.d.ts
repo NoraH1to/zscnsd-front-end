@@ -876,6 +876,10 @@ declare namespace apiInterface {
     status: TicketStatus['id'];
     comment: Ticket['comment'];
   }
+  // 查询报修详情参数
+  interface TicketDetailQuery extends RequestQuery {
+    ticketId: Ticket['id'];
+  }
 
   // 查询报修错误类型参数
   interface TicketFaultTypeListQuery extends RequestQuery {

@@ -5,6 +5,7 @@ export enum TableFilterType {
   number,
   timeRange,
   time,
+  timeWithoutTime,
   select,
   selectSearch,
   muitSelect,
