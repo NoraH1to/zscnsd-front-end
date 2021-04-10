@@ -6,13 +6,18 @@ import { InfoCardProp } from 'typings';
 
 const RequestRecordInfoCard: FC<InfoCardProp> = (props) => {
   const { onClick } = props;
-  const { data }: { data: apiInterface.Ticket } = props;
+  const { data }: { data: apiInterface.TicketLog } = props;
   return (
     <Card onClick={onClick} hoverable title={formatDate(data.createTime, true)}>
       <Space direction="vertical">
         <TicketStatusComponent ticket={data} />
-        <Typography.Text>{`宿舍楼-房间号：${data.user.dormBlock.string}-${data.user.dormRoom}`}</Typography.Text>
-        <Typography.Text>{`故障类型：${data.faultType.content}`}</Typography.Text>
+        <Typography.Text>{`处理人姓名-工号：${data.operator.name}-${data.operator.member?.workId}`}</Typography.Text>
+        <Typography.Text>{`处理时间：${data.createTime}`}</Typography.Text>
+        <Typography.Paragraph
+          ellipsis={{ rows: 5, expandable: true, symbol: 'more' }}
+        >
+          {`备注：${data.comment}`}
+        </Typography.Paragraph>
       </Space>
     </Card>
   );

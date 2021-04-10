@@ -1,3 +1,4 @@
+import { history } from '@/.umi/core/history';
 import { ticketDetail, ticketOperate } from '@/api/ticket';
 import { TableFilterType, ticketStatus } from '@/common';
 import TicketCommentCard from '@/components/TicketCommentCard';
@@ -5,13 +6,16 @@ import UserInfoCard from '@/components/UserInfoCard';
 import { useDialogForm, useInit, useRealLocation } from '@/hooks';
 import PageContainer from '@/mobile/components/PageContainer';
 import RequestDetail from '@/mobile/components/RequestDetail';
-import { Card, Typography } from 'antd';
 import { Button, WhiteSpace } from 'antd-mobile';
+import { stringify } from 'query-string';
 import { FC } from 'react';
+import { toast } from 'react-toastify';
+
+const RECORDS_PATH = '/m/repair-requests/records';
 
 const detail: FC = () => {
   const location = useRealLocation();
-  const ticketId = parseInt(location.query.id?.toString() || '-1');
+  const ticketId = parseInt(location.query.ticketId?.toString() || '-1');
   const { data, loading, setLoading } = useInit(ticketDetail, {
     ticketId,
   });
@@ -53,8 +57,17 @@ const detail: FC = () => {
       <WhiteSpace />
       <TicketCommentCard ticket={data?.data} cardProps={{ loading }} />
       <WhiteSpace />
-      <Button disabled={loading}>处理记录</Button>
-      {/* TODO: 处理记录 */}
+      <Button
+        disabled={loading}
+        onClick={() =>
+          history.push({
+            pathname: RECORDS_PATH,
+            search: stringify({ ticketId: data?.data?.id || -1 }),
+          })
+        }
+      >
+        处理记录
+      </Button>
       <WhiteSpace />
       <Button
         disabled={loading}
