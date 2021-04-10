@@ -1,44 +1,52 @@
 import { GET, POST } from '@/api';
 import apiInterface from 'api';
 
-export const ispTicketList = (params?: apiInterface.TicketListQuery) => {
+export const ispTicketList = (params?: apiInterface.IspTicketListQuery) => {
   return GET('/api/isp-ticket/list', {
     params,
   });
 };
 
-export const ispTicketAdd = (data?: apiInterface.TicketAddData) => {
+export const ispTicketAdd = (data?: apiInterface.IspTicketAddData) => {
   return POST('/api/isp-ticket/add', {
     data,
   });
 };
 
-export const ispTicketEdit = (data?: apiInterface.TicketEditData) => {
+export const ispTicketEdit = (data?: apiInterface.IspTicketEditData) => {
   return POST('/api/isp-ticket/update', {
     data,
   });
 };
 
-export const ispTicketDelete = (data?: apiInterface.TicketDeleteData) => {
+export const ispTicketDelete = (data?: apiInterface.IspTicketDeleteData) => {
   return POST('/api/isp-ticket/delete', {
     data,
   });
 };
 
-export const ispTicketRestore = (data?: apiInterface.TicketRestoreData) => {
+export const ispTicketRestore = (data?: apiInterface.IspTicketRestoreData) => {
   return POST('/api/isp-ticket/restore', {
     data,
   });
 };
 
-export const ispTicketOperate = (data?: apiInterface.TicketOperateData) => {
+export const ispTicketOperate = (data?: apiInterface.IspTicketOperateData) => {
   return POST('/api/isp-ticket/operate', {
     data,
   });
 };
 
-export const ispTicketLogList = (params?: apiInterface.TicketLogListQuery) => {
+export const ispTicketLogList = (
+  params?: apiInterface.IspTicketLogListQuery,
+) => {
   return GET('/api/isp-ticket/log-list', {
+    params,
+  });
+};
+
+export const ispTickeDetail = (params?: apiInterface.IspTicketDetailQuery) => {
+  return GET('/api/isp-ticket/detail', {
     params,
   });
 };

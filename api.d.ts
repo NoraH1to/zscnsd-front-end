@@ -818,6 +818,10 @@ declare namespace apiInterface {
     status: TicketStatus['id'];
     comment: IspTicket['comment'];
   }
+  // 查询工单详情参数
+  interface IspTicketDetailQuery extends RequestQuery {
+    ispTicketId: IspTicket['id'];
+  }
 
   // 查询工单处理记录参数
   interface IspTicketLogListQuery extends RequestPageQuery, TimeRange {
