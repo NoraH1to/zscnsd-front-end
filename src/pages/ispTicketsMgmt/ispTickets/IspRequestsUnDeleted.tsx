@@ -251,20 +251,20 @@ const onRow: TableProps<apiInterface.IspTicket>['onRow'] = (record) => {
 
 const requestsUndeleted: FC = () => {
   // 表单数据
-  const [formData, setFormData] = useState<apiInterface.TicketListQuery>({
+  const [formData, setFormData] = useState<apiInterface.IspTicketListQuery>({
     page: 1,
     count: 10,
     deleted: false,
   });
 
   // api hooks
-  const apiHooks = useInit<apiInterface.TicketListQuery>(
+  const apiHooks = useInit<apiInterface.IspTicketListQuery>(
     ispTicketList,
     formData,
   );
 
   // 添加接口 hooks
-  const apiAddHooks = useDialogForm<apiInterface.TicketAddData>(
+  const apiAddHooks = useDialogForm<apiInterface.IspTicketAddData>(
     ispTicketAdd,
     addPropData,
     '新增报修',
