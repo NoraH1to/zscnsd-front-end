@@ -1,4 +1,4 @@
-import { userEdit } from '@/api/user';
+import { userEdit, userPasswordEdit } from '@/api/user';
 import { dormBlocks, isps, TableFilterType } from '@/common';
 import MemberInfoCard from '@/components/MemberInfoCard';
 import UserInfoCard from '@/components/UserInfoCard';
@@ -29,7 +29,7 @@ import './index.scss';
 const userCenter: FC = () => {
   const userContext = useContext(mobileAuthContext);
   const { user } = userContext;
-  const propData: componentData.PropData[] = [
+  const infoPropData: componentData.PropData[] = [
     {
       key: 'isp',
       type: TableFilterType.select,
@@ -63,20 +63,46 @@ const userCenter: FC = () => {
       rules: [{ required: true }],
     },
   ];
-  const { visible, setVisible, DialogForm, setForm } = useDialogForm(
-    userEdit,
-    propData,
-  );
+  const pwdPropData: componentData.PropData[] = [
+    {
+      key: 'oldPassword',
+      type: TableFilterType.password,
+      name: '旧密码',
+      rules: [{ required: true }],
+    },
+    {
+      key: 'newPassword',
+      type: TableFilterType.password,
+      name: '新密码',
+      rules: [{ required: true }],
+    },
+  ];
+  // 修改信息
+  const {
+    visible: editInfoVisible,
+    setVisible: setEditInfoVisible,
+    DialogForm: EditInfoDialog,
+    setForm: setEditInfoForm,
+  } = useDialogForm(userEdit, infoPropData, '修改个人信息', undefined, true);
   const showEditUserInfoDialog = () => {
-    setForm({
+    setEditInfoForm({
       isp: user?.isp.id,
       networkAccount: user?.networkAccount,
       dormBlock: user?.dormBlock.id,
       dormRoom: user?.dormRoom,
       telephone: user?.telephone,
     });
-    setVisible(true);
+    setEditInfoVisible(true);
   };
+
+  // 修改密码
+  const {
+    visible: editPwdVisible,
+    setVisible: setEditPwdVisible,
+    DialogForm: EditPwdDialog,
+    setForm: setEditPwdForm,
+  } = useDialogForm(userPasswordEdit, pwdPropData, '修改密码', undefined, true);
+
   return (
     <PageContainer title="个人中心">
       <div className="m-user-center">
@@ -87,8 +113,14 @@ const userCenter: FC = () => {
         )}
         <WhiteSpace />
         <Button onClick={() => showEditUserInfoDialog()}>修改信息</Button>
+        <WhiteSpace />
+        <Button type="warning" onClick={() => setEditPwdVisible(true)}>
+          修改密码
+        </Button>
+        <WhiteSpace />
       </div>
-      {DialogForm}
+      {EditInfoDialog}
+      {EditPwdDialog}
     </PageContainer>
   );
 };
