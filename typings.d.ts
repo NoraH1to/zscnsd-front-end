@@ -9,7 +9,7 @@ export as namespace componentData;
 
 declare namespace componentData {
   interface InfoCardProp {
-    data: apiInterface.Ticket;
+    data: any;
     onClick?: React.MouseEventHandler<HTMLDivElement>;
   }
   interface CustomTableAction {

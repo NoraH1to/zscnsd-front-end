@@ -1,11 +1,10 @@
 import TicketStatusComponent from '@/components/TicketStatus';
 import { formatDate } from '@/utils';
 import { Card, Space, Typography } from 'antd';
-import apiInterface from 'api';
 import { FC } from 'react';
 import { InfoCardProp } from 'typings';
 
-const RequestInfoCard: FC<InfoCardProp> = (props) => {
+const RequestRecordInfoCard: FC<InfoCardProp> = (props) => {
   const { onClick } = props;
   const { data }: { data: apiInterface.Ticket } = props;
   return (
@@ -19,4 +18,4 @@ const RequestInfoCard: FC<InfoCardProp> = (props) => {
   );
 };
 
-export default RequestInfoCard;
+export default RequestRecordInfoCard;
