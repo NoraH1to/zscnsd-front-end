@@ -500,6 +500,14 @@ declare namespace apiInterface {
     area?: AttendanceChange['area']['id'];
     reason: AttendanceChange['reason'];
   }
+  // 增加考勤变动申请请求体
+  interface AttendanceChangeAddUserData extends RequestData {
+    type: AttendanceChange['type']['id'];
+    date: AttendanceChange['date'];
+    changeDate?: AttendanceChange['changeDate'];
+    area: AttendanceChange['area']['id'];
+    reason: AttendanceChange['reason'];
+  }
   // 修改考勤变动申请请求体
   interface AttendanceChangeEditAdminData extends RequestData {
     id: AttendanceChange['id'];
@@ -511,6 +519,15 @@ declare namespace apiInterface {
     area?: AttendanceChange['area']['id'];
     reason: AttendanceChange['reason'];
   }
+  // 修改考勤变动申请请求体
+  interface AttendanceChangeEditUserData extends RequestData {
+    id: AttendanceChange['id'];
+    type: AttendanceChange['type']['id'];
+    date: AttendanceChange['date'];
+    changeDate?: AttendanceChange['changeDate'];
+    area?: AttendanceChange['area']['id'];
+    reason: AttendanceChange['reason'];
+  }
   // 删除考勤变动申请请求体
   interface AttendanceChangeDeleteData extends RequestData {
     id: AttendanceChange['id'][];
@@ -519,6 +536,10 @@ declare namespace apiInterface {
   interface AttendanceChangeOperateData extends RequestData {
     id: AttendanceChange['id'][];
     status: AttendanceChange['status']['id'];
+  }
+  // 查询考勤变动申请详情
+  interface AttendanceChangeDetailQuery extends RequestQuery {
+    attendanceChangeId: AttendanceChange['id'];
   }
 
   //查询考勤记录参数

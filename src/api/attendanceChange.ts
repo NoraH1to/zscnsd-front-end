@@ -17,10 +17,26 @@ export const attendanceChangeAddAdmin = (
   });
 };
 
+export const attendanceChangeAddUser = (
+  data?: apiInterface.AttendanceChangeAddUserData,
+) => {
+  return POST('/api/attendance-change/user-add', {
+    data,
+  });
+};
+
 export const attendanceChangeEditAdmin = (
   data?: apiInterface.AttendanceChangeEditAdminData,
 ) => {
   return POST('/api/attendance-change/admin-update', {
+    data,
+  });
+};
+
+export const attendanceChangeEditUser = (
+  data?: apiInterface.AttendanceChangeEditUserData,
+) => {
+  return POST('/api/attendance-change/user-update', {
     data,
   });
 };
@@ -38,5 +54,13 @@ export const attendanceChangeOperate = (
 ) => {
   return POST('/api/attendance-change/operate', {
     data,
+  });
+};
+
+export const attendanceChangeDetail = (
+  params?: apiInterface.AttendanceChangeDetailQuery,
+) => {
+  return GET('/api/attendance-change/detail', {
+    params,
   });
 };

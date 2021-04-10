@@ -493,8 +493,12 @@ const mobileRoute: routeInterface.mRoute[] = [
         component: '@/mobile/pages/reports',
       },
       {
-        path: '/m/attendance-change-requests',
-        component: '@/mobile/pages/attendance/attendanceChangeRequests',
+        path: '/m/attendance-change',
+        component: '@/mobile/pages/attendance/attendanceChanges',
+      },
+      {
+        path: '/m/attendance-change/detail',
+        component: '@/mobile/pages/attendance/attendanceChangeDetail',
       },
       {
         path: '/m/attendance-records',

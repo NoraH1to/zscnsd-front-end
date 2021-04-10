@@ -16,7 +16,7 @@ import './index.scss';
 const REPAIR_REQUESTS_PATH = '/m/repair-requests';
 const ISP_REQUESTS_PATH = '/m/isp-requests';
 const REPORTS_PATH = '/m/reports';
-const ATTENDANCE_CHANGE_REQUESTS_PATH = '/m/attendance-change-requests';
+const ATTENDANCE_CHANGE_REQUESTS_PATH = '/m/attendance-change';
 const ATTENDANCE_RECORDS_PATH = '/m/attendance-records';
 const ATTENDANCE_TIMETABLE_PATH = '/m/attendance-timetable';
 const UPLOAD_CLASSTABLE_PATH = '/m/upload-classtable';
@@ -99,8 +99,13 @@ const work: FC = () => {
       bgColor="#866cda"
     />,
     <Card
-      key="card-goto-attendance-change-requests"
-      onClick={() => history.push(ATTENDANCE_CHANGE_REQUESTS_PATH)}
+      key="card-goto-attendance-changes"
+      onClick={() =>
+        history.push({
+          pathname: ATTENDANCE_CHANGE_REQUESTS_PATH,
+          search: stringify({ userId: userContext.user?.id }),
+        })
+      }
       text="变动申请"
       textColor="#eee1cf"
       bgColor="#866cda"
