@@ -8,7 +8,6 @@ import {
   Dropdown,
   Menu,
   TableProps,
-  TableColumnProps,
   Typography,
   Select,
   Space,
@@ -22,11 +21,11 @@ import BaseTable from '@/components/BaseTable';
 import apiInterface from 'api';
 import componentData from 'typings';
 import { useDialogForm } from '@/hooks';
-import { History, history } from 'umi';
+import { history } from 'umi';
 import { TableFilterType } from '@/common';
 import moment from 'moment';
-import { map, reduce, type } from 'ramda';
-import { formatDate } from '@/utils';
+import { map, reduce } from 'ramda';
+import { confirmDialog, formatDate } from '@/utils';
 import { stringify } from 'query-string';
 
 interface Props<T extends object> {
@@ -325,8 +324,13 @@ const CustomTable = <T extends object>(props: Props<T>) => {
                           otherDialogHooks[item.key].setForm(param);
                           otherDialogHooks[item.key].setVisible(true);
                         } else {
-                          item.hooks.setParams(item.apiParamKeys(record));
-                          item.hooks.setLoading(true);
+                          confirmDialog({
+                            actionText: item.text,
+                            onOk: () => {
+                              item.hooks.setParams(item.apiParamKeys(record));
+                              item.hooks.setLoading(true);
+                            },
+                          });
                         }
                         e.stopPropagation();
                       }}

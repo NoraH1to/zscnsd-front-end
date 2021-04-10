@@ -1,3 +1,4 @@
+import { Modal } from 'antd';
 import moment, { Moment } from 'moment';
 
 export const datetimeformatInput = 'YYYY-MM-DD HH:mm:ss';
@@ -25,4 +26,23 @@ export const vaildDate = (dateStr: string): Moment | null => {
   const momentObj = moment(dateStr, datetimeformatInput, true);
   if (momentObj.isValid()) return momentObj;
   return null;
+};
+
+export const confirmDialog = (options: {
+  actionText: string;
+  loading?: boolean;
+  onOk: () => any;
+}) => {
+  const { actionText, loading, onOk } = options;
+  Modal.confirm({
+    title: `确定要${actionText}？`,
+    okText: '确定',
+    cancelText: '取消',
+    okButtonProps: { loading },
+    cancelButtonProps: { loading },
+    centered: true,
+    onOk() {
+      onOk();
+    },
+  });
 };
