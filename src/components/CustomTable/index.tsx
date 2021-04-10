@@ -87,7 +87,7 @@ export const useTableSort = (
   }>({ sort: '', order: 'asc' });
 
   const SortSelect = sortList ? (
-    <div style={{ display: 'flex', flexDirection: 'row', marginTop: '1rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'row' }}>
       <Button
         icon={
           formData.order == 'desc' ? (
@@ -398,7 +398,7 @@ const CustomTable = <T extends object>(props: Props<T>) => {
             <Button loading={loading} type="primary" onClick={onSubmit}>
               搜索
             </Button>
-            {SortSelect}
+            <div style={{ marginTop: '1rem' }}>{SortSelect}</div>
           </div>
         }
         TableActionLeft={
