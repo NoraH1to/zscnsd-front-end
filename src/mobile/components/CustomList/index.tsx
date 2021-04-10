@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { useCustomForm } from '@/hooks';
 import update from 'immutability-helper';
-import { Button, Spin } from 'antd';
+import { Button, Space, Spin } from 'antd';
 import BaseTable from '@/components/BaseTable';
 import apiInterface from 'api';
 import componentData, { InfoCardProp } from 'typings';
@@ -67,6 +67,8 @@ const CustomList = <T extends object>(props: Props<T>) => {
       formData.sort = null;
       formData.order = null;
     }
+    formData.page = 1;
+    setDataList([]);
     setParams(formData);
     setLoading(true);
   });
@@ -109,9 +111,17 @@ const CustomList = <T extends object>(props: Props<T>) => {
 
   // 搜索按钮
   const searchBtn = (
-    <Button type="primary" ghost onClick={() => setVisible(true)}>
-      筛选
-    </Button>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      {SortSelect}
+      <Button
+        style={{ marginLeft: '1rem' }}
+        type="primary"
+        ghost
+        onClick={() => setVisible(true)}
+      >
+        筛选
+      </Button>
+    </div>
   );
 
   // 加载提示控件
@@ -143,23 +153,6 @@ const CustomList = <T extends object>(props: Props<T>) => {
     <>
       <BaseTable
         mobile={true}
-        Filter={form}
-        FilterBtn={
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              alignItems: 'flex-end',
-              height: '100%',
-            }}
-          >
-            <Button loading={loading} type="primary" onClick={onSubmit}>
-              搜索
-            </Button>
-            {SortSelect}
-          </div>
-        }
         TableActionLeft={AddBtn}
         TableActionRight={searchBtn}
         Table={dataList.map((_data: any) => (
