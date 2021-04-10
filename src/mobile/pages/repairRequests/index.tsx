@@ -5,9 +5,9 @@ import { ticketFaultMenuList } from '@/api/ticketFaultMenu';
 import { userSearch } from '@/api/user';
 import {
   dormBlocks,
-  ispTicketSortableList,
   TableFilterType,
   ticketDeleted,
+  ticketSortableList,
   ticketStatus,
 } from '@/common';
 import { useInit } from '@/hooks';
@@ -102,7 +102,7 @@ const repairReuqests: FC = () => {
         setFormData={setFormData}
         filters={filters}
         apiHooks={apiHooks}
-        sortList={ispTicketSortableList}
+        sortList={ticketSortableList}
         DataComp={RequestsInfoCard}
         dataOnClick={(data: apiInterface.Ticket) =>
           history.push({
