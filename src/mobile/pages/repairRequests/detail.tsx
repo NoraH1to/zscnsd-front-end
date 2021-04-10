@@ -9,7 +9,6 @@ import RequestDetail from '@/mobile/components/RequestDetail';
 import { Button, WhiteSpace } from 'antd-mobile';
 import { stringify } from 'query-string';
 import { FC } from 'react';
-import { toast } from 'react-toastify';
 
 const RECORDS_PATH = '/m/repair-requests/records';
 
