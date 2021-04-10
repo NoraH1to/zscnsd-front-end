@@ -18,6 +18,7 @@ interface Props<T extends object> {
   sortList?: apiInterface.Enum[];
   DataComp: FC<InfoCardProp>;
   dataOnClick?: (data: any) => any;
+  addBtnText?: string;
 }
 
 const CustomList = <T extends object>(props: Props<T>) => {
@@ -30,6 +31,7 @@ const CustomList = <T extends object>(props: Props<T>) => {
     sortList,
     DataComp,
     dataOnClick,
+    addBtnText,
   } = props;
 
   // 控制筛选dialog
@@ -106,7 +108,9 @@ const CustomList = <T extends object>(props: Props<T>) => {
 
   // 新增按钮
   const AddBtn = apiAddHooks ? (
-    <Button onClick={() => setAddVisible && setAddVisible(true)}>新建</Button>
+    <Button type="primary" onClick={() => setAddVisible && setAddVisible(true)}>
+      {addBtnText || '新建'}
+    </Button>
   ) : undefined;
 
   // 搜索按钮
