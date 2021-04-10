@@ -163,11 +163,12 @@ const CustomList = <T extends object>(props: Props<T>) => {
         TableActionLeft={AddBtn}
         TableActionRight={searchBtn}
         Table={dataList.map((_data: any) => (
-          <DataComp
-            key={_data.id}
-            data={_data}
-            onClick={() => dataOnClick && dataOnClick(_data)}
-          />
+          <div key={_data.id} style={{ margin: '12px 0' }}>
+            <DataComp
+              data={_data}
+              onClick={() => dataOnClick && dataOnClick(_data)}
+            />
+          </div>
         ))}
       />
       <ButtonM

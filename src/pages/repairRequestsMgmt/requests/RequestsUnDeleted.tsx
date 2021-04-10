@@ -46,6 +46,8 @@ import {
 import TicketStatusComponent from '@/components/ticketStatus';
 import { ticketFaultMenuList } from '@/api/ticketFaultMenu';
 import TimeCard from '@/components/timeCard';
+import TicketCommentCard from '@/components/TicketCommentCard';
+import UserInfoCard from '@/components/UserInfoCard';
 
 const filters: componentData.PropData[] = [
   {
@@ -340,40 +342,10 @@ const requestsUndeleted: FC<{
       <>
         <Row gutter={16} style={{ alignItems: 'stretch' }}>
           <Col span={8}>
-            <Card title="报修用户信息">
-              <Space direction="vertical">
-                <Typography.Text>{`姓名：${record.user.name}`}</Typography.Text>
-                <Typography.Text>
-                  {'宿舍楼 - 房间号：'}
-                  <Typography.Text strong>
-                    {`${record.user.dormBlock.string} - ${record.user.dormRoom}`}
-                  </Typography.Text>
-                </Typography.Text>
-                <Typography.Text>
-                  {'运营商：'}
-                  <Typography.Text strong>
-                    {record.user.isp.string}
-                  </Typography.Text>
-                </Typography.Text>
-                <Typography.Text
-                  copyable={{ text: record.user.networkAccount }}
-                >
-                  {`宽带账号：${record.user.networkAccount}`}
-                </Typography.Text>
-                <Typography.Text copyable={{ text: record.user.telephone }}>
-                  {`手机号：${record.user.telephone}`}
-                </Typography.Text>
-              </Space>
-            </Card>
+            <UserInfoCard user={record.user} />
           </Col>
           <Col span={8}>
-            <Card title="报修备注">
-              <Typography.Paragraph
-                ellipsis={{ rows: 5, expandable: true, symbol: 'more' }}
-              >
-                {record.comment}
-              </Typography.Paragraph>
-            </Card>
+            <TicketCommentCard ticket={record} />
           </Col>
           <Col span={8}>
             <TimeCard data={record} />

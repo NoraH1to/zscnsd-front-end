@@ -1,5 +1,6 @@
 import { ticketDetail, ticketOperate } from '@/api/ticket';
 import { TableFilterType, ticketStatus } from '@/common';
+import TicketCommentCard from '@/components/TicketCommentCard';
 import UserInfoCard from '@/components/UserInfoCard';
 import { useDialogForm, useInit, useRealLocation } from '@/hooks';
 import PageContainer from '@/mobile/components/PageContainer';
@@ -46,20 +47,11 @@ const detail: FC = () => {
   );
   return (
     <PageContainer title="报修详情">
-      {data?.data && (
-        <>
-          <RequestDetail ticket={data.data} />
-          <UserInfoCard user={data.data.user} />
-          <WhiteSpace />
-          <Card title="报修备注">
-            <Typography.Paragraph
-              ellipsis={{ rows: 5, expandable: true, symbol: 'more' }}
-            >
-              {data.data.comment}
-            </Typography.Paragraph>
-          </Card>
-        </>
-      )}
+      <RequestDetail ticket={data?.data} cardProps={{ loading }} />
+      <WhiteSpace />
+      <UserInfoCard user={data?.data?.user} cardProps={{ loading }} />
+      <WhiteSpace />
+      <TicketCommentCard ticket={data?.data} cardProps={{ loading }} />
       <WhiteSpace />
       <Button disabled={loading}>处理记录</Button>
       {/* TODO: 处理记录 */}
