@@ -4,14 +4,17 @@ import { useApi, useDialogForm } from '@/hooks';
 import Card from '@/mobile/components/Card';
 import ActionCardListContainer from '@/mobile/components/Card/ActionCardListContainer';
 import PageContainer from '@/mobile/components/PageContainer';
+import { mobileAuthContext } from '@/mobile/wrappers/Auth/mobileAuthContext';
 import { confirmDialog } from '@/utils';
 import { WhiteSpace, Modal } from 'antd-mobile';
-import { FC } from 'react';
+import { stringify } from 'query-string';
+import { FC, useContext } from 'react';
 import componentData from 'typings';
 import { history } from 'umi';
 import './index.scss';
 
 const REPAIR_REQUESTS_PATH = '/m/repair-requests';
+const ISP_REQUESTS_PATH = '/m/isp-requests';
 const REPORTS_PATH = '/m/reports';
 const ATTENDANCE_CHANGE_REQUESTS_PATH = '/m/attendance-change-requests';
 const ATTENDANCE_RECORDS_PATH = '/m/attendance-records';
@@ -63,6 +66,7 @@ const SignOutCard: FC = () => {
 };
 
 const work: FC = () => {
+  const userContext = useContext(mobileAuthContext);
   const signCards = [
     <SignInCard key="card-sign-in" />,
     <SignOutCard key="card-sign-out" />,
@@ -76,8 +80,20 @@ const work: FC = () => {
       bgColor="#db6623"
     />,
     <Card
+      key="card-goto-isp-requests"
+      onClick={() => history.push(ISP_REQUESTS_PATH)}
+      text="工单处理"
+      textColor="#f3cedf"
+      bgColor="#db6623"
+    />,
+    <Card
       key="card-goto-reports"
-      onClick={() => history.push(REPORTS_PATH)}
+      onClick={() =>
+        history.push({
+          pathname: REPORTS_PATH,
+          search: stringify({ operatorId: userContext.user?.id }),
+        })
+      }
       text="上报管理"
       textColor="#eee1cf"
       bgColor="#866cda"

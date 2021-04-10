@@ -477,6 +477,18 @@ const mobileRoute: routeInterface.mRoute[] = [
         component: '@/mobile/pages/repairRequests/records',
       },
       {
+        path: '/m/isp-requests',
+        component: '@/mobile/pages/ispRequests',
+      },
+      {
+        path: '/m/isp-requests/detail',
+        component: '@/mobile/pages/ispRequests/detail',
+      },
+      {
+        path: '/m/isp-requests/records',
+        component: '@/mobile/pages/ispRequests/records',
+      },
+      {
         path: '/m/reports',
         component: '@/mobile/pages/reports',
       },

@@ -8,4 +8,5 @@ export default {
   'POST /api/isp-ticket/operate': base('data', ispTicket),
   'GET /api/isp-ticket/log-list': base('data|1-10', [ispTicketOperateLog]),
   'POST /api/isp-ticket/restore': base('data', {}),
+  'GET /api/isp-ticket/detail': base('data', ispTicket),
 };
