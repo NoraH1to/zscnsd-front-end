@@ -105,6 +105,14 @@ export const reportSwitchFaultList = (
   });
 };
 
+export const reportSwitchFaultDetail = (
+  params?: apiInterface.ReportSwitchFaultDetailQuery,
+) => {
+  return GET('/api/switch-fault-report/detail', {
+    params,
+  });
+};
+
 export const reportSwitchFaultAdd = (
   data?: apiInterface.ReportSwitchFaultAddData,
 ) => {

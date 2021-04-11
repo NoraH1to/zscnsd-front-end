@@ -682,6 +682,10 @@ declare namespace apiInterface {
   interface ReportSwitchFaultListQuery extends RequestPageQuery, TimeRange {
     userId?: User['id'];
   }
+  // 查询交换机故障上报详情参数
+  interface ReportSwitchFaultDetailQuery extends RequestQuery {
+    reportId?: ReportSwitchFault['id'];
+  }
   // 增加交换机故障上报请求体
   interface ReportSwitchFaultAddData extends RequestData {
     dormBlock: ReportSwitchFault['dormBlock']['id'];

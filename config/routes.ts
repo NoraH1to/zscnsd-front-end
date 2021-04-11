@@ -493,6 +493,10 @@ const mobileRoute: routeInterface.mRoute[] = [
         component: '@/mobile/pages/reports',
       },
       {
+        path: '/m/switch-fault-reports-detail',
+        component: '@/mobile/pages/reports/switchFault/detail.tsx',
+      },
+      {
         path: '/m/attendance-change',
         component: '@/mobile/pages/attendance/attendanceChanges',
       },
