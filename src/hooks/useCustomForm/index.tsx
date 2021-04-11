@@ -283,7 +283,7 @@ const useCustomForm = (
       }, changeValues);
       onChange(changeValues);
     }
-    timerContainer.timer = setTimeout(doit, 100);
+    timerContainer.timer = setTimeout(doit, 50);
   };
   const result = _propData.map((item, index) => {
     if (item.default) defaultFormData[item.key] = item.default;
