@@ -53,7 +53,8 @@ const CustomList = <T extends object>(props: Props<T>) => {
 
   // data 变化后加进数据列表以显示
   useEffect(() => {
-    setDataList(dataList.concat(data?.data?.content || []));
+    if (formData.page == 1) setDataList(data?.data?.content || []);
+    else setDataList(dataList.concat(data?.data?.content || []));
   }, [data]);
 
   // 根据 loading 关闭 dialog
