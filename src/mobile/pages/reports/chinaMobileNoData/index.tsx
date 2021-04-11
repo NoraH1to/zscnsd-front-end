@@ -1,32 +1,28 @@
 import { history } from '@/.umi/core/history';
 import { userSearch } from '@/api/user';
 import {
-  dormBlocks,
+  reportChinaMobileNoDataSortableList,
   reportSwitchFaultSortableList,
   TableFilterType,
 } from '@/common';
 import { useDialogForm, useInit } from '@/hooks';
 import CustomList from '@/mobile/components/CustomList';
-import SwitchFaultReportInfoCard from '@/mobile/components/SwitchFaultReportInfoCard';
+import ChinaMobileNoDataReportInfoCard from '@/mobile/components/ChinaMobileNoDataReportInfoCard';
 import apiInterface from 'api';
 import { stringify } from 'query-string';
 import { FC, useState } from 'react';
-import { reportSwitchFaultAdd, reportSwitchFaultList } from '@/api/report';
+import {
+  reportChinaMobileNoDataAdd,
+  reportChinaMobileNoDataList,
+} from '@/api/report';
 
-const DETAIL_PATH = '/m/switch-fault-reports-detail';
+const DETAIL_PATH = '/m/china-mobile-no-data-reports-detail';
 
 const addPropData: componentData.PropData[] = [
   {
-    key: 'dormBlock',
-    type: TableFilterType.select,
-    name: '宿舍楼',
-    selectData: dormBlocks,
-    rules: [{ required: true }],
-  },
-  {
-    key: 'dormFloor',
-    type: TableFilterType.number,
-    name: '宿舍楼层',
+    key: 'networkAccount',
+    type: TableFilterType.str,
+    name: '用户宽带账号',
     rules: [{ required: true }],
   },
   {
@@ -36,20 +32,19 @@ const addPropData: componentData.PropData[] = [
     rules: [{ required: true }],
   },
   {
-    key: 'index',
-    type: TableFilterType.number,
-    name: '交换机位置',
-    holder: '从上往下数',
+    key: 'onuData',
+    type: TableFilterType.str,
+    name: 'ONU数据',
     rules: [{ required: true }],
   },
 ];
 
-const switchFault: FC<{ userId?: number }> = ({ userId }) => {
+const chinaMobileNoData: FC<{ userId?: number }> = ({ userId }) => {
   // 表单数据
   const [
     formData,
     setFormData,
-  ] = useState<apiInterface.ReportSwitchFaultListQuery>({
+  ] = useState<apiInterface.ReportChinaMobileNoDataListQuery>({
     page: 1,
     count: 10,
     userId,
@@ -82,16 +77,16 @@ const switchFault: FC<{ userId?: number }> = ({ userId }) => {
   ];
 
   // api hooks
-  const apiHooks = useInit<apiInterface.ReportSwitchFaultListQuery>(
-    reportSwitchFaultList,
+  const apiHooks = useInit<apiInterface.ReportChinaMobileNoDataListQuery>(
+    reportChinaMobileNoDataList,
     formData,
   );
 
   // 添加接口 hooks
-  const apiAddHooks = useDialogForm<apiInterface.ReportSwitchFaultAddData>(
-    reportSwitchFaultAdd,
+  const apiAddHooks = useDialogForm<apiInterface.ReportChinaMobileNoDataAddData>(
+    reportChinaMobileNoDataAdd,
     addPropData,
-    '提交交换机故障上报',
+    '提交移动无数据上报',
     () => {
       formData.page = 1;
       apiHooks.setParams(formData);
@@ -107,9 +102,9 @@ const switchFault: FC<{ userId?: number }> = ({ userId }) => {
       apiHooks={apiHooks}
       apiAddHooks={apiAddHooks}
       addBtnText="提交"
-      sortList={reportSwitchFaultSortableList}
-      DataComp={SwitchFaultReportInfoCard}
-      dataOnClick={(data: apiInterface.ReportSwitchFault) =>
+      sortList={reportChinaMobileNoDataSortableList}
+      DataComp={ChinaMobileNoDataReportInfoCard}
+      dataOnClick={(data: apiInterface.ReportChinaMobileNoData) =>
         history.push({
           pathname: DETAIL_PATH,
           search: stringify({ reportId: data.id }),
@@ -119,4 +114,4 @@ const switchFault: FC<{ userId?: number }> = ({ userId }) => {
   );
 };
 
-export default switchFault;
+export default chinaMobileNoData;

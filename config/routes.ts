@@ -497,6 +497,18 @@ const mobileRoute: routeInterface.mRoute[] = [
         component: '@/mobile/pages/reports/switchFault/detail.tsx',
       },
       {
+        path: '/m/wall-line-reports-detail',
+        component: '@/mobile/pages/reports/wallLine/detail.tsx',
+      },
+      {
+        path: '/m/china-mobile-no-data-reports-detail',
+        component: '@/mobile/pages/reports/chinaMobileNoData/detail.tsx',
+      },
+      {
+        path: '/m/china-mobile-occupied-onu-reports-detail',
+        component: '@/mobile/pages/reports/chinaMobileOccupiedOnu/detail.tsx',
+      },
+      {
         path: '/m/attendance-change',
         component: '@/mobile/pages/attendance/attendanceChanges',
       },

@@ -610,6 +610,10 @@ declare namespace apiInterface {
       TimeRange {
     userId?: User['id'];
   }
+  // 查询移动ONU被占上报详情参数
+  interface ReportChinaMobileOccupiedOnuDetailQuery extends RequestQuery {
+    reportId: ReportChinaMobileOccupiedOnu['id'];
+  }
   // 增加移动ONU被占上报请求体
   interface ReportChinaMobileOccupiedOnuAddData extends RequestData {
     oldSwitchSerialNumber: ReportChinaMobileOccupiedOnu['oldSwitchSerialNumber'];
@@ -636,6 +640,10 @@ declare namespace apiInterface {
       TimeRange {
     userId?: User['id'];
   }
+  // 查询移动无数据上报详情参数
+  interface ReportChinaMobileNoDataDetailQuery extends RequestQuery {
+    reportId: ReportChinaMobileNoData['id'];
+  }
   // 增加移动无数据上报请求体
   interface ReportChinaMobileNoDataAddData extends RequestData {
     networkAccount: ReportChinaMobileNoData['networkAccount'];
@@ -657,6 +665,10 @@ declare namespace apiInterface {
   // 查询主线上报参数
   interface ReportWallLineListQuery extends RequestPageQuery, TimeRange {
     userId?: User['id'];
+  }
+  // 查询主线上报详情参数
+  interface ReportWallLineDetailQuery extends RequestQuery {
+    reportId: ReportWallLine['id'];
   }
   // 增加主线上报请求体
   interface ReportWallLineAddData extends RequestData {
@@ -684,7 +696,7 @@ declare namespace apiInterface {
   }
   // 查询交换机故障上报详情参数
   interface ReportSwitchFaultDetailQuery extends RequestQuery {
-    reportId?: ReportSwitchFault['id'];
+    reportId: ReportSwitchFault['id'];
   }
   // 增加交换机故障上报请求体
   interface ReportSwitchFaultAddData extends RequestData {

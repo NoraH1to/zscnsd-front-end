@@ -91,7 +91,6 @@ const work: FC = () => {
       onClick={() =>
         history.push({
           pathname: REPORTS_PATH,
-          search: stringify({ operatorId: userContext.user?.id }),
         })
       }
       text="上报管理"

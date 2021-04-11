@@ -1,55 +1,55 @@
 import { history } from '@/.umi/core/history';
 import { userSearch } from '@/api/user';
 import {
-  dormBlocks,
-  reportSwitchFaultSortableList,
+  reportChinaMobileOccupiedOnuSortableList,
   TableFilterType,
 } from '@/common';
 import { useDialogForm, useInit } from '@/hooks';
 import CustomList from '@/mobile/components/CustomList';
-import SwitchFaultReportInfoCard from '@/mobile/components/SwitchFaultReportInfoCard';
+import ChinaMobileOccupiedOnuReportInfoCard from '@/mobile/components/ChinaMobileOccupiedOnuReportInfoCard';
 import apiInterface from 'api';
 import { stringify } from 'query-string';
 import { FC, useState } from 'react';
-import { reportSwitchFaultAdd, reportSwitchFaultList } from '@/api/report';
+import {
+  reportChinaMobileOccupiedOnuAdd,
+  reportChinaMobileOccupiedOnuList,
+} from '@/api/report';
 
-const DETAIL_PATH = '/m/switch-fault-reports-detail';
+const DETAIL_PATH = '/m/china-mobile-occupied-onu-reports-detail';
 
 const addPropData: componentData.PropData[] = [
   {
-    key: 'dormBlock',
-    type: TableFilterType.select,
-    name: '宿舍楼',
-    selectData: dormBlocks,
-    rules: [{ required: true }],
-  },
-  {
-    key: 'dormFloor',
-    type: TableFilterType.number,
-    name: '宿舍楼层',
-    rules: [{ required: true }],
-  },
-  {
-    key: 'switchSerialNumber',
+    key: 'oldSwitchSerialNumber',
     type: TableFilterType.str,
-    name: '交换机SN码',
+    name: '原交换机SN码',
     rules: [{ required: true }],
   },
   {
-    key: 'index',
-    type: TableFilterType.number,
-    name: '交换机位置',
-    holder: '从上往下数',
+    key: 'oldOnuData',
+    type: TableFilterType.str,
+    name: '原ONU数据',
+    rules: [{ required: true }],
+  },
+  {
+    key: 'newSwitchSerialNumber',
+    type: TableFilterType.str,
+    name: '现交换机SN码',
+    rules: [{ required: true }],
+  },
+  {
+    key: 'newOnuData',
+    type: TableFilterType.str,
+    name: '现ONU数据',
     rules: [{ required: true }],
   },
 ];
 
-const switchFault: FC<{ userId?: number }> = ({ userId }) => {
+const chinaMobileOccupiedOnu: FC<{ userId?: number }> = ({ userId }) => {
   // 表单数据
   const [
     formData,
     setFormData,
-  ] = useState<apiInterface.ReportSwitchFaultListQuery>({
+  ] = useState<apiInterface.ReportChinaMobileOccupiedOnuListQuery>({
     page: 1,
     count: 10,
     userId,
@@ -82,16 +82,16 @@ const switchFault: FC<{ userId?: number }> = ({ userId }) => {
   ];
 
   // api hooks
-  const apiHooks = useInit<apiInterface.ReportSwitchFaultListQuery>(
-    reportSwitchFaultList,
+  const apiHooks = useInit<apiInterface.ReportChinaMobileOccupiedOnuListQuery>(
+    reportChinaMobileOccupiedOnuList,
     formData,
   );
 
   // 添加接口 hooks
-  const apiAddHooks = useDialogForm<apiInterface.ReportSwitchFaultAddData>(
-    reportSwitchFaultAdd,
+  const apiAddHooks = useDialogForm<apiInterface.ReportChinaMobileOccupiedOnuAddData>(
+    reportChinaMobileOccupiedOnuAdd,
     addPropData,
-    '提交交换机故障上报',
+    '提交移动ONU被占上报',
     () => {
       formData.page = 1;
       apiHooks.setParams(formData);
@@ -107,8 +107,8 @@ const switchFault: FC<{ userId?: number }> = ({ userId }) => {
       apiHooks={apiHooks}
       apiAddHooks={apiAddHooks}
       addBtnText="提交"
-      sortList={reportSwitchFaultSortableList}
-      DataComp={SwitchFaultReportInfoCard}
+      sortList={reportChinaMobileOccupiedOnuSortableList}
+      DataComp={ChinaMobileOccupiedOnuReportInfoCard}
       dataOnClick={(data: apiInterface.ReportSwitchFault) =>
         history.push({
           pathname: DETAIL_PATH,
@@ -119,4 +119,4 @@ const switchFault: FC<{ userId?: number }> = ({ userId }) => {
   );
 };
 
-export default switchFault;
+export default chinaMobileOccupiedOnu;

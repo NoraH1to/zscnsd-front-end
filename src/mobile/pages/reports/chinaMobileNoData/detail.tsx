@@ -1,13 +1,13 @@
-import { history } from 'umi';
+import { history } from '@/.umi/core/history';
 import {
-  reportSwitchFaultDelete,
-  reportSwitchFaultDetail,
-  reportSwitchFaultEdit,
+  reportChinaMobileNoDataDelete,
+  reportChinaMobileNoDataDetail,
+  reportChinaMobileOccupiedOnuEdit,
 } from '@/api/report';
-import { dormBlocks, TableFilterType, ticketStatus } from '@/common';
+import { TableFilterType } from '@/common';
 import { useApi, useDialogForm, useInit, useRealLocation } from '@/hooks';
 import PageContainer from '@/mobile/components/PageContainer';
-import SwitchFaultReportInfoDetail from '@/mobile/components/SwitchFaultReportInfoDetail';
+import ChinaMobileNoDataReportInfoDtetail from '@/mobile/components/ChinaMobileNoDataReportInfoDtetail';
 import { confirmDialog } from '@/utils';
 import { Button, WhiteSpace } from 'antd-mobile';
 import apiInterface from 'api';
@@ -16,17 +16,17 @@ import { FC } from 'react';
 const detail: FC = () => {
   const location = useRealLocation();
   const reportId = parseInt(location.query.reportId?.toString() || '-1');
-  const init = useInit(reportSwitchFaultDetail, {
+  const init = useInit(reportChinaMobileNoDataDetail, {
     reportId,
   });
   const { loading, setLoading } = init;
   const {
     data: { data },
-  }: { data: { data: apiInterface.ReportSwitchFault } } = init;
+  }: { data: { data: apiInterface.ReportChinaMobileNoData } } = init;
 
   const EditPropData: componentData.PropData[] = [
     {
-      key: 'id',
+      key: 'reportId',
       type: TableFilterType.number,
       name: '上报ID',
       rules: [{ required: true }],
@@ -34,16 +34,9 @@ const detail: FC = () => {
       hidden: true,
     },
     {
-      key: 'dormBlock',
-      type: TableFilterType.select,
-      name: '宿舍楼',
-      selectData: dormBlocks,
-      rules: [{ required: true }],
-    },
-    {
-      key: 'dormFloor',
-      type: TableFilterType.number,
-      name: '宿舍楼层',
+      key: 'networkAccount',
+      type: TableFilterType.str,
+      name: '用户宽带账号',
       rules: [{ required: true }],
     },
     {
@@ -53,16 +46,15 @@ const detail: FC = () => {
       rules: [{ required: true }],
     },
     {
-      key: 'index',
-      type: TableFilterType.number,
-      name: '交换机位置',
-      holder: '从上往下',
+      key: 'onuData',
+      type: TableFilterType.str,
+      name: 'ONU数据',
       rules: [{ required: true }],
     },
   ];
 
   const { visible, setVisible, DialogForm, setForm } = useDialogForm(
-    reportSwitchFaultEdit,
+    reportChinaMobileOccupiedOnuEdit,
     EditPropData,
     '修改上报',
     () => setLoading(true),
@@ -70,7 +62,7 @@ const detail: FC = () => {
   );
 
   const { loading: deleteLoading, setLoading: setDeleteLoading } = useApi(
-    reportSwitchFaultDelete,
+    reportChinaMobileNoDataDelete,
     {
       id: [reportId],
     },
@@ -85,7 +77,7 @@ const detail: FC = () => {
   };
   return (
     <PageContainer title="上报详情">
-      <SwitchFaultReportInfoDetail switchFaultReport={data} />
+      <ChinaMobileNoDataReportInfoDtetail chinaMobileNoDataReport={data} />
       <WhiteSpace />
       <Button
         disabled={loading}
@@ -93,10 +85,9 @@ const detail: FC = () => {
         onClick={() => {
           setForm({
             id: reportId,
-            dormBlock: data.dormBlock.id,
-            dormFloor: data.dormFloor,
+            networkAccount: data.networkAccount,
             switchSerialNumber: data.switchSerialNumber,
-            index: data.index,
+            onuData: data.onuData,
           });
           setVisible(true);
         }}

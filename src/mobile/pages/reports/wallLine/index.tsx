@@ -2,18 +2,18 @@ import { history } from '@/.umi/core/history';
 import { userSearch } from '@/api/user';
 import {
   dormBlocks,
-  reportSwitchFaultSortableList,
+  reportWallLineSortableList,
   TableFilterType,
 } from '@/common';
 import { useDialogForm, useInit } from '@/hooks';
 import CustomList from '@/mobile/components/CustomList';
-import SwitchFaultReportInfoCard from '@/mobile/components/SwitchFaultReportInfoCard';
+import WallLineReportInfoCard from '@/mobile/components/WallLineReportInfoCard';
 import apiInterface from 'api';
 import { stringify } from 'query-string';
 import { FC, useState } from 'react';
-import { reportSwitchFaultAdd, reportSwitchFaultList } from '@/api/report';
+import { reportWallLineAdd, reportWallLineList } from '@/api/report';
 
-const DETAIL_PATH = '/m/switch-fault-reports-detail';
+const DETAIL_PATH = '/m/wall-line-reports-detail';
 
 const addPropData: componentData.PropData[] = [
   {
@@ -24,32 +24,31 @@ const addPropData: componentData.PropData[] = [
     rules: [{ required: true }],
   },
   {
-    key: 'dormFloor',
+    key: 'dormRoom',
     type: TableFilterType.number,
-    name: '宿舍楼层',
+    name: '宿舍房间号',
     rules: [{ required: true }],
   },
   {
-    key: 'switchSerialNumber',
+    key: 'name',
     type: TableFilterType.str,
-    name: '交换机SN码',
+    name: '用户姓名',
     rules: [{ required: true }],
   },
   {
-    key: 'index',
-    type: TableFilterType.number,
-    name: '交换机位置',
-    holder: '从上往下数',
+    key: 'telephone',
+    type: TableFilterType.str,
+    name: '用户手机号',
     rules: [{ required: true }],
   },
 ];
 
-const switchFault: FC<{ userId?: number }> = ({ userId }) => {
+const wallLine: FC<{ userId?: number }> = ({ userId }) => {
   // 表单数据
   const [
     formData,
     setFormData,
-  ] = useState<apiInterface.ReportSwitchFaultListQuery>({
+  ] = useState<apiInterface.ReportWallLineListQuery>({
     page: 1,
     count: 10,
     userId,
@@ -82,16 +81,16 @@ const switchFault: FC<{ userId?: number }> = ({ userId }) => {
   ];
 
   // api hooks
-  const apiHooks = useInit<apiInterface.ReportSwitchFaultListQuery>(
-    reportSwitchFaultList,
+  const apiHooks = useInit<apiInterface.ReportWallLineListQuery>(
+    reportWallLineList,
     formData,
   );
 
   // 添加接口 hooks
-  const apiAddHooks = useDialogForm<apiInterface.ReportSwitchFaultAddData>(
-    reportSwitchFaultAdd,
+  const apiAddHooks = useDialogForm<apiInterface.ReportWallLineAddData>(
+    reportWallLineAdd,
     addPropData,
-    '提交交换机故障上报',
+    '提交主线上报',
     () => {
       formData.page = 1;
       apiHooks.setParams(formData);
@@ -107,9 +106,9 @@ const switchFault: FC<{ userId?: number }> = ({ userId }) => {
       apiHooks={apiHooks}
       apiAddHooks={apiAddHooks}
       addBtnText="提交"
-      sortList={reportSwitchFaultSortableList}
-      DataComp={SwitchFaultReportInfoCard}
-      dataOnClick={(data: apiInterface.ReportSwitchFault) =>
+      sortList={reportWallLineSortableList}
+      DataComp={WallLineReportInfoCard}
+      dataOnClick={(data: apiInterface.ReportWallLine) =>
         history.push({
           pathname: DETAIL_PATH,
           search: stringify({ reportId: data.id }),
@@ -119,4 +118,4 @@ const switchFault: FC<{ userId?: number }> = ({ userId }) => {
   );
 };
 
-export default switchFault;
+export default wallLine;

@@ -9,6 +9,14 @@ export const reportChinaMobileOccupiedOnuList = (
   });
 };
 
+export const reportChinaMobileOccupiedOnuDetail = (
+  params?: apiInterface.ReportChinaMobileOccupiedOnuDetailQuery,
+) => {
+  return GET('/api/china-mobile-occupied-onu-report/detail', {
+    params,
+  });
+};
+
 export const reportChinaMobileOccupiedOnuAdd = (
   data?: apiInterface.ReportChinaMobileOccupiedOnuAddData,
 ) => {
@@ -41,6 +49,14 @@ export const reportChinaMobileNoDataList = (
   });
 };
 
+export const reportChinaMobileNoDataDetail = (
+  params?: apiInterface.ReportChinaMobileNoDataDetailQuery,
+) => {
+  return GET('/api/china-mobile-no-data-report/detail', {
+    params,
+  });
+};
+
 export const reportChinaMobileNoDataAdd = (
   data?: apiInterface.ReportChinaMobileNoDataAddData,
 ) => {
@@ -69,6 +85,14 @@ export const reportWallLineList = (
   params?: apiInterface.ReportWallLineListQuery,
 ) => {
   return GET('/api/wall-line-report/list', {
+    params,
+  });
+};
+
+export const reportWallLineDetail = (
+  params?: apiInterface.ReportWallLineDetailQuery,
+) => {
+  return GET('/api/wall-line-report/detail', {
     params,
   });
 };
