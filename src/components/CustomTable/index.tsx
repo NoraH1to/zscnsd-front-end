@@ -448,7 +448,6 @@ const CustomTable = <T extends object>(props: Props<T>) => {
             columns={(colums || []).concat(otherCol)}
             rowSelection={apiMuiltActionDialogHooks ? rowSelection : undefined}
             rowKey={'id'}
-            sticky
             pagination={{
               position: ['bottomCenter'],
               showSizeChanger: true,
