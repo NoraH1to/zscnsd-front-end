@@ -14,7 +14,7 @@ interface colObj {
   [index: number]: apiInterface.WorkArrangementTimeTable | undefined;
 }
 
-const TimeTable: FC = () => {
+const TimeTable: FC<{ mobile?: boolean }> = ({ mobile }) => {
   const [
     formData,
     setFormData,
@@ -50,16 +50,16 @@ const TimeTable: FC = () => {
       }
       // 找到空着的格子
       const target = find(
-        (day) => !day[moment(data.date).weekday()],
+        (day) => !day[moment(data.date).weekday() + 1],
         targetArr,
       );
       if (target) {
-        target[moment(data.date).weekday()] = data;
+        target[moment(data.date).weekday() + 1] = data;
       } else {
         // 没有空间就加入新一行填入
         targetArr.push(
           update(dayObject, {
-            $merge: { [moment(data.date).weekday()]: data },
+            $merge: { [moment(data.date).weekday() + 1]: data },
           }),
         );
       }
@@ -74,12 +74,12 @@ const TimeTable: FC = () => {
     {
       title: '宿舍楼栋',
       dataIndex: ['area', 'string'],
-      width: 80,
+      width: mobile ? 80 : 80,
       fixed: 'left',
     },
     ...weekDays.map<TableColumnProps<colObj>>((day, col) => ({
       title: day.string,
-      width: 100,
+      width: mobile ? 70 : 100,
       render: (value, record, index) => {
         return record[day.id]?.user?.name;
       },
@@ -92,8 +92,8 @@ const TimeTable: FC = () => {
       columns={colums}
       bordered
       loading={loading}
-      size="middle"
-      scroll={{ x: 780 }}
+      size={mobile ? 'small' : 'middle'}
+      scroll={{ x: mobile ? 375 : 780 }}
       pagination={false}
     />
   );
