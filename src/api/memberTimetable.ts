@@ -17,6 +17,14 @@ export const memberTimetableAddAdmin = (
   });
 };
 
+export const memberTimetableAddUser = (
+  data?: apiInterface.MemberTimetableAddUserData,
+) => {
+  return POST('/api/member-timetable/user-add', {
+    data,
+  });
+};
+
 export const memberTimetableEdit = (
   data?: apiInterface.MemberTimetableEditData,
 ) => {
