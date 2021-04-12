@@ -19,7 +19,7 @@ const uploadImg: FC<uploadImgProps> = ({ max, url, onChange }) => {
       onChange={(options) => {
         onChange && onChange(options);
       }}
-      accept=".jpeg,.jpg,.png"
+      accept="image/png,image/jpeg,image/jpg"
       action={url || '/api/file/upload-timetable'}
       headers={{ Token: window.localStorage.getItem('Token') || '' }}
     >
