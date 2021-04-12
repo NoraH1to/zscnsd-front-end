@@ -132,7 +132,11 @@ const attendanceChangeRequests: FC = () => {
     attendanceChangeAddUser,
     addPropData,
     '提交考勤变动申请',
-    () => apiHooks.setLoading(true),
+    () => {
+      formData.page = 1;
+      apiHooks.setParams(formData);
+      apiHooks.setLoading(true);
+    },
   );
 
   return (
