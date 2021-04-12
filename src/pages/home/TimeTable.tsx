@@ -4,8 +4,8 @@ import { useInit } from '@/hooks';
 import { dateformatOut } from '@/utils';
 import { Table, TableColumnProps } from 'antd';
 import apiInterface from 'api';
-import moment from 'moment';
-import { FC, useState } from 'react';
+import moment, { Moment } from 'moment';
+import { FC, useEffect, useState } from 'react';
 import update from 'immutability-helper';
 import { find, forEachObjIndexed } from 'ramda';
 
@@ -14,17 +14,28 @@ interface colObj {
   [index: number]: apiInterface.WorkArrangementTimeTable | undefined;
 }
 
-const TimeTable: FC<{ mobile?: boolean }> = ({ mobile }) => {
+const TimeTable: FC<{ mobile?: boolean; date?: string }> = ({
+  mobile,
+  date,
+}) => {
   const [
     formData,
     setFormData,
   ] = useState<apiInterface.WorkArrangementTimeTableListQuery>({
-    date: moment().format(dateformatOut),
+    date: date ? date : moment().format(dateformatOut),
   });
   const { data, loading, setLoading, setParams } = useInit(
     workArrangementTimeTableList,
     formData,
   );
+
+  useEffect(() => {
+    if (date) {
+      formData.date = date;
+      setParams(formData);
+      setLoading(true);
+    }
+  }, [date]);
 
   const dealData = (dataList: apiInterface.WorkArrangementTimeTable[]) => {
     const dayObject: colObj = {};
