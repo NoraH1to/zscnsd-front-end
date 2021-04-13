@@ -53,6 +53,14 @@ const SideMenu: FC<{ history: History; pcRoutes?: routeInterface.route[] }> = (
     };
   }, []);
 
+  useEffect(() => {
+    setCurrentOpenSubMenuKey(
+      currentOpenSubMenuKey.concat(
+        getMenuNeedOpen(currentMenuKey[0], pcRoutes || []),
+      ),
+    );
+  }, [currentMenuKey]);
+
   return (
     <>
       <div className="logo" />
