@@ -371,6 +371,7 @@ const CustomTable = <T extends object>(props: Props<T>) => {
                       icon={<DownOutlined />}
                       type="text"
                       shape="circle"
+                      onClick={(e) => e.stopPropagation()}
                     ></Button>
                   </Dropdown>
                 ) : null}
