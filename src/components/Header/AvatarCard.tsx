@@ -1,5 +1,5 @@
 import apiInterface from 'api';
-import { FC, useContext } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { Button, Space, Typography } from 'antd';
 import { history } from 'umi';
 import { useApi, useDialogForm } from '@/hooks';
@@ -7,13 +7,11 @@ import { userLogoutAdmin, userPasswordEdit } from '@/api/user';
 import componentData from 'typings';
 import { TableFilterType } from '@/common';
 import { headerContext as _headerContext } from '.';
-import { authContext } from '@/wrappers/Auth/authContext';
+import { removeToken } from '@/utils';
 
 const LogoutBtn: FC = () => {
-  const userContext = useContext(authContext);
   const afterLogout = () => {
-    window.localStorage.removeItem('Token');
-    userContext.setUser && userContext.setUser(undefined);
+    removeToken();
     history.replace('/d/login');
   };
   const { loading, setLoading } = useApi(

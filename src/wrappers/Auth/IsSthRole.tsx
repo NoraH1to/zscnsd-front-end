@@ -3,6 +3,7 @@ import { Redirect } from 'umi';
 import { authContext } from '@/wrappers/Auth/authContext';
 import { find } from 'ramda';
 import { stringify } from 'query-string';
+import { hasToken } from '@/utils';
 
 const IsSthRole: FC<{ roles: number[] }> = (props) => {
   const userContext = useContext(authContext);
@@ -17,7 +18,7 @@ const IsSthRole: FC<{ roles: number[] }> = (props) => {
     if (
       userContext.user?.member?.role.id == 0 ||
       userContext.user?.member?.role.id == 1 ||
-      (!userContext.user && !window.localStorage.getItem('Token'))
+      !hasToken()
     )
       query = { path: '/d/login', tip: '登入页' };
     return (

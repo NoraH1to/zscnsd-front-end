@@ -9,6 +9,7 @@ import update from 'immutability-helper';
 import { Button, Card } from 'antd';
 import { history } from '@/.umi/core/history';
 import { authContext } from '@/wrappers/Auth/authContext';
+import { setToken } from '@/utils';
 
 const propData: componentData.PropData[] = [
   {
@@ -36,7 +37,7 @@ const login: FC = () => {
     formData,
     (res: any) => {
       if (!res?.data?.token) return;
-      window.localStorage.setItem('Token', res.data.token);
+      setToken(res.data.token);
       userContext.setUser && userContext.setUser(res.data.user);
       history.push('/d');
     },

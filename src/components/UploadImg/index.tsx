@@ -3,6 +3,7 @@ import './index.scss';
 import { Upload, Typography } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { UploadFile, UploadProps } from 'antd/lib/upload/interface';
+import { getToken } from '@/utils';
 
 export interface uploadImgProps {
   max?: number;
@@ -21,7 +22,7 @@ const uploadImg: FC<uploadImgProps> = ({ max, url, onChange }) => {
       }}
       accept="image/png,image/jpeg,image/jpg"
       action={url || '/api/file/upload-timetable'}
-      headers={{ Token: window.localStorage.getItem('Token') || '' }}
+      headers={{ Token: getToken() || '' }}
     >
       <div>
         <UploadOutlined />
