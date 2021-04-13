@@ -7,8 +7,20 @@ export const ticketList = (params?: apiInterface.TicketListQuery) => {
   });
 };
 
+export const ticketListUser = (params?: apiInterface.TicketListUserQuery) => {
+  return GET('/api/ticket/user-list', {
+    params,
+  });
+};
+
 export const ticketAdd = (data?: apiInterface.TicketAddData) => {
   return POST('/api/ticket/add', {
+    data,
+  });
+};
+
+export const ticketAddUser = (data?: apiInterface.TicketAddUserData) => {
+  return POST('/api/ticket/user-add', {
     data,
   });
 };
@@ -19,8 +31,20 @@ export const ticketEdit = (data?: apiInterface.TicketEditData) => {
   });
 };
 
+export const ticketEditUser = (data?: apiInterface.TicketEditUserData) => {
+  return POST('/api/ticket/user-update', {
+    data,
+  });
+};
+
 export const ticketDelete = (data?: apiInterface.TicketDeleteData) => {
   return POST('/api/ticket/delete', {
+    data,
+  });
+};
+
+export const ticketDeleteUser = (data?: apiInterface.TicketDeleteUserData) => {
+  return POST('/api/ticket/user-delete', {
     data,
   });
 };

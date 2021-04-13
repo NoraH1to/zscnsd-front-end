@@ -895,6 +895,11 @@ declare namespace apiInterface {
     deleted?: boolean;
     operatorId?: User['id'];
   }
+  // 用户查询报修参数
+  interface TicketListUserQuery extends RequestPageQuery, TimeRange {
+    status?: TicketStatus['id'];
+    faultType?: TicketFaultMenu['id'];
+  }
   // 增加报修请求体
   interface TicketAddData extends RequestData {
     userId: User['id'];
@@ -902,8 +907,17 @@ declare namespace apiInterface {
     faultTypeId: TicketFaultMenu['id'];
     comment: string;
   }
+  // 用户增加报修请求体
+  interface TicketAddUserData extends RequestData {
+    faultTypeId: TicketFaultMenu['id'];
+    comment: string;
+  }
   // 删除报修请求体
   interface TicketDeleteData extends RequestData {
+    id: Ticket['id'][];
+  }
+  // 用户删除报修请求体
+  interface TicketDeleteUserData extends RequestData {
     id: Ticket['id'][];
   }
   // 恢复报修请求体
@@ -915,6 +929,12 @@ declare namespace apiInterface {
     id: Ticket['id'];
     userId: User['id'];
     status: TicketStatus['id'];
+    faultTypeId: TicketFaultMenu['id'];
+    comment: Ticket['comment'];
+  }
+  // 用户修改报修请求体
+  interface TicketEditUserData extends RequestData {
+    id: Ticket['id'];
     faultTypeId: TicketFaultMenu['id'];
     comment: Ticket['comment'];
   }
