@@ -46,3 +46,12 @@ export const confirmDialog = (options: {
     },
   });
 };
+
+export const getToken = () => window.localStorage.getItem('Token');
+
+export const setToken = (token: string) =>
+  window.localStorage.setItem('Token', token);
+
+export const removeToken = () => window.localStorage.removeItem('Token');
+
+export const hasToken = () => !!window.localStorage.getItem('Token');
