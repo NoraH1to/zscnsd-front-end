@@ -6,10 +6,13 @@ export = apiInterface;
 export as namespace apiInterface;
 
 declare namespace apiInterface {
+  interface ErrData {
+    [index: string]: string;
+  }
   interface ResponseBase {
     code: number;
     errorData?: {
-      [errorPropName: string]: string;
+      [row: number]: ErrData;
     };
   }
   // 接口返回体

@@ -12,12 +12,18 @@ import {
 import { forEachObjIndexed, type } from 'ramda';
 import update from 'immutability-helper';
 import './index.scss';
-import { FC, useEffect, useState } from 'react';
+import { createContext, FC, useContext, useEffect, useState } from 'react';
 import componentData from 'typings';
 import moment from 'moment';
 import { dateformatOut, datetimeformatOut, formatDate } from '@/utils';
 import UploadImg from '@/components/UploadImg';
 import useUploadImg from '../useUploadImg';
+import apiInterface from 'api';
+
+const errContext = createContext<{
+  errData: apiInterface.ErrData;
+  setErrData: componentData.CustomFormHooks['setErrData'] | null;
+}>({ errData: {}, setErrData: null });
 
 const _Input: FC<{ item: componentData.PropData; password?: boolean }> = (
   props,
@@ -204,17 +210,30 @@ const _Image: FC<{
 const BaseFormItem: FC<{ item: componentData.PropData }> = ({
   item,
   children,
-}) => (
-  <Form.Item
-    colon={false}
-    label={item.name}
-    name={item.key}
-    rules={item.rules}
-    hidden={item.hidden}
-  >
-    {children}
-  </Form.Item>
-);
+}) => {
+  const _errContext = useContext(errContext);
+  return (
+    <Form.Item
+      colon={false}
+      label={item.name}
+      name={item.key}
+      rules={item.rules}
+      hidden={item.hidden}
+      validateStatus={
+        _errContext.errData && _errContext.errData[item.key]
+          ? 'error'
+          : undefined
+      }
+      help={
+        _errContext.errData && _errContext.errData[item.key]
+          ? _errContext.errData[item.key]
+          : undefined
+      }
+    >
+      {children}
+    </Form.Item>
+  );
+};
 
 const ErrorProp: FC = () => {
   return <div>错误的过滤器类型</div>;
@@ -241,6 +260,7 @@ const useCustomForm = (
   });
   const [form] = Form.useForm();
   const [validatedContainer, setValidated] = useState({ validated: false });
+  const [errData, setErrData] = useState<apiInterface.ErrData>({});
   const [defaultFormData, setDefaultFormData] = useState<any>({});
   const [_propData, setPropData] = useState<componentData.PropData[]>(propData);
   const onValuesChange: FormProps['onValuesChange'] = (
@@ -253,6 +273,9 @@ const useCustomForm = (
     }
     function doit() {
       forEachObjIndexed((value: any, key: any, obj: any) => {
+        // 服务端的错误提示在变更输入后删去
+        setErrData(update(errData, { $unset: [key] }));
+        // 判断时间特殊处理
         if (value && value._isAMomentObject) {
           changeValues = update(changeValues, {
             [key]: {
@@ -260,6 +283,7 @@ const useCustomForm = (
             },
           });
         }
+        // 判断范围时间特殊处理
         if (
           value &&
           type(value) === 'Array' &&
@@ -332,18 +356,20 @@ const useCustomForm = (
   };
   const _form =
     _propData.length > 0 ? (
-      <Form
-        initialValues={defaultFormData}
-        validateMessages={validateMessages}
-        form={form}
-        className="filter-form"
-        labelAlign="right"
-        layout={'inline'}
-        onValuesChange={onValuesChange}
-        {...formProps}
-      >
-        {result}
-      </Form>
+      <errContext.Provider value={{ errData, setErrData }}>
+        <Form
+          initialValues={defaultFormData}
+          validateMessages={validateMessages}
+          form={form}
+          className="filter-form"
+          labelAlign="right"
+          layout={'inline'}
+          onValuesChange={onValuesChange}
+          {...formProps}
+        >
+          {result}
+        </Form>
+      </errContext.Provider>
     ) : undefined;
   return {
     form: _form,
@@ -351,6 +377,7 @@ const useCustomForm = (
     validatedContainer,
     formRef: form,
     setPropData,
+    setErrData,
   };
 };
 

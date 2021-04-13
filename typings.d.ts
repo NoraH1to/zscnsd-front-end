@@ -30,6 +30,7 @@ declare namespace componentData {
     };
     formRef: FormInstance<any>;
     setPropData: any;
+    setErrData: React.Dispatch<React.SetStateAction<apiInterface.ErrData>>;
   }
   interface DialogFormHooks {
     visible: boolean;
