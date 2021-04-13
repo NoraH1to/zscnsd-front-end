@@ -115,19 +115,22 @@ const CustomList = <T extends object>(props: Props<T>) => {
   ) : undefined;
 
   // 搜索按钮
-  const searchBtn = (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      {SortSelect}
-      <Button
-        style={{ marginLeft: '1rem' }}
-        type="primary"
-        ghost
-        onClick={() => setVisible(true)}
-      >
-        筛选
-      </Button>
-    </div>
-  );
+  const searchBtn =
+    filters.length > 0 || sortList ? (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        {SortSelect}
+        {filters.length > 0 ? (
+          <Button
+            style={{ marginLeft: '1rem' }}
+            type="primary"
+            ghost
+            onClick={() => setVisible(true)}
+          >
+            筛选
+          </Button>
+        ) : undefined}
+      </div>
+    ) : undefined;
 
   // 加载提示控件
   const loadingSpin = loading ? (
