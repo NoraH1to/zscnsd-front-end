@@ -545,6 +545,7 @@ export default <(routeInterface.mRoute | routeInterface.route)[]>[
     path: '/',
     component: '@/index.tsx', // TODO: 判断去移动端还是后台（或者用nginx解决）
     routes: [
+      { path: '/', redirect: '/d' },
       { path: '/d', component: '@/pages/index.tsx', routes: desktopRoute },
       {
         path: '/m',
