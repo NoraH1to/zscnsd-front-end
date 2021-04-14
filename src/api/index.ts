@@ -1,7 +1,7 @@
 import { history } from 'umi';
 import { getToken, removeToken } from '@/utils';
 import apiInterface from 'api';
-import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { toast } from 'react-toastify';
 
 axios.defaults.timeout = 5000; // 响应时间
@@ -18,6 +18,8 @@ axios.interceptors.request.use(
     return Promise.reject(error);
   },
 );
+
+axios.defaults.baseURL = BASE_URL;
 
 // 响应拦截
 axios.interceptors.response.use(

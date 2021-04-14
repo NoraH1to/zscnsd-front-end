@@ -1,6 +1,9 @@
 import { defineConfig } from 'umi';
 import routes from './routes';
 
+/**
+ * @description 基础环境
+ */
 export default defineConfig({
   routes,
   nodeModulesTransform: {
@@ -9,4 +12,7 @@ export default defineConfig({
   sass: {},
   fastRefresh: {},
   dynamicImport: { loading: '@/components/LoadingPage' },
+  define: {
+    BASE_URL: undefined,
+  },
 });

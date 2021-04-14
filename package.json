@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "start": "umi dev",
-    "build": "umi build",
+    "build": "cross-env UMI_ENV=master umi build",
+    "build:zscnsd": "cross-env UMI_ENV=zscnsd umi build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "test": "umi-test",
@@ -47,6 +48,7 @@
     "@types/react-sticky": "^6.0.3",
     "@umijs/plugin-sass": "^1.1.1",
     "@umijs/test": "^3.3.9",
+    "cross-env": "^7.0.3",
     "lint-staged": "^10.0.7",
     "mockjs": "^1.1.0",
     "prettier": "^2.2.0",
