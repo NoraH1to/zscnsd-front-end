@@ -34,10 +34,10 @@ axios.interceptors.response.use(
         // 有 msg 配置的提醒成功
         response.config.msg && toast.success(response.config.msg);
         return Promise.resolve(response.data);
-      } else if (response.data.code >= 300 && response.data.code < 400) {
+      } else if (response.data.code == 403) {
         removeToken();
         toast.error(response.data.msg);
-        history.push('/d/login');
+        history.replace('/d/login');
       } else {
         toast.error(response.data.msg);
       }
