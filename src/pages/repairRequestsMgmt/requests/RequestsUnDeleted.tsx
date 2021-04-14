@@ -221,7 +221,9 @@ const colums: TableColumnProps<apiInterface.Ticket>[] = [
   {
     title: '最后处理人姓名-工号',
     render: (value, record, index) =>
-      goMemberCenterCell(record.lastOperateLog.operator),
+      record.lastOperateLog
+        ? goMemberCenterCell(record.lastOperateLog.operator)
+        : '无',
     width: 170,
   },
   {
