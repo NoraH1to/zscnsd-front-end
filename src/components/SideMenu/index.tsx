@@ -1,5 +1,4 @@
 import { Menu } from 'antd';
-import './index.scss';
 
 import { History, Location } from 'umi';
 
@@ -53,52 +52,37 @@ const SideMenu: FC<{ history: History; pcRoutes?: routeInterface.route[] }> = (
     };
   }, []);
 
-  useEffect(() => {
-    setCurrentOpenSubMenuKey(
-      currentOpenSubMenuKey.concat(
-        getMenuNeedOpen(currentMenuKey[0], pcRoutes || []),
-      ),
-    );
-  }, [currentMenuKey]);
-
   return (
-    <>
-      <div className="logo" />
-      <Menu
-        theme="light"
-        onSelect={({ key: path }: { key: any }) => history.push(path)}
-        selectedKeys={currentMenuKey}
-        openKeys={currentOpenSubMenuKey}
-        onOpenChange={(openKeys) => setCurrentOpenSubMenuKey(openKeys)}
-        mode="inline"
-      >
-        {pcRoutes
-          ? pcRoutes.map((route) => {
-              if (route.extraOpt?.hidden || !route.extraOpt?.menu) return;
-              if (
-                route.extraOpt?.sub &&
-                route.routes &&
-                route.routes.length > 0
-              )
-                return (
-                  <SubMenu key={route.path} title={route.extraOpt?.name}>
-                    {route.routes.map((childRoute) =>
-                      childRoute.extraOpt?.hidden ? null : (
-                        <Menu.Item key={childRoute.path}>
-                          {childRoute.extraOpt?.name}
-                        </Menu.Item>
-                      ),
-                    )}
-                  </SubMenu>
-                );
-              else
-                return (
-                  <Menu.Item key={route.path}>{route.extraOpt?.name}</Menu.Item>
-                );
-            })
-          : null}
-      </Menu>
-    </>
+    <Menu
+      theme="light"
+      onSelect={({ key: path }: { key: any }) => history.push(path)}
+      selectedKeys={currentMenuKey}
+      openKeys={currentOpenSubMenuKey}
+      onOpenChange={(openKeys) => setCurrentOpenSubMenuKey(openKeys)}
+      mode="inline"
+    >
+      {pcRoutes
+        ? pcRoutes.map((route) => {
+            if (route.extraOpt?.hidden || !route.extraOpt?.menu) return;
+            if (route.extraOpt?.sub && route.routes && route.routes.length > 0)
+              return (
+                <SubMenu key={route.path} title={route.extraOpt?.name}>
+                  {route.routes.map((childRoute) =>
+                    childRoute.extraOpt?.hidden ? null : (
+                      <Menu.Item key={childRoute.path}>
+                        {childRoute.extraOpt?.name}
+                      </Menu.Item>
+                    ),
+                  )}
+                </SubMenu>
+              );
+            else
+              return (
+                <Menu.Item key={route.path}>{route.extraOpt?.name}</Menu.Item>
+              );
+          })
+        : null}
+    </Menu>
   );
 };
 

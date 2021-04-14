@@ -49,27 +49,26 @@ const index = (props: any) => {
     ));
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider theme="light" className="site-layout-sider">
-        <SideMenu pcRoutes={pcRoutes} history={history} />
-      </Sider>
-      <Layout className="site-layout">
-        <Header className="site-layout-header" style={{ padding: 0 }}>
-          <HeaderContent />
-        </Header>
-        <Content style={{ margin: '24px 24px 0px 24px' }}>
-          {breadCrumbDataList == '_null' ? null : (
-            <Breadcrumb style={{ margin: '0 0 16px 0' }}>
-              {breadCrumb}
-            </Breadcrumb>
-          )}
+      <Header className="site-layout-header" style={{ padding: 0 }}>
+        <HeaderContent />
+      </Header>
+      <Content style={{ margin: '24px 24px 0px 24px' }}>
+        {breadCrumbDataList == '_null' ? null : (
+          <Breadcrumb style={{ margin: '0 0 16px 0' }}>{breadCrumb}</Breadcrumb>
+        )}
+        <Layout className="site-layout">
+          <Sider theme="light" className="site-layout-sider">
+            <SideMenu pcRoutes={pcRoutes} history={history} />
+          </Sider>
+
           <div className="site-content" style={{ padding: 24 }}>
             {props.children}
           </div>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          NoraH1to ©{new Date().getFullYear()}
-        </Footer>
-      </Layout>
+        </Layout>
+      </Content>
+      <Footer style={{ textAlign: 'center' }}>
+        NoraH1to ©{new Date().getFullYear()}
+      </Footer>
     </Layout>
   );
 };
