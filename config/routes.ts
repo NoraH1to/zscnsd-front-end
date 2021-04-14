@@ -25,7 +25,11 @@ const desktopRoute: routeInterface.route[] = [
   {
     path: '/d',
     component: '@/pages/main.tsx',
-    wrappers: ['@/wrappers/Auth/IsLogin', '@/wrappers/Auth/IsMgmt'],
+    wrappers: [
+      '@/wrappers/Auth/IsLogin',
+      '@/wrappers/InitUser',
+      '@/wrappers/Auth/IsMgmt',
+    ],
     __isDynamic: true,
     extraOpt: {
       default: '/d/home',
