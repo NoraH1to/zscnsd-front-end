@@ -1,12 +1,9 @@
 import { history } from 'umi';
 import { useRealLocation } from '@/hooks';
-import { authContext } from '@/wrappers/Auth/authContext';
-import { FC, useEffect, useState, useContext } from 'react';
+import { FC, useEffect, useState } from 'react';
 import './index.scss';
-import { ParsedQuery } from 'query-string';
 
 const permissionDenied: FC = () => {
-  const userContext = useContext(authContext);
   const [count, setCount] = useState(5);
   const { query } = useRealLocation();
   const [go, setGo] = useState<{ path: string; tip: string }>({
