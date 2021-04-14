@@ -11,23 +11,23 @@ $ npm install
 开发，mock接口
 
 ```bash
-$ npm start
+$ npm run start
 ```
 
 开发，毕设接口
 
 ```bash
-$ npm start:prod
+$ npm run start:prod
 ```
 
 打包，毕设接口
 
 ```bash
-$ npm build
+$ npm run build
 ```
 
 打包，网维生产接口（需在自行`config/config.zscnsd.ts`中配置后端host）
 
 ```bash
-$ npm build:zscnsd
+$ npm run build:zscnsd
 ```
