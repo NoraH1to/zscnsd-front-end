@@ -1,0 +1,101 @@
+kind: pipeline
+type: docker
+name: default
+
+volumes:
+    - name: dist
+      host:
+          path: /home/norah1to/cache/zscnsd/dist
+    - name: node_modules
+      host:
+          path: /home/norah1to/cache/zscnsd/node_modules
+
+steps:
+    - name: mkdir
+      when:
+          event: push
+          branch: master
+      image: appleboy/drone-ssh:1.6.3
+      settings:
+          host: drone.norah1to.com
+          username:
+              from_secret: account_1
+          password:
+              from_secret: password_1
+          port: 22
+          script:
+              - mkdir -p /home/norah1to/cache/zscnsd/dist
+              - mkdir -p /home/norah1to/cache/zscnsd/node_modules
+              - rm -rf /home/norah1to/cache/zscnsd/dist/*
+
+    - name: build
+      when:
+          event: push
+          branch: master
+      image: node:12.16
+      volumes:
+          - name: dist
+            path: /tmp/cache/dist
+          - name: node_modules
+            path: /drone/src/node_modules
+      commands:
+          - npm config set registry http://registry.npm.taobao.org
+          - npm install
+          - npm run build
+          - cp -r ./dist/* /tmp/cache/dist
+
+    - name: copy
+      when:
+          event: push
+          branch: master
+      image: appleboy/drone-ssh:1.6.3
+      settings:
+          host: drone.norah1to.com
+          username:
+              from_secret: account_1
+          password:
+              from_secret: password_1
+          port: 22
+          script:
+              - mkdir /home/norah1to/nginx/www/zscnsd
+              - rm -rf /home/norah1to/nginx/www/zscnsd/*
+              - cp -r /home/norah1to/cache/zscnsd/dist/* /home/norah1to/nginx/www/zscnsd
+              - rm -rf /home/norah1to/cache/zscnsd/dist/*
+
+    - name: send-wechat-success
+      when:
+          status:
+              - success
+      image: yakumioto/drone-serverchan
+      settings:
+          key:
+              from_secret: server_chan_key
+          text: '仓库${DRONE_REPO_NAME} 分支${DRONE_REPO_BRANCH} 构建成功'
+
+    - name: send-wechat-fail
+      when:
+          status:
+              - failure
+      image: yakumioto/drone-serverchan
+      settings:
+          key:
+              from_secret: server_chan_key
+          text: '仓库${DRONE_REPO_NAME} 分支${DRONE_REPO_BRANCH} 构建失败${DRONE_FAILED_STAGES}'
+
+    # - name: copy
+    #   when:
+    #       event: push
+    #       branch: master
+    #   image: plugins/docker
+    #   volumes:
+    #       - name: dist
+    #         path: /dist
+    #   settings:
+    #       dockerfile: Dockerfile
+    #       username:
+    #           from_secret: account
+    #       password:
+    #           from_secret: password
+    #       repo: zscnsd
+    #       tags:
+    #           - latest
