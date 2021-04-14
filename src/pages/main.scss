@@ -1,10 +1,10 @@
 .site-layout-sider {
-  z-index: 2;
-  height: 100vh;
   position: sticky;
-  top: 0;
-  left: 0;
+  top: 32px;
   overflow: hidden;
+  margin-right: 2em;
+  align-self: flex-start;
+  max-height: calc(100vh - 142px);
   &:hover {
     overflow: auto;
   }
@@ -12,15 +12,13 @@
 
 .site-layout-header {
   background: #fff;
-  // box-shadow: 0 2px 8px #f0f0f0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
 }
 
 .site-content {
   background: #fff;
   z-index: 0;
+  width: calc(100% - 200px - 2em);
+  align-self: flex-start;
 }
 
 .expand {
