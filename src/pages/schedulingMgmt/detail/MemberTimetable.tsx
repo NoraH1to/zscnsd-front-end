@@ -1,10 +1,5 @@
 import { FC, useState } from 'react';
-import {
-  memberTimetableStatus,
-  TableFilterType,
-  weekDays,
-  workChangeType,
-} from '@/common';
+import { memberTimetableStatus, TableFilterType, weekDays } from '@/common';
 import {
   useApi,
   useDialogForm,
@@ -14,12 +9,9 @@ import {
 import { TableColumnProps, TableProps, Col, Row, Image, Tooltip } from 'antd';
 import apiInterface from 'api';
 import componentData from 'typings';
-import TimeCard from '@/components/timeCard';
+import TimeCard from '@/components/TimeCard';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import CustomTable, {
-  dateCell,
-  goMemberCenterCell,
-} from '@/components/CustomTable';
+import CustomTable, { goMemberCenterCell } from '@/components/CustomTable';
 import { find, propEq } from 'ramda';
 import { userSearch } from '@/api/user';
 import {

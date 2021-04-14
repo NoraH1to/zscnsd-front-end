@@ -1,7 +1,7 @@
 import { Tabs } from 'antd';
 import { FC, useState } from 'react';
 import Undeleted from './RequestsUnDeleted';
-import Deleted from './requestsDeleted';
+import Deleted from './RequestsDeleted';
 import { useRealLocation } from '@/hooks';
 import apiInterface from 'api';
 

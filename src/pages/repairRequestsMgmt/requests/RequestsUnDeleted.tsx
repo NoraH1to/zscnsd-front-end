@@ -19,17 +19,7 @@ import {
   ticketList,
   ticketOperate,
 } from '@/api/ticket';
-import {
-  Tooltip,
-  TableColumnProps,
-  TableProps,
-  Row,
-  Col,
-  Card,
-  Space,
-  Typography,
-  Button,
-} from 'antd';
+import { Tooltip, TableColumnProps, TableProps, Row, Col, Button } from 'antd';
 import apiInterface from 'api';
 import CustomTable, {
   dateTimeCell,
@@ -45,7 +35,7 @@ import {
 } from '@ant-design/icons';
 import TicketStatusComponent from '@/components/TicketStatusComp';
 import { ticketFaultMenuList } from '@/api/ticketFaultMenu';
-import TimeCard from '@/components/timeCard';
+import TimeCard from '@/components/TimeCard';
 import TicketCommentCard from '@/components/TicketCommentCard';
 import UserInfoCard from '@/components/UserInfoCard';
 

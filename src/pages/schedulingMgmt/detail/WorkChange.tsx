@@ -9,7 +9,7 @@ import {
 import { TableColumnProps, TableProps, Col, Row } from 'antd';
 import apiInterface from 'api';
 import componentData from 'typings';
-import TimeCard from '@/components/timeCard';
+import TimeCard from '@/components/TimeCard';
 import {
   workChangeAdd,
   workChangeDelete,
