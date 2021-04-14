@@ -23,7 +23,7 @@ const Header: FC = () => {
   return (
     <headerContext.Provider value={{ popoverVisible, setpopoverVisible }}>
       <div className="header-container">
-        <img className="logo" src={require('@/asset/logo.svg')} />
+        <img className="logo" src={require('@/asset/logo_224x64.png')} />
         <Popover
           placement="bottom"
           content={<AvatarCard user={userContext.user} />}
