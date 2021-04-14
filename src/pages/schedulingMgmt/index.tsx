@@ -19,7 +19,7 @@ import {
   workSemesterEdit,
   workSemesterList,
 } from '@/api/workSemester';
-import { history } from '@/.umi/core/history';
+import { history } from 'umi';
 
 const filters: componentData.PropData[] = [
   {

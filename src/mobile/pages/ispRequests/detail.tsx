@@ -1,4 +1,4 @@
-import { history } from '@/.umi/core/history';
+import { history } from 'umi';
 import { ispTickeDetail, ispTicketOperate } from '@/api/ispTicket';
 import { TableFilterType, ticketStatus } from '@/common';
 import TicketCommentCard from '@/components/TicketCommentCard';

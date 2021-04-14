@@ -1,4 +1,4 @@
-import { history } from '@/.umi/core/history';
+import { history } from 'umi';
 import { userSearch } from '@/api/user';
 import {
   reportChinaMobileNoDataSortableList,

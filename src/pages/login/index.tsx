@@ -7,7 +7,7 @@ import { FC, useContext, useState } from 'react';
 import componentData from 'typings';
 import update from 'immutability-helper';
 import { Button, Card } from 'antd';
-import { history } from '@/.umi/core/history';
+import { history } from 'umi';
 import { authContext } from '@/wrappers/Auth/authContext';
 import { setToken } from '@/utils';
 

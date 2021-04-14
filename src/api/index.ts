@@ -1,4 +1,4 @@
-import { history } from '@/.umi/core/history';
+import { history } from 'umi';
 import { getToken, removeToken } from '@/utils';
 import apiInterface from 'api';
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';

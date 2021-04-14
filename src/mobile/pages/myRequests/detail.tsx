@@ -1,4 +1,4 @@
-import { history } from '@/.umi/core/history';
+import { history } from 'umi';
 import { ticketDeleteUser, ticketDetail, ticketEditUser } from '@/api/ticket';
 import { ticketFaultMenuList } from '@/api/ticketFaultMenu';
 import { TableFilterType } from '@/common';
