@@ -10,18 +10,21 @@ export const userList = (params?: apiInterface.UserListQuery) => {
 export const userAddAdmin = (data?: apiInterface.UserAddAdminData) => {
   return POST('/api/user/admin-add', {
     data,
+    msg: '添加用户成功',
   });
 };
 
 export const userEditAdmin = (data?: apiInterface.UserEditAdminData) => {
   return POST('/api/user/admin-update', {
     data,
+    msg: '修改用户信息成功',
   });
 };
 
 export const userDelete = (data?: apiInterface.UserDeleteData) => {
   return POST('/api/user/delete', {
     data,
+    msg: '删除成功',
   });
 };
 
@@ -34,17 +37,19 @@ export const userSearch = (params?: apiInterface.UserSearchData) => {
 export const userLoginAdmin = (data?: apiInterface.UserLoginAdminData) => {
   return POST('/api/user/admin-login', {
     data,
+    msg: '登入成功',
   });
 };
 
 export const userPasswordEdit = (data?: apiInterface.UserPasswordEditData) => {
   return POST('/api/user/update-password', {
     data,
+    msg: '修改成功',
   });
 };
 
 export const userLogoutAdmin = () => {
-  return POST('/api/user/admin-logout');
+  return POST('/api/user/admin-logout', { msg: '登出成功' });
 };
 
 export const userDetail = (params?: apiInterface.UserInfoQuery) => {
@@ -56,5 +61,6 @@ export const userDetail = (params?: apiInterface.UserInfoQuery) => {
 export const userEdit = (data?: apiInterface.UserEditUserData) => {
   return POST('/api/user/user-update', {
     data,
+    msg: '修改成功',
   });
 };

@@ -6,9 +6,7 @@ import apiInterface from 'api';
 const useInit = <P,>(
   api: (
     params?: P,
-  ) => Promise<
-    AxiosResponse<apiInterface.Response | apiInterface.ResponsePage>
-  >,
+  ) => Promise<apiInterface.Response | apiInterface.ResponsePage>,
   params?: P,
   then?: Function,
 ): apiInterface.Apihooks<P> => {

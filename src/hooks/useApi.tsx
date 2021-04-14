@@ -5,16 +5,16 @@ import { useState, useEffect } from 'react';
 const useApi = <P,>(
   api: (
     params?: P,
-  ) => Promise<
-    AxiosResponse<apiInterface.Response | apiInterface.ResponsePage>
-  >,
+  ) => Promise<apiInterface.Response | apiInterface.ResponsePage>,
   params?: P,
   then?: Function,
 ): apiInterface.Apihooks<P> => {
   const [loading, setLoading] = useState(false);
   const [_params, setParams] = useState<P | undefined>(params);
   const [data, setData] = useState<any>({});
-  const [errorData, setErrorData] = useState({});
+  const [errorData, setErrorData] = useState<
+    apiInterface.ResponseBase['errorData']
+  >({});
 
   useEffect(() => {
     if (!loading) return;
@@ -25,10 +25,11 @@ const useApi = <P,>(
     api(_params)
       .then((res) => {
         setData(res);
+        setErrorData(res.errorData);
         then && then(res);
       })
       .catch((e) => {
-        setErrorData(errorData);
+        setErrorData(e.errorData || e);
       })
       .finally(() => {
         setLoading(false);

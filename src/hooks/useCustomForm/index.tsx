@@ -254,13 +254,14 @@ const useCustomForm = (
   propData: componentData.PropData[],
   onChange: componentData.OnFormChange,
   formProps?: FormProps,
+  errorData?: apiInterface.ErrData,
 ): componentData.CustomFormHooks => {
   const [timerContainer, setTimerContainer] = useState<any>({
     timer: undefined,
   });
   const [form] = Form.useForm();
   const [validatedContainer, setValidated] = useState({ validated: false });
-  const [errData, setErrData] = useState<apiInterface.ErrData>({});
+  const [errData, setErrData] = useState<apiInterface.ErrData>(errorData || {});
   const [defaultFormData, setDefaultFormData] = useState<any>({});
   const [_propData, setPropData] = useState<componentData.PropData[]>(propData);
   const onValuesChange: FormProps['onValuesChange'] = (

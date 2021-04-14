@@ -29,14 +29,16 @@ const useDialogForm = <P,>(
     formData,
     (res: any) => {
       onSubmit && onSubmit(res);
-      formRef.resetFields();
     },
   );
-  useEffect(() => {
-    Object.keys(errorData || {}).length == 0 && setVisible(false);
-  }, [data, errorData]);
 
-  const { form, validatedContainer, validateFields, formRef } = useCustomForm(
+  const {
+    form,
+    validatedContainer,
+    validateFields,
+    formRef,
+    setErrData,
+  } = useCustomForm(
     propData,
     (newFormData) => {
       setFormData(update(formData, { $merge: newFormData }));
@@ -46,6 +48,12 @@ const useDialogForm = <P,>(
       labelAlign: 'right',
     },
   );
+
+  useEffect(() => {
+    (!errorData || !errorData[0]) && setVisible(false);
+    setErrData(errorData ? errorData[0] || {} : {});
+    // console.log(errorData);
+  }, [errorData]);
 
   const setForm = <T,>(data: T | any) => {
     setFormData(update(formData, { $merge: data }));

@@ -266,9 +266,13 @@ const CustomTable = <T extends object>(props: Props<T>) => {
     validatedContainer,
     validateFields,
     formRef,
-  } = useCustomForm(filters, (newformData) =>
-    setFormData(update(formData, { $merge: newformData })),
-  );
+    setErrData,
+  } = useCustomForm(filters, (newformData) => {
+    setFormData(update(formData, { $merge: newformData }));
+  });
+  useEffect(() => {
+    setErrData(errorData[0] || {});
+  }, [errorData]);
 
   // 表格上方表单提交
   const onSubmit = async () => {

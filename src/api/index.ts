@@ -33,8 +33,8 @@ axios.interceptors.response.use(
         response.config.msg && toast.success(response.config.msg);
         return Promise.resolve(response.data);
       } else if (response.data.code >= 300 && response.data.code < 400) {
-        toast.error(response.data.msg);
         removeToken();
+        toast.error(response.data.msg);
         history.push('/d/login');
       } else {
         toast.error(response.data.msg);
@@ -49,16 +49,16 @@ axios.interceptors.response.use(
 );
 
 export const GET = function <
-  T = apiInterface.Response | apiInterface.ResponsePage,
-  R = AxiosResponse<T>
->(url: string, config?: AxiosRequestConfig): Promise<R> {
+  T = apiInterface.Response | apiInterface.ResponsePage
+  // R = AxiosResponse<T>
+>(url: string, config?: AxiosRequestConfig): Promise<T> {
   return axios.get(url, config);
 };
 
 export const POST = function <
-  T = apiInterface.Response | apiInterface.ResponsePage,
-  R = AxiosResponse<T>
->(url: string, config?: AxiosRequestConfig): Promise<R> {
+  T = apiInterface.Response | apiInterface.ResponsePage
+  // R = AxiosResponse<T>
+>(url: string, config?: AxiosRequestConfig): Promise<T> {
   return axios.request({
     url,
     method: 'POST',

@@ -32,7 +32,7 @@ declare namespace apiInterface {
   }
   // 接口
   interface Api<P> {
-    (params?: P): Promise<AxiosResponse<Response>>;
+    (params?: P): Promise<Response>;
   }
   // 接口hooks
   interface Apihooks<P> {
