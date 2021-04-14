@@ -1,5 +1,4 @@
 import apiInterface from 'api';
-import { AxiosResponse } from 'axios';
 import { useState, useEffect } from 'react';
 
 const useApi = <P,>(
@@ -14,7 +13,7 @@ const useApi = <P,>(
   const [data, setData] = useState<any>({});
   const [errorData, setErrorData] = useState<
     apiInterface.ResponseBase['errorData']
-  >({});
+  >(null);
 
   useEffect(() => {
     if (!loading) return;
@@ -29,7 +28,7 @@ const useApi = <P,>(
         then && then(res);
       })
       .catch((e) => {
-        setErrorData(e.errorData || e);
+        setErrorData(e.errorData);
       })
       .finally(() => {
         setLoading(false);

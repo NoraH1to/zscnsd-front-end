@@ -20,9 +20,9 @@ import useUploadImg from '../useUploadImg';
 import apiInterface from 'api';
 
 const errContext = createContext<{
-  errData: apiInterface.ErrData;
+  errData: apiInterface.ErrData | null | undefined;
   setErrData: componentData.CustomFormHooks['setErrData'] | null;
-}>({ errData: {}, setErrData: null });
+}>({ errData: null, setErrData: null });
 
 const _Input: FC<{ item: componentData.PropData; password?: boolean }> = (
   props,
@@ -253,14 +253,15 @@ const useCustomForm = (
   propData: componentData.PropData[],
   onChange: componentData.OnFormChange,
   formProps?: FormProps,
-  errorData?: apiInterface.ErrData,
 ): componentData.CustomFormHooks => {
   const [timerContainer, setTimerContainer] = useState<any>({
     timer: undefined,
   });
   const [form] = Form.useForm();
   const [validatedContainer, setValidated] = useState({ validated: false });
-  const [errData, setErrData] = useState<apiInterface.ErrData>(errorData || {});
+  const [errData, setErrData] = useState<
+    apiInterface.ErrData | null | undefined
+  >(null);
   const [defaultFormData, setDefaultFormData] = useState<any>({});
   const [_propData, setPropData] = useState<componentData.PropData[]>(propData);
   const onValuesChange: FormProps['onValuesChange'] = (
@@ -274,7 +275,7 @@ const useCustomForm = (
     function doit() {
       forEachObjIndexed((value: any, key: any, obj: any) => {
         // 服务端的错误提示在变更输入后删去
-        setErrData(update(errData, { $unset: [key] }));
+        errData && setErrData(update(errData, { $unset: [key] }));
         // 判断时间特殊处理
         if (value && value._isAMomentObject) {
           changeValues = update(changeValues, {

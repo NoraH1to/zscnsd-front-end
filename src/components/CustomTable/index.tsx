@@ -271,7 +271,7 @@ const CustomTable = <T extends object>(props: Props<T>) => {
     setFormData(update(formData, { $merge: newformData }));
   });
   useEffect(() => {
-    setErrData(errorData[0] || {});
+    setErrData(errorData && errorData[0]);
   }, [errorData]);
 
   // 表格上方表单提交

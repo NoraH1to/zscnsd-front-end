@@ -13,7 +13,7 @@ declare namespace apiInterface {
     code: number;
     errorData?: {
       [row: number]: ErrData;
-    };
+    } | null;
   }
   // 接口返回体
   interface Response extends ResponseBase {
