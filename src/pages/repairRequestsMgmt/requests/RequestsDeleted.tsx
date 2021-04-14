@@ -29,7 +29,7 @@ import { userSearch } from '@/api/user';
 import { RollbackOutlined } from '@ant-design/icons';
 import TicketStatusComponent from '@/components/TicketStatusComp';
 import { ticketFaultMenuList } from '@/api/ticketFaultMenu';
-import TimeCard from '@/components/timeCard';
+import TimeCard from '@/components/TimeCard';
 import TicketCommentCard from '@/components/TicketCommentCard';
 import UserInfoCard from '@/components/UserInfoCard';
 

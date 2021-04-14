@@ -16,7 +16,6 @@ import { createContext, FC, useContext, useEffect, useState } from 'react';
 import componentData from 'typings';
 import moment from 'moment';
 import { dateformatOut, datetimeformatOut, formatDate } from '@/utils';
-import UploadImg from '@/components/UploadImg';
 import useUploadImg from '../useUploadImg';
 import apiInterface from 'api';
 
