@@ -362,22 +362,24 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
 
     // 撤销排班
     const cancelArrangement = () => {
-      confirmDialog({
-        actionText: '撤销排班',
-        onOk: () => {
-          const target = record[col + 1];
-          if (target?.user && semesterId) {
-            setMakeWorkParams({
-              userId: target.user.id,
-              semesterId,
-              weekday: target.weekday,
-              area: target.area.id,
-              cancel: true,
-            });
-            setMakeWorkLoading(true);
-          }
-        },
-      });
+      const target = record[col + 1];
+      if (target?.user && semesterId) {
+        confirmDialog({
+          actionText: '撤销排班',
+          onOk: () => {
+            if (target?.user && semesterId) {
+              setMakeWorkParams({
+                userId: target.user.id,
+                semesterId,
+                weekday: target.weekday,
+                area: target.area.id,
+                cancel: true,
+              });
+              setMakeWorkLoading(true);
+            }
+          },
+        });
+      }
     };
 
     return (
