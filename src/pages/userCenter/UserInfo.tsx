@@ -13,9 +13,11 @@ const UserInfo: FC<{ user?: apiInterface.User; loading: boolean }> = ({
       <Col span={12}>
         <UserInfoCard user={user} cardProps={{ loading }} />
       </Col>
-      <Col span={12}>
-        <MemberInfoCard user={user} cardProps={{ loading }} />
-      </Col>
+      {user?.member && (
+        <Col span={12}>
+          <MemberInfoCard user={user} cardProps={{ loading }} />
+        </Col>
+      )}
     </Row>
   );
 };
