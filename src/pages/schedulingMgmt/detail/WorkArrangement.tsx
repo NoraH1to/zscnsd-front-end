@@ -11,6 +11,7 @@ import {
   Card,
   Typography,
   Pagination,
+  Tooltip,
 } from 'antd';
 import apiInterface, { MemberTimetable } from 'api';
 import componentData from 'typings';
@@ -18,13 +19,15 @@ import {
   workArrangementList,
   workArrangementUpdate,
 } from '@/api/workArrangement';
-import { find, forEachObjIndexed } from 'ramda';
+import { find, forEachObjIndexed, mapObjIndexed } from 'ramda';
 import './workArrangement.scss';
 import BaseTable from '@/components/BaseTable';
 import update from 'immutability-helper';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { memberTimetableList } from '@/api/memberTimetable';
+import { confirmDialog } from '@/utils';
+import { toast } from 'react-toastify';
 
 interface colObj {
   area?: apiInterface.Area;
@@ -55,7 +58,7 @@ const MemberCard: FC<{ timeTable: apiInterface.MemberTimetable }> = ({
       <Card>
         <Space>
           <Typography.Text>{member.name}</Typography.Text>
-          <Typography.Text>{`工号${member.member.workId}`}</Typography.Text>
+          <Typography.Text>{`工号${member.member?.workId}`}</Typography.Text>
           <Typography.Text>
             {'每周值班 '}
             <Typography.Link>
@@ -73,6 +76,7 @@ const MemberCard: FC<{ timeTable: apiInterface.MemberTimetable }> = ({
 const MemberList: FC<{ semesterId: MemberTimetable['semesterId'] }> = ({
   semesterId,
 }) => {
+  semesterId = parseInt(semesterId.toString());
   const [
     formData,
     setFormData,
@@ -113,12 +117,6 @@ const MemberList: FC<{ semesterId: MemberTimetable['semesterId'] }> = ({
       />
     </div>
   );
-};
-
-const onRow: TableProps<apiInterface.WorkArrangement>['onRow'] = (record) => {
-  return {
-    onClick: (event) => {}, // 点击行
-  };
 };
 
 const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
@@ -222,13 +220,28 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     ...weekDays.map<TableColumnProps<colObj>>((day, col) => ({
       title: day.string,
       width: 100,
-      render: (value, record, index) => {
-        return record[day.id]?.user?.name;
+      ellipsis: {
+        showTitle: false,
       },
+      render: (value, record, index) => (
+        <Tooltip
+          placement="topLeft"
+          title={!!record[day.id]?.user ? '点击撤销排班' : undefined}
+        >
+          <span
+            style={{
+              cursor: !!record[day.id]?.user ? 'pointer' : 'default',
+            }}
+          >
+            {record[day.id]?.user?.name}
+          </span>
+        </Tooltip>
+      ),
       onCell: (record, row) => ({
         record,
         row,
         col,
+        semesterId,
         _onDrop: (
           timeTable: apiInterface.MemberTimetable,
           row: number,
@@ -240,6 +253,7 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
             semesterId: currentFormData.semesterId || 0,
             weekday: col + 1,
             area: area?.id || 0,
+            cancel: false,
           });
           setMakeWorkLoading(true);
         },
@@ -250,6 +264,7 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
   const dealData = (dataList: apiInterface.WorkArrangement[]) => {
     const dayObject: colObj = {};
     weekDays.forEach((day) => (dayObject[day.id] = undefined));
+    let _areas = areas.concat([]);
 
     // tempObj 数据格式
     // {
@@ -259,12 +274,15 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     // }
     if (!dataList) return [];
     const tempObj: { [index: string]: any[] } = {};
-    areas.forEach((area) => (tempObj[area.id] = []));
-    tempObj.other = [];
+    _areas.forEach((area) => (tempObj[area.id] = []));
 
     dataList.forEach((data) => {
       // 找到对应片区数据 array
-      const targetArr = tempObj[data.area.id] || tempObj.other;
+      if (!tempObj[data.area.id]) {
+        tempObj[data.area.id] = [];
+        _areas.push(data.area);
+      }
+      const targetArr = tempObj[data.area.id];
       // 如果没有行，则添加行，并且显示 area
       if (targetArr.length == 0) {
         targetArr.push(update(dayObject, { $merge: { area: data.area } }));
@@ -280,7 +298,20 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     });
 
     let result: colObj[] = [];
-    forEachObjIndexed((item) => (result = result.concat(item)), tempObj); // 拍平
+    forEachObjIndexed((item, index) => {
+      const target = item;
+      // 没人值班也要显示出来
+      if (target.length == 0) {
+        target.push(
+          update(dayObject, {
+            $set: {
+              area: find((_area) => _area.id == index, _areas),
+            },
+          }),
+        );
+      }
+      result = result.concat(target);
+    }, tempObj); // 拍平
     return result;
   };
 
@@ -289,6 +320,7 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     row: number;
     col: number;
     style: any;
+    semesterId: number;
     _onDrop: (
       timeTable: apiInterface.MemberTimetable,
       row: number,
@@ -328,12 +360,33 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
       backgroundColor = 'rgb(255 0 0 / 55%)';
     }
 
+    // 撤销排班
+    const cancelArrangement = () => {
+      confirmDialog({
+        actionText: '撤销排班',
+        onOk: () => {
+          const target = record[col + 1];
+          if (target?.user && semesterId) {
+            setMakeWorkParams({
+              userId: target.user.id,
+              semesterId,
+              weekday: target.weekday,
+              area: target.area.id,
+              cancel: true,
+            });
+            setMakeWorkLoading(true);
+          }
+        },
+      });
+    };
+
     return (
       <td
         key={`${row}-${col}`}
         ref={drop}
         style={{ backgroundColor, ...style }}
         {...restProps}
+        onClick={() => cancelArrangement()}
       />
     );
   };

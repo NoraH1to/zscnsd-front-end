@@ -343,8 +343,9 @@ declare namespace apiInterface {
   interface WorkArrangementUpdateData extends RequestData {
     userId: User['id'];
     semesterId: WorkArrangement['semesterId'];
-    weekday: WorkArrangement['weekday'];
-    area: Area['id'];
+    weekday: WorkArrangement['weekday'] | null;
+    area: Area['id'] | null;
+    cancel?: boolean;
   }
   // 查询某周值班表参数
   interface WorkArrangementTimeTableListQuery extends RequestQuery {
