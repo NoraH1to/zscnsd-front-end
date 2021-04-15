@@ -76,7 +76,6 @@ const MemberCard: FC<{ timeTable: apiInterface.MemberTimetable }> = ({
 const MemberList: FC<{ semesterId: MemberTimetable['semesterId'] }> = ({
   semesterId,
 }) => {
-  semesterId = parseInt(semesterId.toString());
   const [
     formData,
     setFormData,
@@ -120,6 +119,7 @@ const MemberList: FC<{ semesterId: MemberTimetable['semesterId'] }> = ({
 };
 
 const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
+  semesterId = semesterId && parseInt(semesterId.toString());
   // 表单数据
   const [
     formData,
