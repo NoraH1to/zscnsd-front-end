@@ -52,7 +52,6 @@ const useDialogForm = <P,>(
   );
 
   useEffect(() => {
-    (!errorData || !errorData[0]) && setVisible(false);
     setErrData(errorData && errorData[0]);
   }, [errorData]);
 
@@ -89,6 +88,7 @@ const useDialogForm = <P,>(
       onCancel={() => {
         setVisible(false);
         formRef.resetFields();
+        setErrData(null);
       }}
       destroyOnClose={true}
       {...mobileOption}
