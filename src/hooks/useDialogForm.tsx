@@ -7,12 +7,13 @@ import componentData from 'typings';
 import { forEachObjIndexed } from 'ramda';
 import moment from 'moment';
 import { dateformatInput, datetimeformatInput } from '@/utils';
+import apiInterface from 'api';
 
 const useDialogForm = <P,>(
   api: apiInterface.Api<P>,
   propData: componentData.PropData[],
   title?: string,
-  onSubmit?: Function,
+  onSubmit?: (res: apiInterface.Response | apiInterface.ResponsePage) => void,
   mobile?: boolean,
 ): componentData.DialogFormHooks => {
   const getDefaultFormData = useMemo(() => {
