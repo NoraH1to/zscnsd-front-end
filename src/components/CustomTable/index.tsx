@@ -153,7 +153,7 @@ export const dateTimeCell = (dateStr: string[], dateOnly?: boolean) =>
       )}
     </Space>
   ) : (
-    <Typography.Text>{'_null'}</Typography.Text>
+    <Typography.Text>{'无'}</Typography.Text>
   );
 
 export const dateRangeCell = (dateStr: string[]) =>
@@ -170,7 +170,7 @@ export const dateRangeCell = (dateStr: string[]) =>
       ) : undefined}
     </Space>
   ) : (
-    <Typography.Text>{'_null'}</Typography.Text>
+    <Typography.Text>{'无'}</Typography.Text>
   );
 
 export const goUserCenterCell = (user: apiInterface.User) =>
@@ -185,7 +185,7 @@ export const goMemberCenterCell = (user: apiInterface.User | null) =>
         pathname: '/d/user-center',
         search: stringify({ id: user.id }),
       })
-    : '_null';
+    : '无';
 
 export const getRouteCell = (text: string, target: any): ReactElement => (
   <Typography.Link
