@@ -103,8 +103,14 @@ const filters: componentData.PropData[] = [
 const addPropData: componentData.PropData[] = [
   {
     key: 'userId',
-    type: TableFilterType.str,
-    name: '报修人用户ID',
+    type: TableFilterType.selectSearch,
+    name: '报修用户',
+    selectData: userSearch,
+    holder: '姓名/学号/工号',
+    searchOption: {
+      keyProp: 'id',
+      labelProp: 'name',
+    },
     rules: [{ required: true }],
   },
   {
@@ -139,8 +145,14 @@ const EditPropData: componentData.PropData[] = [
   },
   {
     key: 'userId',
-    type: TableFilterType.str,
-    name: '报修人用户ID',
+    type: TableFilterType.selectSearch,
+    name: '报修用户',
+    selectData: userSearch,
+    holder: '姓名/学号/工号',
+    searchOption: {
+      keyProp: 'id',
+      labelProp: 'name',
+    },
     rules: [{ required: true }],
   },
   {
