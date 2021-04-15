@@ -1,0 +1,118 @@
+kind: pipeline
+type: docker
+name: default
+
+volumes:
+  - name: dist
+    host:
+      path: /home/norah1to/cache/zscnsd/dist
+  - name: node_modules
+    host:
+      path: /home/norah1to/cache/zscnsd/node_modules
+
+steps:
+  - name: mkdir
+    when:
+      event: push
+      branch: master
+    image: appleboy/drone-ssh:1.6.3
+    settings:
+      host: drone.norah1to.com
+      username:
+        from_secret: account_1
+      password:
+        from_secret: password_1
+      port: 22
+      script:
+        - mkdir -p /home/norah1to/cache/zscnsd/dist
+        - mkdir -p /home/norah1to/cache/zscnsd/node_modules
+        - rm -rf /home/norah1to/cache/zscnsd/dist/*
+
+  - name: build
+    when:
+      event: push
+      branch: master
+    image: node:12.16
+    volumes:
+      - name: dist
+        path: /tmp/cache/dist
+      - name: node_modules
+        path: /drone/src/node_modules
+    commands:
+      - npm config set registry http://registry.npm.taobao.org
+      - npm install
+      - npm run build
+      - cp -r ./dist/* /tmp/cache/dist
+
+  - name: copy
+    when:
+      event: push
+      branch: master
+    image: appleboy/drone-ssh:1.6.3
+    settings:
+      host: drone.norah1to.com
+      username:
+        from_secret: account_1
+      password:
+        from_secret: password_1
+      port: 22
+      script:
+        - mkdir /home/norah1to/nginx/www/zscnsd
+        - rm -rf /home/norah1to/nginx/www/zscnsd/*
+        - cp -r /home/norah1to/cache/zscnsd/dist/* /home/norah1to/nginx/www/zscnsd
+        - rm -rf /home/norah1to/cache/zscnsd/dist/*
+
+  - name: serverchan-success
+    when:
+      status:
+        - success
+    image: yakumioto/drone-serverchan:2
+    settings:
+      key:
+        from_secret: server_chan_key
+      text: '${DRONE_REPO_NAME} CI SUCCESS'
+      desp: 'Branch: `${DRONE_COMMIT_BRANCH}`
+
+
+        [${DRONE_COMMIT_LINK}](${DRONE_COMMIT_LINK})
+
+
+        Author: `${DRONE_COMMIT_AUTHOR}`'
+
+  - name: serverchan-fail
+    when:
+      status:
+        - failure
+    image: yakumioto/drone-serverchan:2
+    settings:
+      key:
+        from_secret: server_chan_key
+      text: '${DRONE_REPO_NAME} CI FAIL'
+      desp: 'Branch: `${DRONE_COMMIT_BRANCH}`
+
+
+        > Fail steps: `${DRONE_FAILED_STEPS}`
+
+
+        [${DRONE_COMMIT_LINK}](${DRONE_COMMIT_LINK})
+
+
+        Author: `${DRONE_COMMIT_AUTHOR}`'
+
+  # - name: copy
+  #   when:
+  #       event: push
+  #       branch: master
+  #   image: plugins/docker
+  #   volumes:
+  #       - name: dist
+  #         path: /dist
+  #   settings:
+  #       dockerfile: Dockerfile
+  #       username:
+  #           from_secret: account
+  #       password:
+  #           from_secret: password
+  #       repo: zscnsd
+  #       tags:
+  #           - latest

@@ -20,20 +20,25 @@ const MemberInfoCard: FC<{
           </Typography.Text>
           <Typography.Text>{`血条：${user.member?.health}`}</Typography.Text>
           <Typography.Text>{`处罚星级：${user.member?.punishment}`}</Typography.Text>
-          <Typography.Text>{`值班片区：${user.member?.workArrangement
-            .map((arrangemet) => arrangemet.area.string)
-            .join('、')}`}</Typography.Text>
+          <Typography.Text>{`值班片区：${
+            user.member?.workArrangement &&
+            user.member?.workArrangement
+              .map((arrangemet) => arrangemet.area.string)
+              .join('、')
+          }`}</Typography.Text>
           <Typography.Text>
             值班日：
             <WeekdayTags
-              weekdays={union(
-                user.member
-                  ? user.member.workArrangement.map(
+              weekdays={
+                (user.member?.workArrangement &&
+                  union(
+                    user.member.workArrangement.map(
                       (arrangemet) => arrangemet.weekday,
-                    )
-                  : [],
-                [],
-              )}
+                    ),
+                    [],
+                  )) ||
+                []
+              }
             />
           </Typography.Text>
         </Space>

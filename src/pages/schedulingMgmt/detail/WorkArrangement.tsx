@@ -59,7 +59,7 @@ const MemberCard: FC<{ timeTable: apiInterface.MemberTimetable }> = ({
           <Typography.Text>
             {'每周值班 '}
             <Typography.Link>
-              {member?.member?.workArrangement.length || 0}
+              {member?.member?.workArrangement?.length || 0}
             </Typography.Link>
             {' 次'}
           </Typography.Text>

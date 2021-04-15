@@ -122,7 +122,7 @@ declare namespace apiInterface {
     role: Role;
     health: number; // 血条
     punishment: number; // 惩罚级别
-    workArrangement: WorkArrangement[];
+    workArrangement?: WorkArrangement[];
   }
   // 用户信息
   interface User extends CUDTime {
@@ -165,8 +165,8 @@ declare namespace apiInterface {
     faultTypeId: number;
     faultType: TicketFaultMenu;
     comment: string; // 备注
-    lastOperateLogId: TicketLog['id'];
-    lastOperateLog: TicketLog;
+    lastOperateLogId?: TicketLog['id'];
+    lastOperateLog?: TicketLog;
   }
   // 工单
   interface IspTicket extends CUDTime {
@@ -177,8 +177,8 @@ declare namespace apiInterface {
     dormBlock: User['dormBlock'];
     dormRoom: User['dormRoom'];
     comment: string; // 备注
-    lastOperateLogId: IspTicketLog['id'];
-    lastOperateLog: IspTicketLog;
+    lastOperateLogId?: IspTicketLog['id'];
+    lastOperateLog?: IspTicketLog;
   }
   // 移动ONU被占上报
   interface ReportChinaMobileOccupiedOnu extends CUDTime {

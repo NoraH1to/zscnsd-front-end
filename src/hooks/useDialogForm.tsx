@@ -29,6 +29,7 @@ const useDialogForm = <P,>(
     formData,
     (res: any) => {
       onSubmit && onSubmit(res);
+      (!res.errorData || !res.errorData[0]) && setVisible(false);
     },
   );
 

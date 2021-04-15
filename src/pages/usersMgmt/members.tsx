@@ -179,22 +179,28 @@ const colums: TableColumnProps<apiInterface.User>[] = [
   {
     title: '值班片区',
     render: (value, record, index) => {
-      return record.member?.workArrangement
-        .map((item) => item.area.string)
-        .join('、');
+      return (
+        record.member?.workArrangement &&
+        record.member?.workArrangement
+          .map((item) => item.area.string)
+          .join('、')
+      );
     },
     width: 120,
   },
   {
     title: '值班日',
     render: (value, record, index) => {
-      return record.member?.workArrangement
-        .map(
-          (workArrangement) =>
-            find((weekday) => weekday.id == workArrangement.weekday, weekDays)
-              ?.string,
-        )
-        .join('、');
+      return (
+        record.member?.workArrangement &&
+        record.member?.workArrangement
+          .map(
+            (workArrangement) =>
+              find((weekday) => weekday.id == workArrangement.weekday, weekDays)
+                ?.string,
+          )
+          .join('、')
+      );
     },
     width: 100,
   },
