@@ -62,29 +62,42 @@ steps:
         - cp -r /home/norah1to/cache/zscnsd/dist/* /home/norah1to/nginx/www/zscnsd
         - rm -rf /home/norah1to/cache/zscnsd/dist/*
 
-  - name: send-wechat-success
+  - name: serverchan-success
     when:
-      event: push
-      branch: master
       status:
         - success
-    image: yakumioto/drone-serverchan
+    image: yakumioto/drone-serverchan:2
     settings:
       key:
         from_secret: server_chan_key
-      text: '仓库${DRONE_REPO_NAME} 分支${DRONE_REPO_BRANCH} 构建成功'
+      text: '${DRONE_REPO_NAME} CI SUCCESS'
+      desp: 'Branch: `${DRONE_COMMIT_BRANCH}`
 
-  - name: send-wechat-fail
+
+        [${DRONE_COMMIT_LINK}](${DRONE_COMMIT_LINK})
+
+
+        Author: `${DRONE_COMMIT_AUTHOR}`'
+
+  - name: serverchan-fail
     when:
-      event: push
-      branch: master
       status:
         - failure
-    image: yakumioto/drone-serverchan
+    image: yakumioto/drone-serverchan:2
     settings:
       key:
         from_secret: server_chan_key
-      text: '仓库${DRONE_REPO_NAME} 分支${DRONE_REPO_BRANCH} 构建失败${DRONE_FAILED_STAGES}'
+      text: '${DRONE_REPO_NAME} CI FAIL'
+      desp: 'Branch: `${DRONE_COMMIT_BRANCH}`
+
+
+        > Fail steps: `${DRONE_FAILED_STEPS}`
+
+
+        [${DRONE_COMMIT_LINK}](${DRONE_COMMIT_LINK})
+
+
+        Author: `${DRONE_COMMIT_AUTHOR}`'
 
   # - name: copy
   #   when:
