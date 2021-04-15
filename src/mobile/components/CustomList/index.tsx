@@ -59,7 +59,8 @@ const CustomList = <T extends object>(props: Props<T>) => {
 
   // 根据 loading 关闭 dialog
   useEffect(() => {
-    if (!loading && Object.keys(errorData).length == 0) setVisible(false);
+    if (!loading && (!errorData || (errorData && !errorData[0])))
+      setVisible(false);
   }, [loading]);
 
   // 排序 hooks
