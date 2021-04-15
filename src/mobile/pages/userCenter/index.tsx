@@ -5,11 +5,8 @@ import UserInfoCard from '@/components/UserInfoCard';
 import { useDialogForm } from '@/hooks';
 import PageContainer from '@/mobile/components/PageContainer';
 import { mobileAuthContext } from '@/mobile/wrappers/Auth/mobileAuthContext';
-import UserInfo from '@/pages/userCenter/UserInfo';
-import { Space, Typography } from 'antd';
-import { Button, Card, WhiteSpace } from 'antd-mobile';
-import { User } from 'api';
-import { FC, useContext, useEffect } from 'react';
+import { Button, WhiteSpace } from 'antd-mobile';
+import { FC, useContext } from 'react';
 import componentData from 'typings';
 import './index.scss';
 
@@ -83,7 +80,13 @@ const userCenter: FC = () => {
     setVisible: setEditInfoVisible,
     DialogForm: EditInfoDialog,
     setForm: setEditInfoForm,
-  } = useDialogForm(userEdit, infoPropData, '修改个人信息', undefined, true);
+  } = useDialogForm(
+    userEdit,
+    infoPropData,
+    '修改个人信息',
+    (res) => userContext.setUser && userContext.setUser(res.data),
+    true,
+  );
   const showEditUserInfoDialog = () => {
     setEditInfoForm({
       isp: user?.isp.id,
@@ -109,9 +112,11 @@ const userCenter: FC = () => {
         <UserInfoCard user={user} cardProps={{ loading: !user }} />
         <WhiteSpace />
         {!!user?.member && (
-          <MemberInfoCard user={user} cardProps={{ loading: !user }} />
+          <>
+            <MemberInfoCard user={user} cardProps={{ loading: !user }} />
+            <WhiteSpace />
+          </>
         )}
-        <WhiteSpace />
         <Button onClick={() => showEditUserInfoDialog()}>修改信息</Button>
         <WhiteSpace />
         <Button type="warning" onClick={() => setEditPwdVisible(true)}>
