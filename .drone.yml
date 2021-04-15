@@ -64,6 +64,7 @@ steps:
 
   - name: serverchan-success
     when:
+      branch: master
       status:
         - success
     image: yakumioto/drone-serverchan:2
@@ -81,6 +82,7 @@ steps:
 
   - name: serverchan-fail
     when:
+      branch: master
       status:
         - failure
     image: yakumioto/drone-serverchan:2
