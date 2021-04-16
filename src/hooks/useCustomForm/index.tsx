@@ -278,7 +278,7 @@ const useCustomForm = (
         errData && setErrData(update(errData, { $unset: [key] }));
         // 判断时间特殊处理
         if (value && value._isAMomentObject) {
-          changeValues = update(changeValues, {
+          allValues = update(allValues, {
             [key]: {
               $set: formatDate(value),
             },
@@ -293,7 +293,7 @@ const useCustomForm = (
         ) {
           propData.forEach((item) => {
             if (item.key === key && item.timeRange) {
-              changeValues = update(changeValues, {
+              allValues = update(allValues, {
                 $unset: [key],
                 [item.timeRange.rangeStartProp]: {
                   $set: value[0].format('YYYY-MM-DD'),
@@ -305,8 +305,8 @@ const useCustomForm = (
             }
           });
         }
-      }, changeValues);
-      onChange(changeValues);
+      }, allValues);
+      onChange(allValues);
     }
     timerContainer.timer = setTimeout(doit, 50);
   };
