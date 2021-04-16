@@ -456,7 +456,7 @@ const CustomTable = <T extends object>(props: Props<T>) => {
             pagination={{
               position: ['bottomCenter'],
               showSizeChanger: true,
-              pageSizeOptions: ['10', '20', '30'],
+              pageSizeOptions: ['10', '20'],
               onShowSizeChange: (current, size) => {
                 formData.count = size;
                 setParams(formData);
