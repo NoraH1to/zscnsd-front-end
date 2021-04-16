@@ -10,6 +10,7 @@ export const attendanceList = (params?: apiInterface.AttendanceListQuery) => {
 export const attendanceSignIn = (data?: apiInterface.AttendanceSignInData) => {
   return POST('/api/attendance/sign-in', {
     data,
+    msg: '签到成功',
   });
 };
 
@@ -18,5 +19,6 @@ export const attendanceSignOut = (
 ) => {
   return POST('/api/attendance/sign-out', {
     data,
+    msg: '签退成功',
   });
 };
