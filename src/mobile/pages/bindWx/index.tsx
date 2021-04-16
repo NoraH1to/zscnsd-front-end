@@ -1,4 +1,4 @@
-import { history } from '@/.umi/core/history';
+import { history } from 'umi';
 import { userAdd } from '@/api/user';
 import { dormBlocks, isps, TableFilterType } from '@/common';
 import { useApi, useCustomForm } from '@/hooks';
