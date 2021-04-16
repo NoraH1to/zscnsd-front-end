@@ -9,14 +9,11 @@ import { history } from 'umi';
 
 const wxRedirect = () => {
   if (NODE_ENV == 'dev') {
-    window.open(
-      'http://zscnsd.norah1to.com:8000/m/home?code=testCode',
-      '_self',
-    );
+    window.open(`${HOST}/m/home?code=testCode`, '_self');
   } else {
     window.open(
       `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${encodeURIComponent(
-        'http://zscnsd.norah1to.com:8000/m/home',
+        `${HOST}/m/home`,
       )}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`,
       '_self',
     );
