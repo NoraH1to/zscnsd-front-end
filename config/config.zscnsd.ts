@@ -9,5 +9,7 @@ export default defineConfig({
     // TODO: 填入网维后端地址
     BASE_URL: undefined,
     NODE_ENV: 'prod',
+    // TODO: 填入网维前端地址
+    HOST: undefined,
   },
 });

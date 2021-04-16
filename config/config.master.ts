@@ -8,5 +8,6 @@ export default defineConfig({
   define: {
     BASE_URL: 'http://nsd.wegfan.cn',
     NODE_ENV: 'prod',
+    HOST: 'http://zscnsd.norah1to.com:3001',
   },
 });
