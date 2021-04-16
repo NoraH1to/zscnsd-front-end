@@ -435,12 +435,17 @@ const desktopRoute: routeInterface.route[] = [
 // 移动端路由
 const mobileRoute: routeInterface.mRoute[] = [
   {
+    path: '/m/bind-wx',
+    component: '@/mobile/pages/bindWx',
+  },
+  {
     path: '/m',
     redirect: '/m/home',
   },
   {
     path: '/m',
     component: '@/mobile/pages/main.tsx',
+    wrappers: ['@/mobile/wrappers/InitUser'],
     __isDynamic: true,
     extraOpt: {
       default: '/m/home',

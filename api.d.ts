@@ -748,6 +748,16 @@ declare namespace apiInterface {
     dormRoom: User['dormBlock'];
     telephone: User['telephone'];
   }
+  // 用户绑定微信
+  interface UserAddData extends RequestData {
+    name: User['name'];
+    studenId: User['studentId'];
+    isp: User['isp']['id'];
+    networkAccount: User['networkAccount'];
+    dormBlock: User['dormBlock']['id'];
+    dormRoom: User['dormBlock'];
+    telephone: User['telephone'];
+  }
   // 修改用户请求体
   interface UserEditAdminData extends RequestData {
     id: User['id'];
@@ -771,6 +781,10 @@ declare namespace apiInterface {
   interface UserLoginAdminData extends RequestData {
     workId: MemberInfo['workId'];
     password: string;
+  }
+  // 登录请求体
+  interface UserLoginData extends RequestData {
+    code: string;
   }
   // 修改密码
   interface UserPasswordEditData extends RequestData {

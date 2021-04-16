@@ -14,6 +14,13 @@ export const userAddAdmin = (data?: apiInterface.UserAddAdminData) => {
   });
 };
 
+export const userAdd = (data?: apiInterface.UserAddData) => {
+  return POST('/api/user/add', {
+    data,
+    msg: '绑定微信成功',
+  });
+};
+
 export const userEditAdmin = (data?: apiInterface.UserEditAdminData) => {
   return POST('/api/user/admin-update', {
     data,
@@ -31,6 +38,12 @@ export const userDelete = (data?: apiInterface.UserDeleteData) => {
 export const userSearch = (params?: apiInterface.UserSearchData) => {
   return GET('/api/user/search', {
     params,
+  });
+};
+
+export const userLogin = (data?: apiInterface.UserLoginData) => {
+  return POST('/api/user/login', {
+    data,
   });
 };
 
