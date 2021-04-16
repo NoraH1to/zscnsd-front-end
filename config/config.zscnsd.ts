@@ -8,5 +8,6 @@ export default defineConfig({
   define: {
     // TODO: 填入网维后端地址
     BASE_URL: undefined,
+    NODE_ENV: 'prod',
   },
 });

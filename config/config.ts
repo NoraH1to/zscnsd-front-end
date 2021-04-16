@@ -14,5 +14,6 @@ export default defineConfig({
   dynamicImport: { loading: '@/components/LoadingPage' },
   define: {
     BASE_URL: undefined,
+    NODE_ENV: 'dev',
   },
 });

@@ -7,5 +7,6 @@ export default defineConfig({
   mock: false,
   define: {
     BASE_URL: 'http://nsd.wegfan.cn',
+    NODE_ENV: 'prod',
   },
 });
