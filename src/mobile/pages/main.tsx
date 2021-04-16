@@ -1,7 +1,8 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { TabBar, WhiteSpace, WingBlank } from 'antd-mobile';
 import { history, Location } from 'umi';
 import './main.scss';
+import { mobileAuthContext } from '../wrappers/Auth/mobileAuthContext';
 
 const ImgIcon: FC<{ src: string }> = ({ src }) => (
   <div
@@ -21,6 +22,8 @@ const USERCENTER = 'userCenter';
 const USERCENTER_PATH = '/m/user-center';
 
 const Navigation: FC = () => {
+  const { user, setUser } = useContext(mobileAuthContext);
+
   const [currentTab, setCurrentTab] = useState<string>(HOME);
 
   const setActive = (location: Location) => {
@@ -46,6 +49,14 @@ const Navigation: FC = () => {
       unlisten();
     };
   }, []);
+
+  // 因为 antd mobile 内部屎一般的实现，只能出此下策
+  useEffect(() => {
+    if (user && !user.member) {
+      document.getElementsByClassName('am-tab-bar-tab')[1].style.display =
+        'none';
+    }
+  }, [user]);
 
   // 如果当前是子路由或者就是本身，则不跳转
   const go = (path: string) =>
