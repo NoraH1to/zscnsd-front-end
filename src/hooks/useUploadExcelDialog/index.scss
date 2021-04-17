@@ -4,8 +4,11 @@
 .excel-action-container {
   display: flex;
   flex: row;
-  justify-content: space-between;
   align-items: center;
   flex-wrap: nowrap;
   margin-bottom: 12px;
+  .space {
+    flex-shrink: 0;
+    flex-grow: 1;
+  }
 }

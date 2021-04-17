@@ -14,6 +14,7 @@ import {
 } from '@/hooks/index';
 import {
   ticketAdd,
+  ticketBatchAdd,
   ticketDelete,
   ticketEdit,
   ticketList,
@@ -38,6 +39,7 @@ import { ticketFaultMenuList } from '@/api/ticketFaultMenu';
 import TimeCard from '@/components/TimeCard';
 import TicketCommentCard from '@/components/TicketCommentCard';
 import UserInfoCard from '@/components/UserInfoCard';
+import { useUploadExcelDialog } from '@/hooks';
 
 const filters: componentData.PropData[] = [
   {
@@ -360,9 +362,16 @@ const requestsUndeleted: FC<{
     expandedRowClassName: () => 'expand',
   };
 
-  // TODO: 批量添加报修
+  const { setVisible, Dialog } = useUploadExcelDialog(
+    ticketBatchAdd,
+    '批量添加报修',
+  );
   const BatchAddBtn = (
-    <Button onClick={() => {}} type="dashed" icon={<UploadOutlined />}>
+    <Button
+      onClick={() => setVisible(true)}
+      type="dashed"
+      icon={<UploadOutlined />}
+    >
       批量添加
     </Button>
   );
@@ -375,20 +384,23 @@ const requestsUndeleted: FC<{
   );
 
   return (
-    <CustomTable
-      formData={formData}
-      setFormData={setFormData}
-      filters={setDefaultDataInFilters(filters, defaultFormData)}
-      colums={colums}
-      apiHooks={apiHooks}
-      apiAddHooks={apiAddHooks}
-      apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
-      actions={actions}
-      expandable={expandable}
-      onRow={onRow}
-      sortList={ticketSortableList}
-      extraComponent={{ Left: BatchAddBtn, Right: ExportBtn }}
-    />
+    <>
+      <CustomTable
+        formData={formData}
+        setFormData={setFormData}
+        filters={setDefaultDataInFilters(filters, defaultFormData)}
+        colums={colums}
+        apiHooks={apiHooks}
+        apiAddHooks={apiAddHooks}
+        apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
+        actions={actions}
+        expandable={expandable}
+        onRow={onRow}
+        sortList={ticketSortableList}
+        extraComponent={{ Left: BatchAddBtn, Right: ExportBtn }}
+      />
+      {Dialog}
+    </>
   );
 };
 

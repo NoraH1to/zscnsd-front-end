@@ -1,4 +1,4 @@
-import { GET, POST } from '@/api';
+import { GET, POST, UPLOAD } from '@/api';
 import apiInterface from 'api';
 
 export const memberList = (params?: apiInterface.MemberListQuery) => {
@@ -10,6 +10,13 @@ export const memberList = (params?: apiInterface.MemberListQuery) => {
 export const memberAdd = (data?: apiInterface.MemberAddData) => {
   return POST('/api/member/add', {
     data,
+  });
+};
+
+export const memberBatchAdd = (data?: FormData) => {
+  return UPLOAD('/api/member/batch-add', {
+    data,
+    msg: '上传成功',
   });
 };
 

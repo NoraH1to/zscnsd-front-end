@@ -1,4 +1,4 @@
-import { GET, POST } from '@/api';
+import { GET, POST, UPLOAD } from '@/api';
 import apiInterface from 'api';
 
 export const ispTicketList = (params?: apiInterface.IspTicketListQuery) => {
@@ -10,6 +10,13 @@ export const ispTicketList = (params?: apiInterface.IspTicketListQuery) => {
 export const ispTicketAdd = (data?: apiInterface.IspTicketAddData) => {
   return POST('/api/isp-ticket/add', {
     data,
+  });
+};
+
+export const ispTicketBatchAdd = (data?: FormData) => {
+  return UPLOAD('/api/isp-ticket/batch-add', {
+    data,
+    msg: '上传成功',
   });
 };
 

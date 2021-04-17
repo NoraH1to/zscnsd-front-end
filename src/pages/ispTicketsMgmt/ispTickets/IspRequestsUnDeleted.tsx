@@ -11,9 +11,11 @@ import {
   useDialogForm,
   useInit,
   useMuitActionDialog,
+  useUploadExcelDialog,
 } from '@/hooks/index';
 import {
   ispTicketAdd,
+  ispTicketBatchAdd,
   ispTicketDelete,
   ispTicketEdit,
   ispTicketList,
@@ -389,9 +391,16 @@ const requestsUndeleted: FC = () => {
     expandedRowClassName: () => 'expand',
   };
 
-  // TODO: 批量添加报修
+  const { setVisible, Dialog } = useUploadExcelDialog(
+    ispTicketBatchAdd,
+    '批量添加工单',
+  );
   const BatchAddBtn = (
-    <Button onClick={() => {}} type="dashed" icon={<UploadOutlined />}>
+    <Button
+      onClick={() => setVisible(true)}
+      type="dashed"
+      icon={<UploadOutlined />}
+    >
       批量添加
     </Button>
   );
@@ -404,20 +413,23 @@ const requestsUndeleted: FC = () => {
   );
 
   return (
-    <CustomTable
-      formData={formData}
-      setFormData={setFormData}
-      filters={filters}
-      colums={colums}
-      apiHooks={apiHooks}
-      apiAddHooks={apiAddHooks}
-      apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
-      actions={actions}
-      expandable={expandable}
-      onRow={onRow}
-      sortList={ispTicketSortableList}
-      extraComponent={{ Left: BatchAddBtn, Right: ExportBtn }}
-    />
+    <>
+      <CustomTable
+        formData={formData}
+        setFormData={setFormData}
+        filters={filters}
+        colums={colums}
+        apiHooks={apiHooks}
+        apiAddHooks={apiAddHooks}
+        apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
+        actions={actions}
+        expandable={expandable}
+        onRow={onRow}
+        sortList={ispTicketSortableList}
+        extraComponent={{ Left: BatchAddBtn, Right: ExportBtn }}
+      />
+      {Dialog}
+    </>
   );
 };
 

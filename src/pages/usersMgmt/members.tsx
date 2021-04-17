@@ -13,14 +13,25 @@ import {
   useDialogForm,
   useInit,
   useMuitActionDialog,
+  useUploadExcelDialog,
 } from '@/hooks/index';
-import { TableColumnProps, TableProps } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Button, TableColumnProps, TableProps } from 'antd';
+import {
+  EditOutlined,
+  DeleteOutlined,
+  UploadOutlined,
+} from '@ant-design/icons';
 import apiInterface from 'api';
 import { find } from 'ramda';
 import CustomTable from '@/components/CustomTable';
 import componentData from 'typings';
-import { memberAdd, memberDelete, memberEdit, memberList } from '@/api/member';
+import {
+  memberAdd,
+  memberBatchAdd,
+  memberDelete,
+  memberEdit,
+  memberList,
+} from '@/api/member';
 import { userSearch } from '@/api/user';
 import { history } from 'umi';
 import { stringify } from 'query-string';
@@ -296,19 +307,37 @@ const members: FC = () => {
     },
   ];
 
+  const { setVisible, Dialog } = useUploadExcelDialog(
+    memberBatchAdd,
+    '批量添加组织成员',
+  );
+  const BatchAddBtn = (
+    <Button
+      onClick={() => setVisible(true)}
+      type="dashed"
+      icon={<UploadOutlined />}
+    >
+      批量添加
+    </Button>
+  );
+
   return (
-    <CustomTable
-      formData={formData}
-      setFormData={setFormData}
-      filters={filters}
-      colums={colums}
-      apiHooks={apiHooks}
-      apiAddHooks={apiAddHooks}
-      apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
-      actions={actions}
-      onRow={onRow}
-      sortList={memberSortableList}
-    />
+    <>
+      <CustomTable
+        formData={formData}
+        setFormData={setFormData}
+        filters={filters}
+        colums={colums}
+        apiHooks={apiHooks}
+        apiAddHooks={apiAddHooks}
+        apiMuiltActionDialogHooks={apiMuiltActionDialogHooks}
+        actions={actions}
+        onRow={onRow}
+        sortList={memberSortableList}
+        extraComponent={{ Left: BatchAddBtn }}
+      />
+      {Dialog}
+    </>
   );
 };
 

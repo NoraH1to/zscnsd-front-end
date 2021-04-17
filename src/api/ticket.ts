@@ -1,4 +1,4 @@
-import { GET, POST } from '@/api';
+import { GET, POST, UPLOAD } from '@/api';
 import apiInterface from 'api';
 
 export const ticketList = (params?: apiInterface.TicketListQuery) => {
@@ -16,6 +16,13 @@ export const ticketListUser = (params?: apiInterface.TicketListUserQuery) => {
 export const ticketAdd = (data?: apiInterface.TicketAddData) => {
   return POST('/api/ticket/add', {
     data,
+  });
+};
+
+export const ticketBatchAdd = (data?: FormData) => {
+  return UPLOAD('/api/ticket/batch-add', {
+    data,
+    msg: '上传成功',
   });
 };
 

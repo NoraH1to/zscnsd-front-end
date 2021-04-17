@@ -1,4 +1,4 @@
-import { GET, POST } from '@/api';
+import { GET, POST, UPLOAD } from '@/api';
 import apiInterface from 'api';
 
 export const registerWhitelistList = (
@@ -14,6 +14,13 @@ export const registerWhitelistAdd = (
 ) => {
   return POST('/api/register-whitelist/add', {
     data,
+  });
+};
+
+export const registerWhitelisBatchtAdd = (data?: FormData) => {
+  return UPLOAD('/api/register-whitelist/batch-add', {
+    data,
+    msg: '上传成功',
   });
 };
 

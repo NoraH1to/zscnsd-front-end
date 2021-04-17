@@ -1,6 +1,11 @@
 import { FC, useState } from 'react';
 import { TableFilterType } from '@/common';
-import { useApi, useDialogForm, useMuitActionDialog } from '@/hooks/index';
+import {
+  useApi,
+  useDialogForm,
+  useMuitActionDialog,
+  useUploadExcelDialog,
+} from '@/hooks/index';
 import { TableColumnProps, TableProps, Button, Modal } from 'antd';
 import {
   EditOutlined,
@@ -12,6 +17,7 @@ import CustomTable from '@/components/CustomTable';
 import componentData from 'typings';
 import { registerWhitelistGroupSearch } from '@/api/registerWhitelistGroup';
 import {
+  registerWhitelisBatchtAdd,
   registerWhitelistAdd,
   registerWhitelistBatchEdit,
   registerWhitelistDelete,
@@ -225,9 +231,16 @@ const registerAbleUsersMgmt: FC = () => {
     },
   ];
 
-  // TODO: 批量添加
+  const { setVisible, Dialog } = useUploadExcelDialog(
+    registerWhitelisBatchtAdd,
+    '批量添加注册白名单',
+  );
   const BatchAddBtn = (
-    <Button onClick={() => {}} type="dashed" icon={<UploadOutlined />}>
+    <Button
+      onClick={() => setVisible(true)}
+      type="dashed"
+      icon={<UploadOutlined />}
+    >
       批量添加
     </Button>
   );
@@ -272,6 +285,7 @@ const registerAbleUsersMgmt: FC = () => {
       >
         <RegisterAbleUserGroupMgmtComp />
       </Modal>
+      {Dialog}
     </>
   );
 };

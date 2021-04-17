@@ -68,4 +68,7 @@ export const POST = function <
   });
 };
 
+export const UPLOAD = (url: string, config?: AxiosRequestConfig) =>
+  POST(url, { ...config, headers: { 'Content-Type': 'multipart/form-data' } });
+
 export default axios;

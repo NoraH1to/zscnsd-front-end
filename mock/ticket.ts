@@ -5,6 +5,7 @@ export default {
   'GET /api/ticket/user-list': base('data|1-10', [ticket]),
   'GET /api/ticket-fault-menu/list': base('data', ticketFaultType),
   'POST /api/ticket/add': base('data', ticket),
+  'POST /api/ticket/batch-add': base('data', {}),
   'POST /api/ticket/user-add': base('data', ticket),
   'POST /api/ticket/delete': base('data', {}),
   'POST /api/ticket/user-delete': base('data', {}),

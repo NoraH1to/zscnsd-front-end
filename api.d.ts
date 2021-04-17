@@ -13,6 +13,7 @@ declare namespace apiInterface {
     code: number;
     errorData?: {
       [row: number]: ErrData;
+      filePath?: string;
     } | null;
   }
   // 接口返回体

@@ -5,6 +5,7 @@ import useMuitActionDialog from './useMuitActionDialog';
 import useCustomForm from './useCustomForm';
 import useRealLocation from './useRealLocation';
 import useUploadImg from './useUploadImg';
+import useUploadExcelDialog from './useUploadExcelDialog';
 
 export {
   useApi,
@@ -13,4 +14,6 @@ export {
   useMuitActionDialog,
   useCustomForm,
   useRealLocation,
+  useUploadImg,
+  useUploadExcelDialog,
 };
