@@ -8,8 +8,6 @@ export const fileUploadTimetable = (data?: FormData) => {
   });
 };
 
-export const fileDownload = (params?: apiInterface.FileDownloadQuery) => {
-  return GET('/api/file/download', {
-    params,
-  });
+export const fileDownload = (path: string) => {
+  window.open(`${BASE_URL}${path}`);
 };

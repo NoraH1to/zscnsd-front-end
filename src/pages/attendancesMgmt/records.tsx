@@ -1,8 +1,8 @@
 import { FC, useState } from 'react';
 import { TableFilterType, areas, attendanceSortableList } from '@/common';
-import { useInit, useRealLocation } from '@/hooks/index';
-import { attendanceList } from '@/api/attendance';
-import { TableColumnProps, TableProps } from 'antd';
+import { useApi, useInit, useRealLocation } from '@/hooks/index';
+import { attendanceExport, attendanceList } from '@/api/attendance';
+import { Button, TableColumnProps, TableProps } from 'antd';
 import apiInterface from 'api';
 import CustomTable, {
   dateTimeCell,
@@ -12,6 +12,7 @@ import CustomTable, {
 import componentData from 'typings';
 import { history } from 'umi';
 import { userSearch } from '@/api/user';
+import { fileDownload } from '@/api/file';
 
 const filters: componentData.PropData[] = [
   {
@@ -103,6 +104,26 @@ const Records: FC<{ defaultFormData: apiInterface.AttendanceListQuery }> = ({
     formData,
   );
 
+  const {
+    loading: exportLoading,
+    setLoading: setExportLoading,
+    setParams: setExportParams,
+  } = useApi(attendanceExport, formData, (res: any) => {
+    fileDownload(res.data.filePath);
+  });
+  const ExportBtn = (
+    <Button
+      loading={exportLoading}
+      onClick={() => {
+        setExportParams(formData);
+        setExportLoading(true);
+      }}
+      type="dashed"
+    >
+      导出结果为Excel
+    </Button>
+  );
+
   return (
     <CustomTable
       formData={formData}
@@ -112,6 +133,7 @@ const Records: FC<{ defaultFormData: apiInterface.AttendanceListQuery }> = ({
       apiHooks={apiHooks}
       onRow={onRow}
       sortList={attendanceSortableList}
+      extraComponent={{ Right: ExportBtn }}
     />
   );
 };

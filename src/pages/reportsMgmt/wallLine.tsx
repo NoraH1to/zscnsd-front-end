@@ -12,7 +12,10 @@ import {
 } from '@/hooks/index';
 import { TableColumnProps, TableProps, Button } from 'antd';
 import apiInterface from 'api';
-import CustomTable, { dateTimeCell, goMemberCenterCell } from '@/components/CustomTable';
+import CustomTable, {
+  dateTimeCell,
+  goMemberCenterCell,
+} from '@/components/CustomTable';
 import componentData from 'typings';
 import { userSearch } from '@/api/user';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
@@ -20,8 +23,10 @@ import {
   reportWallLineAdd,
   reportWallLineDelete,
   reportWallLineEdit,
+  reportWallLineExport,
   reportWallLineList,
 } from '@/api/report';
+import { fileDownload } from '@/api/file';
 
 const filters: componentData.PropData[] = [
   {
@@ -231,9 +236,22 @@ const wallLine: FC = () => {
     },
   ];
 
-  // TODO: 导出excel
+  const {
+    loading: exportLoading,
+    setLoading: setExportLoading,
+    setParams: setExportParams,
+  } = useApi(reportWallLineExport, formData, (res: any) => {
+    fileDownload(res.data.filePath);
+  });
   const ExportBtn = (
-    <Button onClick={() => {}} type="dashed">
+    <Button
+      loading={exportLoading}
+      onClick={() => {
+        setExportParams(formData);
+        setExportLoading(true);
+      }}
+      type="dashed"
+    >
       导出结果为Excel
     </Button>
   );

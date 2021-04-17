@@ -1,4 +1,4 @@
-import { GET, POST } from '@/api';
+import { EXPORT, GET, POST } from '@/api';
 import apiInterface from 'api';
 
 export const attendanceList = (params?: apiInterface.AttendanceListQuery) => {
@@ -20,5 +20,11 @@ export const attendanceSignOut = (
   return POST('/api/attendance/sign-out', {
     data,
     msg: '签退成功',
+  });
+};
+
+export const attendanceExport = (params?: apiInterface.AttendanceListQuery) => {
+  return EXPORT('/api/attendance/export', {
+    params,
   });
 };

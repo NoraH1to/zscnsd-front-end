@@ -7,7 +7,7 @@ import {
   ticketStatus,
 } from '@/common';
 import { useApi, useInit, useMuitActionDialog } from '@/hooks/index';
-import { ticketList, ticketRestore } from '@/api/ticket';
+import { ticketExport, ticketList, ticketRestore } from '@/api/ticket';
 import {
   Tooltip,
   TableColumnProps,
@@ -32,6 +32,7 @@ import { ticketFaultMenuList } from '@/api/ticketFaultMenu';
 import TimeCard from '@/components/TimeCard';
 import TicketCommentCard from '@/components/TicketCommentCard';
 import UserInfoCard from '@/components/UserInfoCard';
+import { fileDownload } from '@/api/file';
 
 const filters: componentData.PropData[] = [
   {
@@ -213,9 +214,22 @@ const requestsDeleted: FC<{ defaultFormData?: any }> = ({
     expandedRowClassName: () => 'expand',
   };
 
-  // TODO: 导出excel
+  const {
+    loading: exportLoading,
+    setLoading: setExportLoading,
+    setParams: setExportParams,
+  } = useApi(ticketExport, formData, (res: any) => {
+    fileDownload(res.data.filePath);
+  });
   const ExportBtn = (
-    <Button onClick={() => {}} type="dashed">
+    <Button
+      loading={exportLoading}
+      onClick={() => {
+        setExportParams(formData);
+        setExportLoading(true);
+      }}
+      type="dashed"
+    >
       导出结果为Excel
     </Button>
   );

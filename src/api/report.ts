@@ -1,5 +1,9 @@
-import { GET, POST } from '@/api';
+import { EXPORT, GET, POST } from '@/api';
 import apiInterface from 'api';
+
+/**
+ * @description 移动ONU被占
+ */
 
 export const reportChinaMobileOccupiedOnuList = (
   params?: apiInterface.ReportChinaMobileOccupiedOnuListQuery,
@@ -41,6 +45,18 @@ export const reportChinaMobileOccupiedOnuDelete = (
   });
 };
 
+export const reportChinaMobileOccupiedOnuExport = (
+  params?: apiInterface.ReportChinaMobileOccupiedOnuListQuery,
+) => {
+  return EXPORT('/api/china-mobile-occupied-onu-report/export', {
+    params,
+  });
+};
+
+/**
+ * @description 移动无数据
+ */
+
 export const reportChinaMobileNoDataList = (
   params?: apiInterface.ReportChinaMobileNoDataListQuery,
 ) => {
@@ -80,6 +96,18 @@ export const reportChinaMobileNoDataDelete = (
     data,
   });
 };
+
+export const reportChinaMobileNoDataExport = (
+  params?: apiInterface.ReportChinaMobileNoDataListQuery,
+) => {
+  return EXPORT('/api/china-mobile-no-data-report/export', {
+    params,
+  });
+};
+
+/**
+ * @description 主线
+ */
 
 export const reportWallLineList = (
   params?: apiInterface.ReportWallLineListQuery,
@@ -121,6 +149,18 @@ export const reportWallLineDelete = (
   });
 };
 
+export const reportWallLineExport = (
+  params?: apiInterface.ReportWallLineListQuery,
+) => {
+  return EXPORT('/api/wall-line-report/export', {
+    params,
+  });
+};
+
+/**
+ * @description 交换机错误
+ */
+
 export const reportSwitchFaultList = (
   params?: apiInterface.ReportSwitchFaultListQuery,
 ) => {
@@ -158,5 +198,13 @@ export const reportSwitchFaultDelete = (
 ) => {
   return POST('/api/switch-fault-report/delete', {
     data,
+  });
+};
+
+export const reportSwitchFaultExport = (
+  params?: apiInterface.ReportSwitchFaultListQuery,
+) => {
+  return EXPORT('/api/switch-fault-report/export', {
+    params,
   });
 };

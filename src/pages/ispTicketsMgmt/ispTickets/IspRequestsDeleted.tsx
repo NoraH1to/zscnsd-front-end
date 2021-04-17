@@ -7,7 +7,11 @@ import {
   ticketStatus,
 } from '@/common';
 import { useApi, useInit, useMuitActionDialog } from '@/hooks/index';
-import { ispTicketList, ispTicketRestore } from '@/api/ispTicket';
+import {
+  ispTicketExport,
+  ispTicketList,
+  ispTicketRestore,
+} from '@/api/ispTicket';
 import {
   TableColumnProps,
   TableProps,
@@ -28,6 +32,7 @@ import { RollbackOutlined } from '@ant-design/icons';
 import TicketStatusComponent from '@/components/TicketStatusComp';
 import { formatDate } from '@/utils';
 import { userSearch } from '@/api/user';
+import { fileDownload } from '@/api/file';
 
 const filters: componentData.PropData[] = [
   {
@@ -219,9 +224,22 @@ const requestsDeleted: FC = () => {
     expandedRowClassName: () => 'expand',
   };
 
-  // TODO: 导出excel
+  const {
+    loading: exportLoading,
+    setLoading: setExportLoading,
+    setParams: setExportParams,
+  } = useApi(ispTicketExport, formData, (res: any) => {
+    fileDownload(res.data.filePath);
+  });
   const ExportBtn = (
-    <Button onClick={() => {}} type="dashed">
+    <Button
+      loading={exportLoading}
+      onClick={() => {
+        setExportParams(formData);
+        setExportLoading(true);
+      }}
+      type="dashed"
+    >
       导出结果为Excel
     </Button>
   );

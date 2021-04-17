@@ -1,4 +1,4 @@
-import { GET, POST } from '@/api';
+import { EXPORT, GET, POST } from '@/api';
 import apiInterface from 'api';
 
 export const workArrangementList = (
@@ -21,6 +21,14 @@ export const workArrangementTimeTableList = (
   params?: apiInterface.WorkArrangementTimeTableListQuery,
 ) => {
   return GET('/api/work-arrangement/timetable-list', {
+    params,
+  });
+};
+
+export const workArrangementExport = (
+  params?: apiInterface.WorkArrangementListQuery,
+) => {
+  return EXPORT('/api/work-arrangement/export', {
     params,
   });
 };

@@ -16,6 +16,7 @@ import {
 import apiInterface, { MemberTimetable } from 'api';
 import componentData from 'typings';
 import {
+  workArrangementExport,
   workArrangementList,
   workArrangementUpdate,
 } from '@/api/workArrangement';
@@ -28,6 +29,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { memberTimetableList } from '@/api/memberTimetable';
 import { confirmDialog } from '@/utils';
 import { toast } from 'react-toastify';
+import { fileDownload } from '@/api/file';
 
 interface colObj {
   area?: apiInterface.Area;
@@ -196,9 +198,22 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     </Button>
   );
 
-  // TODO: 导出excel
+  const {
+    loading: exportLoading,
+    setLoading: setExportLoading,
+    setParams: setExportParams,
+  } = useApi(workArrangementExport, formData, (res: any) => {
+    fileDownload(res.data.filePath);
+  });
   const ExportBtn = (
-    <Button onClick={() => {}} type="dashed">
+    <Button
+      loading={exportLoading}
+      onClick={() => {
+        setExportParams(formData);
+        setExportLoading(true);
+      }}
+      type="dashed"
+    >
       导出结果为Excel
     </Button>
   );

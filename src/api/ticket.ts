@@ -1,4 +1,4 @@
-import { GET, POST, UPLOAD } from '@/api';
+import { EXPORT, GET, POST, UPLOAD } from '@/api';
 import apiInterface from 'api';
 
 export const ticketList = (params?: apiInterface.TicketListQuery) => {
@@ -76,6 +76,12 @@ export const ticketLogList = (params?: apiInterface.TicketLogListQuery) => {
 
 export const ticketDetail = (params?: apiInterface.TicketDetailQuery) => {
   return GET('/api/ticket/detail', {
+    params,
+  });
+};
+
+export const ticketExport = (params?: apiInterface.TicketListQuery) => {
+  return EXPORT('/api/ticket/export', {
     params,
   });
 };

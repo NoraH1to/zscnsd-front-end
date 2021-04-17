@@ -386,3 +386,7 @@ export const arrangementTimeTable = {
   date: getRandomDateTime(),
   'area|1': areas,
 };
+
+export const file = {
+  filePath: '/api/file/download?path=test.png',
+};

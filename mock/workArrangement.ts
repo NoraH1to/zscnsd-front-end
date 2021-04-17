@@ -1,4 +1,4 @@
-import base, { arrangement, arrangementTimeTable } from './base';
+import base, { arrangement, arrangementTimeTable, file } from './base';
 
 export default {
   'GET /api/work-arrangement/list': base('data|15-30', [arrangement]),
@@ -6,4 +6,5 @@ export default {
     arrangementTimeTable,
   ]),
   'POST /api/work-arrangement/update': base('data', {}),
+  'GET /api/work-arrangement/export': base('data', file),
 };

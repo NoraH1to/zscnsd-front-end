@@ -17,6 +17,7 @@ import {
   ticketBatchAdd,
   ticketDelete,
   ticketEdit,
+  ticketExport,
   ticketList,
   ticketOperate,
 } from '@/api/ticket';
@@ -40,6 +41,7 @@ import TimeCard from '@/components/TimeCard';
 import TicketCommentCard from '@/components/TicketCommentCard';
 import UserInfoCard from '@/components/UserInfoCard';
 import { useUploadExcelDialog } from '@/hooks';
+import { fileDownload } from '@/api/file';
 
 const filters: componentData.PropData[] = [
   {
@@ -376,9 +378,22 @@ const requestsUndeleted: FC<{
     </Button>
   );
 
-  // TODO: 导出excel
+  const {
+    loading: exportLoading,
+    setLoading: setExportLoading,
+    setParams: setExportParams,
+  } = useApi(ticketExport, formData, (res: any) => {
+    fileDownload(res.data.filePath);
+  });
   const ExportBtn = (
-    <Button onClick={() => {}} type="dashed">
+    <Button
+      loading={exportLoading}
+      onClick={() => {
+        setExportParams(formData);
+        setExportLoading(true);
+      }}
+      type="dashed"
+    >
       导出结果为Excel
     </Button>
   );

@@ -1,4 +1,4 @@
-import base, { ticketFaultType, ticket, ticketOperateLog } from './base';
+import base, { ticketFaultType, ticket, ticketOperateLog, file } from './base';
 
 export default {
   'GET /api/ticket/list': base('data|1-10', [ticket]),
@@ -15,4 +15,5 @@ export default {
   'GET /api/ticket/log-list': base('data|1-10', [ticketOperateLog]),
   'POST /api/ticket/restore': base('data', {}),
   'GET /api/ticket/detail': base('data', ticket),
+  'GET /api/ticket/export': base('data', file),
 };
