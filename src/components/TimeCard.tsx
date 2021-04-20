@@ -20,9 +20,9 @@ const TimeCardCom: FC<{ data: CUDTime; title?: string | number | null }> = ({
             {`更新时间：${formatDate(data.updateTime)}`}
           </Typography.Text>
         )}
-        {data.updateTime && (
+        {data.deleteTime && (
           <Typography.Text>
-            {`更新时间：${formatDate(data.updateTime)}`}
+            {`删除时间：${formatDate(data.deleteTime)}`}
           </Typography.Text>
         )}
       </Space>
@@ -30,4 +30,4 @@ const TimeCardCom: FC<{ data: CUDTime; title?: string | number | null }> = ({
   );
 };
 
-export default TimeCardCom
+export default TimeCardCom;
