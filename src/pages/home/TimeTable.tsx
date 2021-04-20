@@ -61,20 +61,21 @@ const TimeTable: FC<{ mobile?: boolean; date?: string }> = ({
       }
       // 找到空着的格子
       const target = find(
-        (day) => !day[moment(data.date).weekday() + 1],
+        (day) => !day[moment(data.date).isoWeekday()],
         targetArr,
       );
       if (target) {
-        target[moment(data.date).weekday() + 1] = data;
+        target[moment(data.date).isoWeekday()] = data;
       } else {
         // 没有空间就加入新一行填入
         targetArr.push(
           update(dayObject, {
-            $merge: { [moment(data.date).weekday() + 1]: data },
+            $merge: { [moment(data.date).isoWeekday()]: data },
           }),
         );
       }
     });
+    console.log(tempObj);
 
     let result: colObj[] = [];
     forEachObjIndexed((item) => (result = result.concat(item)), tempObj); // 拍平
