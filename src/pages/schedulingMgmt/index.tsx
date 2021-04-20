@@ -135,7 +135,7 @@ const colums: TableColumnProps<apiInterface.WorkSemester>[] = [
   },
   {
     title: '结束日期',
-    dataIndex: 'startDate',
+    dataIndex: 'endDate',
     render: (value, record, index) => dateCell([value]),
     width: 110,
   },
