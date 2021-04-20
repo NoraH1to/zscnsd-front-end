@@ -24,7 +24,6 @@ axios.defaults.baseURL = BASE_URL;
 // 响应拦截
 axios.interceptors.response.use(
   (response) => {
-    console.log('response', response);
     if (response.status < 200 || response.status >= 300) {
       toast.error(response.statusText);
       return Promise.reject(response.data);
