@@ -19,7 +19,7 @@ const desktopRoute: routeInterface.route[] = [
   },
   {
     path: '/d',
-    redirect: '/d/home', // TODO 改成判断手机还是pc
+    redirect: '/d/home',
   },
   // PC端路由
   {
@@ -552,7 +552,7 @@ const mobileRoute: routeInterface.mRoute[] = [
 export default <(routeInterface.mRoute | routeInterface.route)[]>[
   {
     path: '/',
-    component: '@/index.tsx', // TODO: 判断去移动端还是后台（或者用nginx解决）
+    component: '@/index.tsx',
     routes: [
       { path: '/', redirect: '/d' },
       { path: '/d', component: '@/pages/index.tsx', routes: desktopRoute },
