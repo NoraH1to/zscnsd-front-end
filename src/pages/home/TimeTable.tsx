@@ -75,7 +75,6 @@ const TimeTable: FC<{ mobile?: boolean; date?: string }> = ({
         );
       }
     });
-    console.log(tempObj);
 
     let result: colObj[] = [];
     forEachObjIndexed((item) => (result = result.concat(item)), tempObj); // 拍平
