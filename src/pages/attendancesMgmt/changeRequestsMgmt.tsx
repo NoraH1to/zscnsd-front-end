@@ -99,13 +99,13 @@ const addPropData: componentData.PropData[] = [
   },
   {
     key: 'date',
-    type: TableFilterType.time,
+    type: TableFilterType.timeWithoutTime,
     name: '日期',
     rules: [{ required: true }],
   },
   {
     key: 'changeDate',
-    type: TableFilterType.time,
+    type: TableFilterType.timeWithoutTime,
     name: '换班日期',
   },
   {
@@ -159,13 +159,13 @@ const EditPropData: componentData.PropData[] = [
   },
   {
     key: 'date',
-    type: TableFilterType.time,
+    type: TableFilterType.timeWithoutTime,
     name: '日期',
     rules: [{ required: true }],
   },
   {
     key: 'changeDate',
-    type: TableFilterType.time,
+    type: TableFilterType.timeWithoutTime,
     name: '换班日期',
   },
   {
