@@ -86,7 +86,7 @@ const colums: TableColumnProps<apiInterface.MemberTimetable>[] = [
     title: '课程表截图',
     dataIndex: 'imagePath',
     render: (value, record, index) => (
-      <Image width="200" src={record.imagePath} />
+      <Image width="200" src={BASE_URL + record.imagePath} />
     ),
     width: 200,
   },
