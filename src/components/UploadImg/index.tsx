@@ -21,7 +21,7 @@ const uploadImg: FC<uploadImgProps> = ({ max, url, onChange }) => {
         onChange && onChange(options);
       }}
       accept="image/png,image/jpeg,image/jpg"
-      action={url || '/api/file/upload-timetable'}
+      action={BASE_URL + (url || '/api/file/upload-timetable')}
       headers={{ Token: getToken() || '' }}
     >
       <div>
