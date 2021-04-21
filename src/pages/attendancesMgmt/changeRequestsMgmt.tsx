@@ -345,7 +345,7 @@ const changeRequestsMgmt: FC = () => {
         date: record.date,
         changeDate: record.changeDate,
         status: record.status.id,
-        area: record.area.id,
+        area: record.area?.id,
         reason: record.reason,
       }),
       type: 'dialog',
