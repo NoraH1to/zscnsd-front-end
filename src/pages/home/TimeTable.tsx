@@ -83,7 +83,7 @@ const TimeTable: FC<{ mobile?: boolean; date?: string }> = ({
   };
   const colums: TableColumnProps<colObj>[] = [
     {
-      title: '宿舍楼栋',
+      title: '值班片区',
       dataIndex: ['area', 'string'],
       width: mobile ? 80 : 80,
       fixed: 'left',
