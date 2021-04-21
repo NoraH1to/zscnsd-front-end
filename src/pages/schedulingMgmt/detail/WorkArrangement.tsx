@@ -148,6 +148,7 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
       name: '学期ID',
       holder: '默认当前学期',
       default: semesterId,
+      hidden: true,
     },
   ];
 
@@ -194,7 +195,7 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
       type="primary"
       onClick={(e) => handleSubmitBtnClick(e)}
     >
-      搜索
+      刷新
     </Button>
   );
 
@@ -207,6 +208,7 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
   });
   const ExportBtn = (
     <Button
+      style={{ marginRight: '12px' }}
       loading={exportLoading}
       onClick={() => {
         setExportParams(formData);
@@ -431,10 +433,10 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     <div className="work-arrangement">
       <BaseTable
         Filter={form}
-        FilterBtn={SubmitBtn}
         TableActionLeft={MkWorkArrangementBtn}
-        TableActionRight={ExportBtn}
+        TableActionRight={[ExportBtn, SubmitBtn]}
         Table={WorkArrangementTable}
+        hideLine={true}
       />
     </div>
   );
@@ -455,7 +457,8 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
               <BaseTable
                 Table={WorkArrangementTable}
                 Filter={form}
-                FilterBtn={SubmitBtn}
+                TableActionRight={[ExportBtn, SubmitBtn]}
+                hideLine={true}
               />
             </div>
             <MemberList semesterId={semesterId || 0} />

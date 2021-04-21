@@ -20,35 +20,6 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import CustomTable, { dateCell } from '@/components/CustomTable';
 import { find, propEq } from 'ramda';
 
-const addPropData: componentData.PropData[] = [
-  {
-    key: 'semesterId',
-    type: TableFilterType.number,
-    name: '值班学期ID',
-    rules: [{ required: true }],
-  },
-  {
-    key: 'type',
-    type: TableFilterType.select,
-    name: '变动类型',
-    selectData: workChangeType,
-    rules: [{ required: true }],
-  },
-  {
-    key: 'date',
-    type: TableFilterType.time,
-    name: '日期',
-    rules: [{ required: true }],
-  },
-  {
-    key: 'changeWeekday',
-    type: TableFilterType.select,
-    selectData: weekDays,
-    holder: '类型为变更才需填入',
-    name: '更改的值班日期',
-  },
-];
-
 const EditPropData: componentData.PropData[] = [
   {
     key: 'id',
@@ -62,6 +33,7 @@ const EditPropData: componentData.PropData[] = [
     type: TableFilterType.number,
     name: '值班学期ID',
     rules: [{ required: true }],
+    hidden: true,
   },
   {
     key: 'type',
@@ -127,6 +99,7 @@ const WorkChange: FC<{ semesterId: number }> = ({ semesterId }) => {
       name: '学期ID',
       default: semesterId,
       rules: [{ required: true }],
+      hidden: true,
     },
     {
       key: 'type',
@@ -143,6 +116,36 @@ const WorkChange: FC<{ semesterId: number }> = ({ semesterId }) => {
   );
 
   // 添加接口 hooks
+  const addPropData: componentData.PropData[] = [
+    {
+      key: 'semesterId',
+      type: TableFilterType.number,
+      name: '值班学期ID',
+      rules: [{ required: true }],
+      default: semesterId,
+      hidden: true,
+    },
+    {
+      key: 'type',
+      type: TableFilterType.select,
+      name: '变动类型',
+      selectData: workChangeType,
+      rules: [{ required: true }],
+    },
+    {
+      key: 'date',
+      type: TableFilterType.time,
+      name: '日期',
+      rules: [{ required: true }],
+    },
+    {
+      key: 'changeWeekday',
+      type: TableFilterType.select,
+      selectData: weekDays,
+      holder: '类型为变更才需填入',
+      name: '更改的值班日期',
+    },
+  ];
   const apiAddHooks = useDialogForm<apiInterface.WorkChangeAddData>(
     workChangeAdd,
     addPropData,

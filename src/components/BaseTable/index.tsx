@@ -9,6 +9,7 @@ const baseTable: FC<{
   TableActionRight?: ReactElement | (ReactElement | null)[];
   Table: ReactElement | ReactElement[];
   mobile?: boolean;
+  hideLine?: boolean;
 }> = (props) => {
   const {
     Filter,
@@ -17,6 +18,7 @@ const baseTable: FC<{
     TableActionRight,
     Table,
     mobile,
+    hideLine,
   } = props;
   const form = (
     <div className="requests-container">
@@ -31,7 +33,7 @@ const baseTable: FC<{
       ) : (
         <>
           {form}
-          <Divider />
+          {hideLine || <Divider />}
         </>
       )}
       <div className="table-container">
