@@ -21,47 +21,6 @@ import {
   memberTimetableList,
 } from '@/api/memberTimetable';
 
-const addPropData: componentData.PropData[] = [
-  {
-    key: 'semesterId',
-    type: TableFilterType.number,
-    name: '值班学期ID',
-    rules: [{ required: true }],
-  },
-  {
-    key: 'userId',
-    type: TableFilterType.selectSearch,
-    name: '成员',
-    selectData: userSearch,
-    holder: '姓名/学号/工号',
-    searchOption: {
-      keyProp: 'id',
-      labelProp: 'name',
-    },
-    rules: [{ required: true }],
-  },
-  {
-    key: 'imagePath',
-    type: TableFilterType.image,
-    name: '截图',
-    holder: '上传图片/图片直链',
-    rules: [{ required: true }],
-  },
-  {
-    key: 'availableWeekday',
-    type: TableFilterType.muitSelect,
-    selectData: weekDays,
-    name: '可值班日',
-    rules: [{ required: true }],
-  },
-  {
-    key: 'comment',
-    type: TableFilterType.str,
-    name: '备注',
-    rules: [{ required: true }],
-  },
-];
-
 const EditPropData: componentData.PropData[] = [
   {
     key: 'id',
@@ -75,6 +34,7 @@ const EditPropData: componentData.PropData[] = [
     type: TableFilterType.number,
     name: '值班学期ID',
     rules: [{ required: true }],
+    hidden: true,
   },
   {
     key: 'userId',
@@ -173,6 +133,7 @@ const MemberTimeTable: FC<{ semesterId: number }> = ({ semesterId }) => {
       name: '学期ID',
       default: semesterId,
       rules: [{ required: true }],
+      hidden: true,
     },
     {
       key: 'status',
@@ -202,6 +163,48 @@ const MemberTimeTable: FC<{ semesterId: number }> = ({ semesterId }) => {
   );
 
   // 添加接口 hooks
+  const addPropData: componentData.PropData[] = [
+    {
+      key: 'semesterId',
+      type: TableFilterType.number,
+      name: '值班学期ID',
+      rules: [{ required: true }],
+      default: semesterId,
+      hidden: true,
+    },
+    {
+      key: 'userId',
+      type: TableFilterType.selectSearch,
+      name: '成员',
+      selectData: userSearch,
+      holder: '姓名/学号/工号',
+      searchOption: {
+        keyProp: 'id',
+        labelProp: 'name',
+      },
+      rules: [{ required: true }],
+    },
+    {
+      key: 'imagePath',
+      type: TableFilterType.image,
+      name: '截图',
+      holder: '上传图片/图片直链',
+      rules: [{ required: true }],
+    },
+    {
+      key: 'availableWeekday',
+      type: TableFilterType.muitSelect,
+      selectData: weekDays,
+      name: '可值班日',
+      rules: [{ required: true }],
+    },
+    {
+      key: 'comment',
+      type: TableFilterType.str,
+      name: '备注',
+      rules: [{ required: true }],
+    },
+  ];
   const apiAddHooks = useDialogForm<apiInterface.MemberTimetableAddAdminData>(
     memberTimetableAddAdmin,
     addPropData,

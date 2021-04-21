@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { areas, TableFilterType, weekDays } from '@/common';
 import { useApi, useCustomForm, useInit } from '@/hooks/index';
 import {
@@ -61,13 +61,6 @@ const MemberCard: FC<{ timeTable: apiInterface.MemberTimetable }> = ({
         <Space>
           <Typography.Text>{member.name}</Typography.Text>
           <Typography.Text>{`工号${member.member?.workId}`}</Typography.Text>
-          <Typography.Text>
-            {'每周值班 '}
-            <Typography.Link>
-              {member?.member?.workArrangement?.length || 0}
-            </Typography.Link>
-            {' 次'}
-          </Typography.Text>
         </Space>
       </Card>
     </div>
@@ -75,9 +68,10 @@ const MemberCard: FC<{ timeTable: apiInterface.MemberTimetable }> = ({
 };
 
 // 用于拖拽的成员列表
-const MemberList: FC<{ semesterId: MemberTimetable['semesterId'] }> = ({
-  semesterId,
-}) => {
+const MemberList: FC<{
+  semesterId: MemberTimetable['semesterId'];
+  loadingFlag?: boolean;
+}> = ({ semesterId, loadingFlag }) => {
   const [
     formData,
     setFormData,
@@ -91,9 +85,17 @@ const MemberList: FC<{ semesterId: MemberTimetable['semesterId'] }> = ({
     memberTimetableList,
     formData,
   );
+  useEffect(() => {
+    setParams(formData);
+    setLoading(true);
+  }, [loadingFlag]);
   return (
     <div className="member-list">
-      <Space direction="vertical" align="center">
+      <Space
+        direction="vertical"
+        align="center"
+        style={{ alignItems: 'stretch' }}
+      >
         {data?.data?.content.map((timeTable: apiInterface.MemberTimetable) => (
           <MemberCard key={timeTable.id} timeTable={timeTable} />
         ))}
@@ -148,6 +150,7 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
       name: '学期ID',
       holder: '默认当前学期',
       default: semesterId,
+      hidden: true,
     },
   ];
 
@@ -163,6 +166,12 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     formData,
   );
 
+  // 用于驱动右侧成员列表更新（很暴力，可以优化，但没必要）
+  const [
+    memberTimetableListLoadingFlag,
+    setMemberTimetableListLoadingFlag,
+  ] = useState(false);
+
   const handleSubmitBtnClick = async (
     e?: React.MouseEvent<HTMLElement, MouseEvent>,
   ) => {
@@ -177,7 +186,10 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     setLoading: setMakeWorkLoading,
     data: makeWorkData,
     setParams: setMakeWorkParams,
-  } = useApi(workArrangementUpdate, undefined, handleSubmitBtnClick);
+  } = useApi(workArrangementUpdate, undefined, () => {
+    handleSubmitBtnClick();
+    setMemberTimetableListLoadingFlag(!memberTimetableListLoadingFlag);
+  });
 
   // 筛选表单
   const {
@@ -194,7 +206,7 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
       type="primary"
       onClick={(e) => handleSubmitBtnClick(e)}
     >
-      搜索
+      刷新
     </Button>
   );
 
@@ -207,6 +219,7 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
   });
   const ExportBtn = (
     <Button
+      style={{ marginRight: '12px' }}
       loading={exportLoading}
       onClick={() => {
         setExportParams(formData);
@@ -276,7 +289,10 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     })),
   ];
 
-  const dealData = (dataList: apiInterface.WorkArrangement[]) => {
+  const dealData = (
+    dataList: apiInterface.WorkArrangement[],
+    needAddLine = true,
+  ) => {
     const dayObject: colObj = {};
     weekDays.forEach((day) => (dayObject[day.id] = undefined));
     let _areas = areas.concat([]);
@@ -325,6 +341,8 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
           }),
         );
       }
+      // 加多一行以可以排班
+      needAddLine && target.push(update({}, { $merge: dayObject }));
       result = result.concat(target);
     }, tempObj); // 拍平
     return result;
@@ -431,10 +449,10 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     <div className="work-arrangement">
       <BaseTable
         Filter={form}
-        FilterBtn={SubmitBtn}
         TableActionLeft={MkWorkArrangementBtn}
-        TableActionRight={ExportBtn}
+        TableActionRight={[ExportBtn, SubmitBtn]}
         Table={WorkArrangementTable}
+        hideLine={true}
       />
     </div>
   );
@@ -455,10 +473,14 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
               <BaseTable
                 Table={WorkArrangementTable}
                 Filter={form}
-                FilterBtn={SubmitBtn}
+                TableActionRight={[ExportBtn, SubmitBtn]}
+                hideLine={true}
               />
             </div>
-            <MemberList semesterId={semesterId || 0} />
+            <MemberList
+              semesterId={semesterId || 0}
+              loadingFlag={memberTimetableListLoadingFlag}
+            />
           </div>
         </Modal>
       </DndProvider>

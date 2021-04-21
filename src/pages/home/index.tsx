@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import DataPanel from './DataPanel';
-import TimeTable from './TimeTable';
+import TimeTable from '@/mobile/components/Timetable';
 import './index.scss';
 
 const home: FC = () => {
@@ -8,7 +8,7 @@ const home: FC = () => {
     <div className="home">
       <DataPanel />
       <div className="time-table">
-        <TimeTable />
+        <TimeTable mobile={false} />
       </div>
     </div>
   );
