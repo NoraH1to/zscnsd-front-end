@@ -122,15 +122,32 @@ const _Select: FC<{ item: componentData.PropData; muit?: boolean }> = (
   );
 };
 
-const _SelectSearch: FC<{ item: componentData.PropData }> = (props) => {
+const _SelectSearch: FC<{
+  item: componentData.PropData;
+  form: FormInstance<any>;
+}> = (props) => {
   const [timerContainer] = useState<any>({ timer: undefined });
+  const [init, setInit] = useState(false);
   const { Option } = Select;
-  const { item } = props;
+  const { item, form } = props;
   let { selectData, searchOption, holder } = item;
   const { loading, setLoading, setParams, data, errorData } = useApi(
     selectData,
     {},
   );
+  const request = (value: any) => {
+    setParams({
+      search: value,
+    });
+    setLoading(true);
+  };
+  let besetValue = form.getFieldValue(item.key);
+  useEffect(() => {
+    if (besetValue && !init) {
+      setInit(true);
+      request(besetValue);
+    }
+  }, [besetValue]);
   return (
     <BaseFormItem item={item}>
       <Select
@@ -146,13 +163,7 @@ const _SelectSearch: FC<{ item: componentData.PropData }> = (props) => {
               clearTimeout(timerContainer.timer);
               timerContainer.timer = null;
             }
-            function request() {
-              setParams({
-                search: value,
-              });
-              setLoading(true);
-            }
-            timerContainer.timer = setTimeout(request, 200);
+            timerContainer.timer = setTimeout(() => request(value), 200);
           }
         }}
         loading={loading}
@@ -326,7 +337,7 @@ const useCustomForm = (
       case TableFilterType.select:
         return <_Select key={item.key} item={item} />;
       case TableFilterType.selectSearch:
-        return <_SelectSearch key={item.key} item={item} />;
+        return <_SelectSearch key={item.key} item={item} form={form} />;
       case TableFilterType.muitSelect:
         return <_Select key={item.key} item={item} muit={true} />;
       case TableFilterType.image:
