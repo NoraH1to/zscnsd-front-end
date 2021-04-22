@@ -15,6 +15,6 @@ export default defineConfig({
   define: {
     BASE_URL: undefined,
     NODE_ENV: 'dev',
-    HOST: 'http://zscnsd.norah1to.com:8000',
+    HOST: 'http://localhost:8000',
   },
 });
