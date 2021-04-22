@@ -30,9 +30,15 @@ const useDialogForm = <P,>(
     formData,
     (res: any) => {
       onSubmit && onSubmit(res);
-      (!res.errorData || !res.errorData[0]) && setVisible(false);
+      (!res.errorData || !res.errorData[0]) && onClose();
     },
   );
+
+  const onClose = () => {
+    setVisible(false);
+    formRef.resetFields();
+    setErrData(null);
+  };
 
   const {
     form,
@@ -86,9 +92,7 @@ const useDialogForm = <P,>(
       okButtonProps={{ loading: loading }}
       cancelButtonProps={{ disabled: loading }}
       onCancel={() => {
-        setVisible(false);
-        formRef.resetFields();
-        setErrData(null);
+        onClose();
       }}
       destroyOnClose={true}
       {...mobileOption}

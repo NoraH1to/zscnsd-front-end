@@ -70,7 +70,7 @@ const myRequests: FC = () => {
   const apiAddHooks = useDialogForm<apiInterface.TicketAddUserData>(
     ticketAddUser,
     addPropData,
-    '提交移动无数据上报',
+    '提交报修',
     () => {
       formData.page = 1;
       apiHooks.setParams(formData);
