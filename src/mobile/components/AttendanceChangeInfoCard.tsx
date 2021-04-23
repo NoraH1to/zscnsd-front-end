@@ -11,7 +11,9 @@ const AttendanceChangeInfoCard: FC<InfoCardProp> = (props) => {
     <Card hoverable onClick={onClick} title={data.type.string}>
       <Space style={{ width: '100%' }} direction="vertical">
         <AttendanceChangeStatusComponent attendanceChange={data} />
-        <Typography.Text>{`换班片区：${data.area.string}`}</Typography.Text>
+        {!!data.area && (
+          <Typography.Text>{`换班片区：${data.area.string}`}</Typography.Text>
+        )}
         <Typography.Text>{`日期：${data.date}`}</Typography.Text>
         {!!data.changeDate && (
           <Typography.Text>{`换班日期：${data.changeDate}`}</Typography.Text>

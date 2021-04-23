@@ -21,7 +21,7 @@ const uploadClassTable: FC = () => {
     {
       key: 'semesterId',
       type: TableFilterType.select,
-      name: '值班学期ID',
+      name: '值班学期',
       selectData: workSemesterList,
       selectRequestParams: {
         page: 1,
