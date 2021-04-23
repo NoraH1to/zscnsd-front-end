@@ -350,7 +350,8 @@ const CustomTable = <T extends object>(props: Props<T>) => {
                           return (
                             <Menu.Item
                               key={`${item.key}-${index}`}
-                              onClick={() => {
+                              onClick={(e) => {
+                                e.domEvent.stopPropagation();
                                 let param: any = {};
                                 if (item.type == 'dialog') {
                                   param = item.apiParamKeys(record);
