@@ -15,6 +15,6 @@ export default defineConfig({
   define: {
     BASE_URL: undefined,
     NODE_ENV: 'dev',
-    HOST: 'http://localhost:8000',
+    HOST: `http://localhost:8100`,
   },
 });
