@@ -11,7 +11,7 @@ const WorkSemesterCollectingStatusComponent: FC<{
     propEq('id', workSemester.collectingTimetable),
   )(workSemesterCollecting);
   const status = target?.status || 'default';
-  const text = target?.string || '_null';
+  const text = target?.string || '无';
   return <Badge status={status} text={text} />;
 };
 
