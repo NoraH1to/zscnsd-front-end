@@ -19,7 +19,9 @@ const RequestDetail: FC<{
           <TicketStatusComponent ticket={ticket} />
           <Typography.Text>{`宿舍楼-房间号：${ticket.user.dormBlock.string}-${ticket.user.dormRoom}`}</Typography.Text>
           <Typography.Text>{`故障类型：${ticket.faultType.content}`}</Typography.Text>
-          <Typography.Text>{`最后处理人：${ticket.lastOperateLog?.operator.name}-${ticket.lastOperateLog?.operator.member?.workId}`}</Typography.Text>
+          {ticket.lastOperateLog ? (
+            <Typography.Text>{`最后处理人：${ticket.lastOperateLog?.operator.name}-${ticket.lastOperateLog?.operator.member?.workId}`}</Typography.Text>
+          ) : '无'}
         </Space>
       )}
     </Card>
