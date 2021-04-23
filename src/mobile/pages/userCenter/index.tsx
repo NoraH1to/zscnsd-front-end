@@ -120,11 +120,13 @@ const userCenter: FC = () => {
         <Button onClick={() => showEditUserInfoDialog()}>修改信息</Button>
         <WhiteSpace />
         {user?.member?.role && user.member.role.id >= 2 && (
-          <Button type="warning" onClick={() => setEditPwdVisible(true)}>
-            修改密码
-          </Button>
+          <>
+            <Button type="warning" onClick={() => setEditPwdVisible(true)}>
+              修改密码
+            </Button>
+            <WhiteSpace />
+          </>
         )}
-        <WhiteSpace />
       </div>
       {EditInfoDialog}
       {EditPwdDialog}
