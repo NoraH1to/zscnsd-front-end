@@ -99,8 +99,9 @@ const _Select: FC<{ item: componentData.PropData; muit?: boolean }> = (
   if (typeof selectData == 'function') {
     const { loading, setLoading, setParams, data, errorData } = useInit(
       props.item.selectData,
+      item.selectRequestParams,
     );
-    options = data.data || [];
+    options = data.data?.content || data.data || [];
   }
   return (
     <BaseFormItem item={item}>
@@ -111,9 +112,19 @@ const _Select: FC<{ item: componentData.PropData; muit?: boolean }> = (
         dropdownMatchSelectWidth={false}
       >
         {options.map(
-          (item: { id: string; string?: string; content?: string }) => (
-            <Option key={item.id} value={item.id}>
-              {item.string || item.content}
+          (option: {
+            id: string;
+            string?: string;
+            content?: string;
+            [index: string]: any;
+          }) => (
+            <Option
+              key={option[item.searchOption?.keyProp || 'id']}
+              value={option[item.searchOption?.keyProp || 'id']}
+            >
+              {item.searchOption?.labelProp
+                ? option[item.searchOption?.labelProp]
+                : option.string || option.content}
             </Option>
           ),
         )}

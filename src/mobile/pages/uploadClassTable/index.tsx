@@ -6,6 +6,7 @@ import PageContainer from '@/mobile/components/PageContainer';
 import { Button } from 'antd-mobile';
 import { memberTimetableAddUser } from '@/api/memberTimetable';
 import { history } from 'umi';
+import { workSemesterList } from '@/api/workSemester';
 
 const uploadClassTable: FC = () => {
   const [formData, setFormData] = useState<any>({});
@@ -19,8 +20,18 @@ const uploadClassTable: FC = () => {
   const addPropData: componentData.PropData[] = [
     {
       key: 'semesterId',
-      type: TableFilterType.number,
+      type: TableFilterType.select,
       name: '值班学期ID',
+      selectData: workSemesterList,
+      selectRequestParams: {
+        page: 1,
+        count: 20,
+        status: 1,
+      },
+      searchOption: {
+        keyProp: 'id',
+        labelProp: 'name',
+      },
       rules: [{ required: true }],
     },
     {
