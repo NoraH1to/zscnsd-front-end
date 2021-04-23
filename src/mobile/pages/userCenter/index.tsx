@@ -65,7 +65,7 @@ const userCenter: FC = () => {
       key: 'oldPassword',
       type: TableFilterType.password,
       name: '旧密码',
-      rules: [{ required: true }],
+      holder: '若无密码则留空',
     },
     {
       key: 'newPassword',
@@ -119,9 +119,11 @@ const userCenter: FC = () => {
         )}
         <Button onClick={() => showEditUserInfoDialog()}>修改信息</Button>
         <WhiteSpace />
-        <Button type="warning" onClick={() => setEditPwdVisible(true)}>
-          修改密码
-        </Button>
+        {user?.member?.role && user.member.role.id >= 2 && (
+          <Button type="warning" onClick={() => setEditPwdVisible(true)}>
+            修改密码
+          </Button>
+        )}
         <WhiteSpace />
       </div>
       {EditInfoDialog}
