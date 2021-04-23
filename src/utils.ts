@@ -12,14 +12,14 @@ export const formatDate = (
 ): string => {
   const format = dateOnly ? dateformatOut : datetimeformatOut;
   if (dateStr) {
-    let result: any = '_null';
+    let result: any = '无';
     if (typeof dateStr == 'string') {
       result = vaildDate(dateStr);
       if (result) return result.format(format);
     }
     if (dateStr._isAMomentObject) return dateStr.format(format);
   }
-  return '_null';
+  return '无';
 };
 
 export const vaildDate = (dateStr: string): Moment | null => {

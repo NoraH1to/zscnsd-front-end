@@ -174,7 +174,7 @@ const _SelectSearch: FC<{
                 key={item[searchOption?.keyProp || '_null']}
                 value={item[searchOption?.keyProp || '_null']}
               >
-                {item[searchOption?.labelProp || '_null']}
+                {item[searchOption?.labelProp || '无']}
               </Option>
             ))
           : null}

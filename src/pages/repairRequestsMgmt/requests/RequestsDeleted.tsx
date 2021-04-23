@@ -8,17 +8,7 @@ import {
 } from '@/common';
 import { useApi, useInit, useMuitActionDialog } from '@/hooks/index';
 import { ticketExport, ticketList, ticketRestore } from '@/api/ticket';
-import {
-  Tooltip,
-  TableColumnProps,
-  TableProps,
-  Row,
-  Col,
-  Card,
-  Space,
-  Typography,
-  Button,
-} from 'antd';
+import { Tooltip, TableColumnProps, TableProps, Row, Col, Button } from 'antd';
 import apiInterface from 'api';
 import CustomTable, {
   dateTimeCell,
@@ -33,6 +23,7 @@ import TimeCard from '@/components/TimeCard';
 import TicketCommentCard from '@/components/TicketCommentCard';
 import UserInfoCard from '@/components/UserInfoCard';
 import { fileDownload } from '@/api/file';
+import { history } from 'umi';
 
 const filters: componentData.PropData[] = [
   {
@@ -144,7 +135,12 @@ const colums: TableColumnProps<apiInterface.Ticket>[] = [
 const onRow: TableProps<apiInterface.Ticket>['onRow'] = (record) => {
   return {
     onClick: (event) => {
-      // TODO: 点击行路由跳转
+      history.push({
+        pathname: '/d/repair-requests-mgmt/records',
+        query: {
+          ticketId: record.id.toString(),
+        },
+      });
     }, // 点击行
   };
 };
