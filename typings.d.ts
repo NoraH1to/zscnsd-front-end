@@ -55,6 +55,7 @@ declare namespace componentData {
       | apiInterface.Enum[]
       | ((params?: any) => Promise<AxiosResponse<apiInterface.Response>>)
       | any;
+    selectRequestParams?: any,
     searchOption?: {
       keyProp: string;
       labelProp: string;
