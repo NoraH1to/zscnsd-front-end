@@ -47,6 +47,7 @@ import TicketStatusComponent from '@/components/TicketStatusComp';
 import { formatDate } from '@/utils';
 import { userSearch } from '@/api/user';
 import { fileDownload } from '@/api/file';
+import { history } from 'umi';
 
 const filters: componentData.PropData[] = [
   {
@@ -250,7 +251,12 @@ const colums: TableColumnProps<apiInterface.IspTicket>[] = [
 const onRow: TableProps<apiInterface.IspTicket>['onRow'] = (record) => {
   return {
     onClick: (event) => {
-      // TODO: 点击行路由跳转
+      history.push({
+        pathname: '/d/isp-tickets-mgmt/records',
+        query: {
+          ticketId: record.id.toString(),
+        },
+      });
     }, // 点击行
   };
 };

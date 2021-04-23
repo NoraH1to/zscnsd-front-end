@@ -42,6 +42,7 @@ import TicketCommentCard from '@/components/TicketCommentCard';
 import UserInfoCard from '@/components/UserInfoCard';
 import { useUploadExcelDialog } from '@/hooks';
 import { fileDownload } from '@/api/file';
+import { history } from 'umi';
 
 const filters: componentData.PropData[] = [
   {
@@ -253,7 +254,12 @@ const colums: TableColumnProps<apiInterface.Ticket>[] = [
 const onRow: TableProps<apiInterface.Ticket>['onRow'] = (record) => {
   return {
     onClick: (event) => {
-      // TODO: 点击行路由跳转
+      history.push({
+        pathname: '/d/repair-requests-mgmt/records',
+        query: {
+          ticketId: record.id.toString(),
+        },
+      });
     }, // 点击行
   };
 };
