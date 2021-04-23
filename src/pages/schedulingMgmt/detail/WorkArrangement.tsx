@@ -238,7 +238,7 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     </Button>
   );
 
-  const colums: TableColumnProps<colObj>[] = [
+  const columns: TableColumnProps<colObj>[] = [
     {
       title: '宿舍楼栋',
       dataIndex: ['area', 'string'],
@@ -342,7 +342,13 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
         );
       }
       // 加多一行以可以排班
-      needAddLine && target.push(update({}, { $merge: dayObject }));
+      needAddLine &&
+        target.push(
+          update(
+            { area: { id: target[0].area.id, string: '' } },
+            { $merge: dayObject },
+          ),
+        );
       result = result.concat(target);
     }, tempObj); // 拍平
     return result;
@@ -430,7 +436,7 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
   const WorkArrangementTable = (
     <Table
       dataSource={dealData(data.data)}
-      columns={colums}
+      columns={columns}
       bordered
       loading={loading}
       size="middle"
