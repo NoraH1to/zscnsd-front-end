@@ -2,7 +2,7 @@ import { useCustomForm } from '@/hooks';
 import { Divider, message, Select } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import { find, map } from 'ramda';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import componentData from 'typings';
 import { useApi } from '.';
 import update from 'immutability-helper';
@@ -36,11 +36,12 @@ const useMuitActionDialog = (
     validatedContainer,
     setPropData,
     formRef,
+    setErrData,
   } = useCustomForm(currentAction?.propData || [], (_formData) =>
     setFormData(update(formData || {}, { $merge: _formData })),
   );
 
-  const { loading, setLoading, setParams } = useApi(
+  const { loading, setLoading, setParams, errorData } = useApi(
     currentAction?.api,
     formData,
     () => {
@@ -48,6 +49,10 @@ const useMuitActionDialog = (
       onSubmit();
     },
   );
+
+  useEffect(() => {
+    errorData && errorData[0] && setErrData(errorData[0]);
+  }, [errorData]);
 
   const updateDefaultFormData = (newData: any) => {
     setDefaultFormData(update(defaultFormData || {}, { $merge: newData }));
