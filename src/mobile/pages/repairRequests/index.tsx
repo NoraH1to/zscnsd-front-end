@@ -1,5 +1,4 @@
 import { history } from 'umi';
-import { ispTicketAdd, ispTicketList } from '@/api/ispTicket';
 import { ticketList } from '@/api/ticket';
 import { ticketFaultMenuList } from '@/api/ticketFaultMenu';
 import { userSearch } from '@/api/user';
