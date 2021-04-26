@@ -110,32 +110,27 @@ const addPropData: componentData.PropData[] = [
     key: 'name',
     type: TableFilterType.str,
     name: '姓名',
-    rules: [{ required: true }],
   },
   {
     key: 'telephone',
     type: TableFilterType.str,
     name: '手机号',
-    rules: [{ required: true }],
   },
   {
     key: 'dormBlock',
     type: TableFilterType.select,
     name: '宿舍楼',
     selectData: dormBlocks,
-    rules: [{ required: true }],
   },
   {
     key: 'dormRoom',
     type: TableFilterType.number,
     name: '房间号',
-    rules: [{ required: true }, { type: 'number' }],
   },
   {
     key: 'comment',
     type: TableFilterType.str,
     name: '备注',
-    rules: [{ required: true }],
   },
 ];
 
@@ -158,32 +153,27 @@ const EditPropData: componentData.PropData[] = [
     key: 'name',
     type: TableFilterType.str,
     name: '姓名',
-    rules: [{ required: true }],
   },
   {
     key: 'telephone',
     type: TableFilterType.str,
     name: '手机号',
-    rules: [{ required: true }],
   },
   {
     key: 'dormBlock',
     type: TableFilterType.select,
     name: '宿舍楼',
     selectData: dormBlocks,
-    rules: [{ required: true }],
   },
   {
     key: 'dormRoom',
     type: TableFilterType.number,
     name: '房间号',
-    rules: [{ required: true }, { type: 'number' }],
   },
   {
     key: 'comment',
     type: TableFilterType.str,
     name: '备注',
-    rules: [{ required: true }],
   },
 ];
 
