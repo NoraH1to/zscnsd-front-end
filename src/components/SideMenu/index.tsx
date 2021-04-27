@@ -63,11 +63,12 @@ const SideMenu: FC<{ history: History; pcRoutes?: routeInterface.route[] }> = (
     >
       {pcRoutes
         ? pcRoutes.map((route) => {
-            if (route.extraOpt?.hidden || !route.extraOpt?.menu) return;
+            if (!route.extraOpt?.menu || route.extraOpt?.hidden) return;
             if (route.extraOpt?.sub && route.routes && route.routes.length > 0)
               return (
                 <SubMenu key={route.path} title={route.extraOpt?.name}>
                   {route.routes.map((childRoute) =>
+                    !childRoute.extraOpt?.menu ||
                     childRoute.extraOpt?.hidden ? null : (
                       <Menu.Item key={childRoute.path}>
                         {childRoute.extraOpt?.name}
