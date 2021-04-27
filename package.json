@@ -6,6 +6,7 @@
     "start:prod": "cross-env UMI_ENV=devprod PORT=8200 umi dev",
     "build": "cross-env UMI_ENV=master umi build",
     "build:zscnsd": "cross-env UMI_ENV=zscnsd umi build",
+    "build:fleek": "cross-env UMI_ENV=fleek umi build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "test": "umi-test",
