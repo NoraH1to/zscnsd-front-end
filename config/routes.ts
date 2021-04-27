@@ -429,17 +429,6 @@ const desktopRoute: routeInterface.route[] = [
         },
         // routes:
       },
-      {
-        path: '/d/test',
-        component: '@/pages/test',
-        extraOpt: {
-          key: '/d/test',
-          name: '测试页面',
-          namePath: '测试页面',
-          menu: true,
-        },
-      },
-      _404,
     ],
   },
 ];
