@@ -1,6 +1,12 @@
 import { IRoute } from '@umijs/types';
 import { routeInterface } from 'route';
 
+const _404: routeInterface.route = {
+  component: '@/pages/404',
+  title: '页面不存在',
+  extraOpt: { key: '/404', name: '404', namePath: '404' },
+};
+
 // 桌面端路由
 const desktopRoute: routeInterface.route[] = [
   {
@@ -14,7 +20,6 @@ const desktopRoute: routeInterface.route[] = [
     extraOpt: {
       hidden: true,
       key: '/login',
-      pageTitle: 'ZSCNSD 登入',
     },
   },
   {
@@ -104,6 +109,7 @@ const desktopRoute: routeInterface.route[] = [
               namePath: '报修管理/报修详情',
             },
           },
+          _404,
         ],
       },
       {
@@ -159,6 +165,7 @@ const desktopRoute: routeInterface.route[] = [
               namePath: '工单管理/工单详情',
             },
           },
+          _404,
         ],
       },
       {
@@ -227,6 +234,7 @@ const desktopRoute: routeInterface.route[] = [
               parentMenu: '/d/report',
             },
           },
+          _404,
         ],
       },
       {
@@ -295,6 +303,7 @@ const desktopRoute: routeInterface.route[] = [
               parentMenu: '/d/users-mgmt',
             },
           },
+          _404,
         ],
       },
       {
@@ -339,6 +348,7 @@ const desktopRoute: routeInterface.route[] = [
               parentMenu: '/d/attendances-mgmt',
             },
           },
+          _404,
         ],
       },
       {
@@ -404,6 +414,7 @@ const desktopRoute: routeInterface.route[] = [
               parentMenu: '/d/sys-mgmt',
             },
           },
+          _404,
         ],
       },
       {
@@ -428,6 +439,7 @@ const desktopRoute: routeInterface.route[] = [
           menu: true,
         },
       },
+      _404,
     ],
   },
 ];
@@ -545,8 +557,10 @@ const mobileRoute: routeInterface.mRoute[] = [
         path: '/m/upload-classtable',
         component: '@/mobile/pages/uploadClassTable',
       },
+      _404,
     ],
   },
+  _404,
 ];
 
 export default <(routeInterface.mRoute | routeInterface.route)[]>[
@@ -561,8 +575,10 @@ export default <(routeInterface.mRoute | routeInterface.route)[]>[
         component: '@/mobile/pages/index.tsx',
         routes: mobileRoute,
       },
+      _404,
     ],
   },
+  _404,
 ];
 
 export { desktopRoute, mobileRoute };
