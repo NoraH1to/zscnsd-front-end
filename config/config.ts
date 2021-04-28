@@ -9,6 +9,7 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
+  hash: true,
   sass: {},
   fastRefresh: {},
   dynamicImport: { loading: '@/components/LoadingPage' },
