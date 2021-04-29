@@ -44,7 +44,7 @@ const EditPropData: componentData.PropData[] = [
   },
   {
     key: 'date',
-    type: TableFilterType.time,
+    type: TableFilterType.timeWithoutTime,
     name: '日期',
     rules: [{ required: true }],
   },
@@ -134,7 +134,7 @@ const WorkChange: FC<{ semesterId: number }> = ({ semesterId }) => {
     },
     {
       key: 'date',
-      type: TableFilterType.time,
+      type: TableFilterType.timeWithoutTime,
       name: '日期',
       rules: [{ required: true }],
     },
