@@ -370,20 +370,6 @@ const requestsUndeleted: FC<{
     expandedRowClassName: () => 'expand',
   };
 
-  const { setVisible, Dialog } = useUploadExcelDialog(
-    ticketBatchAdd,
-    '批量添加报修',
-  );
-  const BatchAddBtn = (
-    <Button
-      onClick={() => setVisible(true)}
-      type="dashed"
-      icon={<UploadOutlined />}
-    >
-      批量添加
-    </Button>
-  );
-
   const {
     loading: exportLoading,
     setLoading: setExportLoading,
@@ -418,9 +404,8 @@ const requestsUndeleted: FC<{
         expandable={expandable}
         onRow={onRow}
         sortList={ticketSortableList}
-        extraComponent={{ Left: BatchAddBtn, Right: ExportBtn }}
+        extraComponent={{ Right: ExportBtn }}
       />
-      {Dialog}
     </>
   );
 };
