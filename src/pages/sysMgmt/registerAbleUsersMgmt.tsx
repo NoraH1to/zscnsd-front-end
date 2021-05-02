@@ -3,10 +3,11 @@ import { TableFilterType } from '@/common';
 import {
   useApi,
   useDialogForm,
+  useInit,
   useMuitActionDialog,
   useUploadExcelDialog,
 } from '@/hooks/index';
-import { TableColumnProps, TableProps, Button, Modal } from 'antd';
+import { TableColumnProps, Button, Modal } from 'antd';
 import {
   EditOutlined,
   DeleteOutlined,
@@ -150,7 +151,7 @@ const registerAbleUsersMgmt: FC = () => {
   const [groupMgmtVisible, setGroupMgmtVisible] = useState(false);
 
   // api hooks
-  const apiHooks = useApi<apiInterface.RegisterWhitelistListQuery>(
+  const apiHooks = useInit<apiInterface.RegisterWhitelistListQuery>(
     registerWhitelistList,
     formData,
   );
@@ -231,10 +232,14 @@ const registerAbleUsersMgmt: FC = () => {
     },
   ];
 
-  const { setVisible, Dialog } = useUploadExcelDialog(
+  const {
+    setVisible,
+    Dialog,
+  } = useUploadExcelDialog(
     registerWhitelistBatchtAdd,
     registerWhitelistTemplate,
     '批量添加注册白名单',
+    () => apiHooks.setLoading(true),
   );
   const BatchAddBtn = (
     <Button

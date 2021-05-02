@@ -393,6 +393,7 @@ const requestsUndeleted: FC = () => {
     ispTicketBatchAdd,
     ispTicketTemplate,
     '批量添加工单',
+    () => apiHooks.setLoading(true),
   );
   const BatchAddBtn = (
     <Button
