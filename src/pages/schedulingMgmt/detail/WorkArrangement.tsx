@@ -217,19 +217,20 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
   } = useApi(workArrangementExport, formData, (res: any) => {
     fileDownload(res.data.filePath);
   });
-  const ExportBtn = (
-    <Button
-      style={{ marginRight: '12px' }}
-      loading={exportLoading}
-      onClick={() => {
-        setExportParams(formData);
-        setExportLoading(true);
-      }}
-      type="dashed"
-    >
-      导出结果为Excel
-    </Button>
-  );
+  // const ExportBtn = (
+  //   <Button
+  //     style={{ marginRight: '12px' }}
+  //     loading={exportLoading}
+  //     onClick={() => {
+  //       setExportParams(formData);
+  //       setExportLoading(true);
+  //     }}
+  //     type="dashed"
+  //   >
+  //     导出结果为Excel
+  //   </Button>
+  // );
+  const ExportBtn = null;
 
   // 排班
   const MkWorkArrangementBtn = (
@@ -473,6 +474,7 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
           onCancel={() => setVisible(false)}
           width="1920"
           destroyOnClose
+          footer={null}
         >
           <div className="mk-work-flex-container">
             <div className="work-arrangement">
