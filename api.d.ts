@@ -1000,4 +1000,8 @@ declare namespace apiInterface {
   interface FileDownloadQuery extends RequestQuery {
     path: string;
   }
+  // 获得 Excel 模板参数
+  interface FileExcelTemplateQuery extends RequestQuery {
+    type: 'member' | 'ispTicket' | 'registerWhitelist';
+  }
 }
