@@ -35,6 +35,7 @@ import {
 import { userSearch } from '@/api/user';
 import { history } from 'umi';
 import { stringify } from 'query-string';
+import { memberTemplate } from '@/api/file';
 
 const filters: componentData.PropData[] = [
   {
@@ -309,6 +310,7 @@ const members: FC = () => {
 
   const { setVisible, Dialog } = useUploadExcelDialog(
     memberBatchAdd,
+    memberTemplate,
     '批量添加组织成员',
   );
   const BatchAddBtn = (

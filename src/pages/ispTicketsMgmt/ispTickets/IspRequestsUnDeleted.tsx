@@ -46,7 +46,7 @@ import {
 import TicketStatusComponent from '@/components/TicketStatusComp';
 import { formatDate } from '@/utils';
 import { userSearch } from '@/api/user';
-import { fileDownload } from '@/api/file';
+import { fileDownload, ispTicketTemplate } from '@/api/file';
 import { history } from 'umi';
 
 const filters: componentData.PropData[] = [
@@ -391,6 +391,7 @@ const requestsUndeleted: FC = () => {
 
   const { setVisible, Dialog } = useUploadExcelDialog(
     ispTicketBatchAdd,
+    ispTicketTemplate,
     '批量添加工单',
   );
   const BatchAddBtn = (

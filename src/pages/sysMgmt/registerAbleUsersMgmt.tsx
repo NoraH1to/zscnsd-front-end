@@ -17,7 +17,7 @@ import CustomTable from '@/components/CustomTable';
 import componentData from 'typings';
 import { registerWhitelistGroupSearch } from '@/api/registerWhitelistGroup';
 import {
-  registerWhitelisBatchtAdd,
+  registerWhitelistBatchtAdd,
   registerWhitelistAdd,
   registerWhitelistBatchEdit,
   registerWhitelistDelete,
@@ -25,6 +25,7 @@ import {
   registerWhitelistList,
 } from '@/api/registerWhitelist';
 import RegisterAbleUserGroupMgmtComp from './registerAbleUserGroupMgmt';
+import { registerWhitelistTemplate } from '@/api/file';
 
 const filters: componentData.PropData[] = [
   {
@@ -232,7 +233,8 @@ const registerAbleUsersMgmt: FC = () => {
   ];
 
   const { setVisible, Dialog } = useUploadExcelDialog(
-    registerWhitelisBatchtAdd,
+    registerWhitelistBatchtAdd,
+    registerWhitelistTemplate,
     '批量添加注册白名单',
   );
   const BatchAddBtn = (
@@ -245,7 +247,6 @@ const registerAbleUsersMgmt: FC = () => {
     </Button>
   );
 
-  // TODO: 导出excel
   const ExportBtn = (
     <>
       <Button
