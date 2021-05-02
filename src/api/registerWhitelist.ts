@@ -17,7 +17,7 @@ export const registerWhitelistAdd = (
   });
 };
 
-export const registerWhitelisBatchtAdd = (data?: FormData) => {
+export const registerWhitelistBatchtAdd = (data?: FormData) => {
   return UPLOAD('/api/register-whitelist/batch-add', {
     data,
     msg: '上传成功',
