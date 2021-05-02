@@ -21,3 +21,4 @@
 
 # vscode plugins
 /.VSCodeCounter
+/.vscode/launch.json
