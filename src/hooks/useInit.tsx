@@ -1,16 +1,19 @@
 import { useEffect } from 'react';
 import useApi from './useApi';
-import { AxiosResponse } from 'axios';
+import { CancelTokenSource } from 'axios';
 import apiInterface from 'api';
 
 const useInit = <P,>(
   api: (
     params?: P,
-  ) => Promise<apiInterface.Response | apiInterface.ResponsePage>,
+  ) => {
+    request: () => Promise<apiInterface.Response | apiInterface.ResponsePage>;
+    cancel: CancelTokenSource;
+  },
   params?: P,
   then?: Function,
 ): apiInterface.Apihooks<P> => {
-  const { loading, setLoading, setParams, data, errorData } = useApi(
+  const { loading, setLoading, setParams, data, errorData, cancel } = useApi(
     api,
     params,
     then,
@@ -31,6 +34,7 @@ const useInit = <P,>(
     setParams,
     data,
     errorData,
+    cancel,
   };
 };
 
