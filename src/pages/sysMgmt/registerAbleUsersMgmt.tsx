@@ -38,7 +38,6 @@ const filters: componentData.PropData[] = [
       keyProp: 'id',
       labelProp: 'name',
     },
-    rules: [{ required: true }],
   },
   {
     key: 'name',

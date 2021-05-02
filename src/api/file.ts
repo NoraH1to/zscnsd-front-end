@@ -1,4 +1,5 @@
 import { GET, POST } from '@/api';
+import qs from 'qs';
 import apiInterface from 'api';
 
 export const fileUploadTimetable = (data?: FormData) => {
@@ -12,20 +13,12 @@ export const fileDownload = (path: string) => {
   window.open(`${BASE_URL}${path}`);
 };
 
-export const excelTemplate = (params?: apiInterface.FileExcelTemplateQuery) => {
-  return GET('/api/file/template', {
-    params,
-  });
-};
+export const excelTemplate = (params?: apiInterface.FileExcelTemplateQuery) =>
+  fileDownload(`/api/file/template?${qs.stringify(params)}`);
 
-export const memberTemplate = () => {
-  return excelTemplate({ type: 'member' });
-};
+export const memberTemplate = () => excelTemplate({ type: 'member' });
 
-export const ispTicketTemplate = () => {
-  return excelTemplate({ type: 'ispTicket' });
-};
+export const ispTicketTemplate = () => excelTemplate({ type: 'ispTicket' });
 
-export const registerWhitelistTemplate = () => {
-  return excelTemplate({ type: 'registerWhitelist' });
-};
+export const registerWhitelistTemplate = () =>
+  excelTemplate({ type: 'registerWhitelist' });

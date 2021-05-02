@@ -5,13 +5,12 @@ import apiInterface from 'api';
 import { Button, Modal, Upload } from 'antd';
 import { UploadOutlined, DownloadOutlined } from '@ant-design/icons';
 import Excel from './Excel';
-import { fileDownload } from '@/api/file';
 
 const UploadExcelDialog = (
   api: (
     data?: FormData,
   ) => Promise<apiInterface.Response | apiInterface.ResponsePage>,
-  templateApi: () => Promise<apiInterface.Response | apiInterface.ResponsePage>,
+  downloadTemplate: () => void,
   title?: string,
   onSubmit?: (res: apiInterface.Response) => void,
 ) => {
@@ -27,13 +26,6 @@ const UploadExcelDialog = (
       onSubmit && onSubmit(res);
     },
   );
-
-  const {
-    loading: downloadTemplateLoading,
-    setLoading: setDownloadTemplateLoading,
-  } = useApi(templateApi, undefined, (res: any) => {
-    fileDownload(res.data.filePath);
-  });
 
   const Dialog = (
     <Modal
@@ -57,13 +49,6 @@ const UploadExcelDialog = (
             选择EXCEL文件
           </Button>
         </Upload>
-        <Button
-          style={{ marginLeft: '8px' }}
-          loading={downloadTemplateLoading}
-          onClick={() => setDownloadTemplateLoading(true)}
-        >
-          下载模板
-        </Button>
         <div className="space" />
         {errorData && errorData.filePath && (
           <Button
@@ -77,6 +62,12 @@ const UploadExcelDialog = (
             下载修正提示
           </Button>
         )}
+        <Button
+          style={{ marginRight: '8px' }}
+          onClick={() => downloadTemplate()}
+        >
+          下载模板
+        </Button>
         <Button
           loading={loading}
           disabled={!file}
