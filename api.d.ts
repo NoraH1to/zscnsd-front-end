@@ -1,5 +1,5 @@
 import { BadgeProps, TagProps } from 'antd';
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, CancelTokenSource } from 'axios';
 import React from 'react';
 
 export = apiInterface;
@@ -42,6 +42,7 @@ declare namespace apiInterface {
     setParams: React.Dispatch<P | undefined>;
     data: Response['data'] | ResponsePage['data'];
     errorData?: ResponseBase['errorData'];
+    cancel?: CancelTokenSource;
   }
   // 枚举
   interface Enum {

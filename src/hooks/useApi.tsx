@@ -1,10 +1,14 @@
 import apiInterface from 'api';
+import { CancelTokenSource } from 'axios';
 import { useState, useEffect } from 'react';
 
 const useApi = <P,>(
   api: (
     params?: P,
-  ) => Promise<apiInterface.Response | apiInterface.ResponsePage>,
+  ) => {
+    request: () => Promise<apiInterface.Response | apiInterface.ResponsePage>;
+    cancel: CancelTokenSource;
+  },
   params?: P,
   then?: Function,
 ): apiInterface.Apihooks<P> => {
@@ -14,14 +18,27 @@ const useApi = <P,>(
   const [errorData, setErrorData] = useState<
     apiInterface.ResponseBase['errorData']
   >(null);
+  const [cancelContainer] = useState<{ cancel: CancelTokenSource | undefined }>(
+    { cancel: undefined },
+  );
 
   useEffect(() => {
     if (!loading) return;
     getData();
   }, [loading]);
 
+  useEffect(
+    () => () => {
+      cancelContainer.cancel && cancelContainer.cancel.cancel();
+    },
+    [],
+  );
+
   function getData() {
-    api(_params)
+    const apiObj = api(_params);
+    cancelContainer.cancel = apiObj.cancel;
+    apiObj
+      .request()
       .then((res) => {
         setData(res);
         setErrorData(res.errorData);
@@ -41,6 +58,7 @@ const useApi = <P,>(
     setParams,
     data,
     errorData,
+    cancel: cancelContainer.cancel,
   };
 };
 

@@ -1,7 +1,7 @@
 import { history } from 'umi';
 import { getToken, removeToken } from '@/utils';
 import apiInterface from 'api';
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig, CancelTokenSource } from 'axios';
 import { toast } from 'react-toastify';
 
 axios.defaults.timeout = 5000; // 响应时间
@@ -49,22 +49,38 @@ axios.interceptors.response.use(
   },
 );
 
+const getCancel = () => axios.CancelToken.source();
+
 export const GET = function <
   T = apiInterface.Response | apiInterface.ResponsePage
-  // R = AxiosResponse<T>
->(url: string, config?: AxiosRequestConfig): Promise<T> {
-  return axios.get(url, config);
+>(
+  url: string,
+  config?: AxiosRequestConfig,
+): { request: () => Promise<T>; cancel: CancelTokenSource } {
+  const cancel = getCancel();
+  return {
+    request: () => axios.get(url, { ...config, cancelToken: cancel.token }),
+    cancel,
+  };
 };
 
 export const POST = function <
   T = apiInterface.Response | apiInterface.ResponsePage
-  // R = AxiosResponse<T>
->(url: string, config?: AxiosRequestConfig): Promise<T> {
-  return axios.request({
-    url,
-    method: 'POST',
-    ...config,
-  });
+>(
+  url: string,
+  config?: AxiosRequestConfig,
+): { request: () => Promise<T>; cancel: CancelTokenSource } {
+  const cancel = getCancel();
+  return {
+    request: () =>
+      axios.request({
+        ...config,
+        url,
+        method: 'POST',
+        cancelToken: cancel.token,
+      }),
+    cancel,
+  };
 };
 
 export const UPLOAD = (url: string, config?: AxiosRequestConfig) => {

@@ -312,6 +312,7 @@ const members: FC = () => {
     memberBatchAdd,
     memberTemplate,
     '批量添加组织成员',
+    () => apiHooks.setLoading(true),
   );
   const BatchAddBtn = (
     <Button
