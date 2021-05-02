@@ -67,8 +67,14 @@ export const POST = function <
   });
 };
 
-export const UPLOAD = (url: string, config?: AxiosRequestConfig) =>
-  POST(url, { ...config, headers: { 'Content-Type': 'multipart/form-data' } });
+export const UPLOAD = (url: string, config?: AxiosRequestConfig) => {
+  toast.info('上传需等待 30 ~ 120 秒时间，请不要离开该页面');
+  return POST(url, {
+    ...config,
+    timeout: 120 * 1000,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+};
 
 export const EXPORT = (url: string, config?: AxiosRequestConfig) => {
   toast.info('导出需等待 30 ~ 120 秒时间，请不要离开该页面');
