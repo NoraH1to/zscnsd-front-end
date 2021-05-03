@@ -4,7 +4,6 @@ import { useInit } from '@/hooks';
 import { Row, Col, Card, Statistic } from 'antd';
 import { FC } from 'react';
 import { history } from 'umi';
-import qs from 'qs';
 
 const DataPanel: FC = () => {
   const { data: ticketData, loading: ticketLoading } = useInit(ticketList, {
@@ -20,12 +19,10 @@ const DataPanel: FC = () => {
   const gotoTicket = () =>
     history.push({
       pathname: '/d/repair-requests-mgmt/requests',
-      search: qs.stringify({ tab: 'undeleted', status: 0 }),
     });
   const gotoIspTicket = () =>
     history.push({
       pathname: '/d/isp-tickets-mgmt/tickets',
-      search: qs.stringify({ tab: 'undeleted', status: 0 }),
     });
   return (
     <Row gutter={16}>

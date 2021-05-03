@@ -7,9 +7,7 @@ import { UploadOutlined, DownloadOutlined } from '@ant-design/icons';
 import Excel from './Excel';
 
 const UploadExcelDialog = (
-  api: (
-    data?: FormData,
-  ) => Promise<apiInterface.Response | apiInterface.ResponsePage>,
+  api: apiInterface.Api<FormData>,
   downloadTemplate: () => void,
   title?: string,
   onSubmit?: (res: apiInterface.Response) => void,

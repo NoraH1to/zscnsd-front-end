@@ -3,12 +3,7 @@ import { CancelTokenSource } from 'axios';
 import { useState, useEffect } from 'react';
 
 const useApi = <P,>(
-  api: (
-    params?: P,
-  ) => {
-    request: () => Promise<apiInterface.Response | apiInterface.ResponsePage>;
-    cancel: CancelTokenSource;
-  },
+  api: apiInterface.Api<P>,
   params?: P,
   then?: Function,
 ): apiInterface.Apihooks<P> => {

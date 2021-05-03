@@ -32,8 +32,15 @@ declare namespace apiInterface {
     };
   }
   // 接口
+  interface ApiResponse {
+    request: () => Promise<apiInterface.Response | apiInterface.ResponsePage>;
+    cancel: CancelTokenSource;
+  }
   interface Api<P> {
-    (params?: P): Promise<Response>;
+    (params?: P): ApiResponse;
+  }
+  interface Api<P> {
+    (data?: P): ApiResponse;
   }
   // 接口hooks
   interface Apihooks<P> {
