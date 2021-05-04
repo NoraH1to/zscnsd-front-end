@@ -245,6 +245,9 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
       dataIndex: ['area', 'string'],
       width: 80,
       fixed: 'left',
+      onCell: (record, row) => ({
+        record,
+      }), // 报错是声明文件的锅，不这样没法传参
     },
     ...weekDays.map<TableColumnProps<colObj>>((day, col) => ({
       title: day.string,
@@ -391,7 +394,7 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
     );
 
     const isActive = isOver && canDrop;
-    let backgroundColor = null;
+    let backgroundColor = record?.area?.string && '#fafafa';
     if (isActive) {
       backgroundColor = 'rgb(153, 204, 102)';
     } else if (canDrop) {
@@ -402,6 +405,7 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
 
     // 撤销排班
     const cancelArrangement = () => {
+      if (!col) return;
       const target = record[col + 1];
       if (target?.user && semesterId) {
         confirmDialog({
