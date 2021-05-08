@@ -405,7 +405,7 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
 
     // 撤销排班
     const cancelArrangement = () => {
-      if (!col) return;
+      if (col === null || col === undefined) return;
       const target = record[col + 1];
       if (target?.user && semesterId) {
         confirmDialog({
