@@ -4,6 +4,7 @@ import { FC } from 'react';
 import WeekdayTags from '@/components/WeekdayTags';
 import { union } from 'ramda';
 import MemberRoleTag from './MemberRoleTag';
+import WeekdayAreaTags from './WeekdayAreaTags';
 
 const MemberInfoCard: FC<{
   user: apiInterface.User | undefined;
@@ -20,27 +21,21 @@ const MemberInfoCard: FC<{
           </Typography.Text>
           <Typography.Text>{`血条：${user.member?.health}`}</Typography.Text>
           <Typography.Text>{`处罚星级：${user.member?.punishment}`}</Typography.Text>
-          <Typography.Text>{`值班片区：${
-            user.member?.workArrangement &&
-            user.member?.workArrangement
-              .map((arrangemet) => arrangemet.area.string)
-              .join('、')
-          }`}</Typography.Text>
-          <Typography.Text>
-            值班日：
-            <WeekdayTags
-              weekdays={
-                (user.member?.workArrangement &&
-                  union(
-                    user.member.workArrangement.map(
-                      (arrangemet) => arrangemet.weekday,
-                    ),
-                    [],
-                  )) ||
-                []
-              }
-            />
-          </Typography.Text>
+          {user.member?.workArrangement && (
+            <Typography.Text>
+              值班日：
+              <WeekdayAreaTags
+                weekdayAreas={
+                  (user.member?.workArrangement &&
+                    user.member.workArrangement.map((arrangemet) => ({
+                      weekday: arrangemet.weekday,
+                      area: arrangemet.area,
+                    }))) ||
+                  []
+                }
+              />
+            </Typography.Text>
+          )}
         </Space>
       )}
     </Card>
