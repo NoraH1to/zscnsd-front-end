@@ -137,7 +137,7 @@ const userCenter: FC = () => {
           <Tabs>
             <Tabs.TabPane tab="报修记录" key="repair">
               <SkeletonContainer when={!!user?.id}>
-                <Requests defaultFormData={{ operatorId: user?.id }} />
+                <Requests defaultFormData={{ userId: user?.id }} />
               </SkeletonContainer>
             </Tabs.TabPane>
             <Tabs.TabPane tab="报修处理记录" key="repair-records">
