@@ -328,7 +328,14 @@ const WorkArrangementComp: FC<{ semesterId?: number }> = ({ semesterId }) => {
         target[data.weekday] = data;
       } else {
         // 没有空间就加入新一行填入
-        targetArr.push(update(dayObject, { $merge: { [data.weekday]: data } }));
+        targetArr.push(
+          update(dayObject, {
+            $merge: {
+              [data.weekday]: data,
+              area: update(data.area, { $unset: ['string'] }),
+            },
+          }),
+        );
       }
     });
 
