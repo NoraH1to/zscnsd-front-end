@@ -101,23 +101,27 @@ const userCenter: FC = () => {
     parseInt((location.query?.id && location.query?.id.toString()) || '-1') ==
       userContext.user?.id;
   const isMember = () => !!userContext.user?.member;
+  const getParams = () => ({
+    userId: isSelf()
+      ? undefined
+      : parseInt((location.query?.id && location.query?.id.toString()) || '-1'),
+  });
 
   const [user, setUser] = useState<apiInterface.User | undefined>();
-  const { data, loading, setLoading } = useInit(
+  const { data, loading, setLoading, setParams } = useInit(
     userDetail,
-    {
-      userId: isSelf()
-        ? undefined
-        : parseInt(
-            (location.query?.id && location.query?.id.toString()) || '-1',
-          ),
-    },
+    getParams(),
     (res: any) => setUser(res.data),
   );
 
-  const onUserInfoChange = (res: any) => {
+  const onUserInfoChange = (res?: any) => {
+    setParams(getParams());
     setLoading(true);
   };
+
+  // id 变了刷新数据
+  useEffect(() => onUserInfoChange(), [location.search]);
+
   return (
     <div className="user-center-container">
       <div className="row">
