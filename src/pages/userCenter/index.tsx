@@ -118,6 +118,10 @@ const userCenter: FC = () => {
   const onUserInfoChange = (res: any) => {
     setLoading(true);
   };
+
+  // id 变了刷新数据
+  useEffect(() => setLoading(true), [location.search]);
+
   return (
     <div className="user-center-container">
       <div className="row">
