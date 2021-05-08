@@ -373,14 +373,14 @@ declare namespace apiInterface {
     userId: MemberTimetable['user']['id'];
     imagePath: MemberTimetable['imagePath'];
     availableWeekday: MemberTimetable['availableWeekday'];
-    comment: MemberTimetable['comment'];
+    comment?: MemberTimetable['comment'];
   }
   // 增加成员课程表请求体
   interface MemberTimetableAddUserData extends RequestData {
     semesterId: WorkSemester['id'];
     imagePath: MemberTimetable['imagePath'];
     availableWeekday: MemberTimetable['availableWeekday'];
-    comment: MemberTimetable['comment'];
+    comment?: MemberTimetable['comment'];
   }
   // 修改成员课程表请求体
   interface MemberTimetableEditData extends RequestData {
@@ -389,7 +389,7 @@ declare namespace apiInterface {
     userId: MemberTimetable['user']['id'];
     imagePath: MemberTimetable['imagePath'];
     availableWeekday: MemberTimetable['availableWeekday'];
-    comment: MemberTimetable['comment'];
+    comment?: MemberTimetable['comment'];
   }
   // 删除成员课程表请求体
   interface MemberTimetableDeleteData extends RequestData {

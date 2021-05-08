@@ -118,7 +118,6 @@ const MemberUnUpload: FC<{ semesterId: number }> = ({ semesterId }) => {
       key: 'comment',
       type: TableFilterType.str,
       name: '备注',
-      rules: [{ required: true }],
     },
   ];
 
@@ -138,24 +137,6 @@ const MemberUnUpload: FC<{ semesterId: number }> = ({ semesterId }) => {
         userId: record.user.id,
       }),
       type: 'dialog',
-      hidden: (record: apiInterface.MemberTimetable) => !!record.createTime,
-    },
-    {
-      key: 'edit',
-      text: '编辑',
-      icon: <EditOutlined />,
-      hooks: {
-        api: memberTimetableAddAdmin,
-        propData: addPropData,
-        title: '编辑成员课程表',
-        onSubmit: () => apiHooks.setLoading(true),
-      },
-      apiParamKeys: (record: apiInterface.MemberTimetable) => ({
-        semesterId: record.semester.id,
-        userId: record.user.id,
-      }),
-      type: 'dialog',
-      hidden: (record: apiInterface.MemberTimetable) => !record.createTime,
     },
   ];
 

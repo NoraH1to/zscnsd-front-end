@@ -52,7 +52,6 @@ const uploadClassTable: FC = () => {
       key: 'comment',
       type: TableFilterType.str,
       name: '备注',
-      rules: [{ required: true }],
     },
   ];
   const {
