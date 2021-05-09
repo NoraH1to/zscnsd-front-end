@@ -36,6 +36,7 @@ import { userSearch } from '@/api/user';
 import { history } from 'umi';
 import { stringify } from 'query-string';
 import { memberTemplate } from '@/api/file';
+import WeekdayAreaTags from '@/components/WeekdayAreaTags';
 
 const filters: componentData.PropData[] = [
   {
@@ -195,32 +196,22 @@ const colums: TableColumnProps<apiInterface.User>[] = [
     width: 110,
   },
   {
-    title: '值班片区',
-    render: (value, record, index) => {
-      return (
-        record.member?.workArrangement &&
-        record.member?.workArrangement
-          .map((item) => item.area.string)
-          .join('、')
-      );
-    },
-    width: 120,
-  },
-  {
     title: '值班日',
     render: (value, record, index) => {
       return (
-        record.member?.workArrangement &&
-        record.member?.workArrangement
-          .map(
-            (workArrangement) =>
-              find((weekday) => weekday.id == workArrangement.weekday, weekDays)
-                ?.string,
-          )
-          .join('、')
+        <WeekdayAreaTags
+          weekdayAreas={
+            (record.member?.workArrangement &&
+              record.member.workArrangement.map((arrangemet) => ({
+                weekday: arrangemet.weekday,
+                area: arrangemet.area,
+              }))) ||
+            []
+          }
+        />
       );
     },
-    width: 100,
+    width: 120,
   },
   {
     title: '血条',
