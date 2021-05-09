@@ -9,10 +9,14 @@ const WeekdayAreaTags: FC<{
 }> = ({ weekdayAreas }) => (
   <>
     {weekdayAreas.map((data) => (
-      <Tag color="cyan" key={`weekday-tag-${data.weekday}`}>
+      <Tag
+        color="cyan"
+        key={`weekday-tag-${data.weekday}`}
+        onClick={(e) => e.stopPropagation()}
+      >
         {[find((weekday) => weekday.id == data.weekday, weekDays)?.string]
           .concat(data.area.string)
-          .join(' ')}
+          .join(' | ')}
       </Tag>
     ))}
   </>
